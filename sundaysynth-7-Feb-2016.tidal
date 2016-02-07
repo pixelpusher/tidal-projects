@@ -1,0 +1,6 @@
+d2 $ every 16 (density 2) $ every 8 (density 2) $ sound "bd(2,6)"
+  # gain "0.8"
+
+d3 $ sound "hh(4,3)"
+  # delay "0.25"
+  # gain "0.9"

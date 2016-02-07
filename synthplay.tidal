@@ -1,0 +1,84 @@
+
+-- playing with synths 2016-Feb-7
+
+d1 $ density 2 $ spin 2 $ sound (pick <$> "[arpy ~]*2 arpy*2" <*> (iter 4) (run 8))
+  # gain "0.8"
+
+d2 $ every 16 (density 2) $ every 8 (density 2) $ sound "bd(2,6)"
+
+d3 $ every 16 (density 2) $ spin(2) $ every 8 (density 2) $ sound "hh(4,3) hh/2*2" -- remove 2nd part!
+
+d3 $ every 16 (density 2) $ spin(2) $ every 8 (density 2) $ sound "hh(8,3)"
+  # delay "0.2"
+  # resonance "0.8"
+
+
+d5 $ sound (pick <$> "arpy arpy arpy" <*> "[2 3 4]*3")
+
+d1 silence
+
+d2 silence
+
+d3 silence
+
+d5 silence
+
+-- Who-like
+d4 $ superimpose (density 4) $ sound (pick <$> "arpy arpy arpy" <*> "[2 3 5]/2") # gain "0.6"
+
+d4 $ superimpose (density 4) $ sound (pick <$> "arpy arpy arpy" <*> (run 3)) # gain "0.6"
+
+d4 $ superimpose (density 4) $ sound (pick <$> "arpy*3" <*> (iter 3) (run 3))
+
+-- denser
+d4 $ spin (3) $ (density 4) $ sound (pick <$> "arpy*3" <*> (iter 3) (run 3))
+
+d4 $ spin (3) $ (density 4) $ sound (pick <$> "arpy*3" <*> (iter 3) (every 3 (rev) $ (run 3)))
+  # shape (scale 0.4 0.8 sine1) # gain "0.8"
+
+
+-- more complex...
+d1 $ spin (2) $ sometimesBy 0.25 (density 2) $ sound (pick <$> "arpy*5" <*> (iter 4) (every 2 (slow 4) $ (run 5)))
+  # gain "0.8"
+
+d2 $ spin (2) $ (density 1) $ sound (pick <$> "arpy*5" <*> (iter 3) (every 3 (slow 4) $ ((* 3) <$> (run 5))))
+  # gain "0.8"
+
+d3 $ spin (2) $ (density 2) $ sound (pick <$> "[arpy ~]*2 arpy" <*> (iter 5) (every 2 (slow 2) $ ((* 6) <$> (run 5))))
+  # gain "0.6"
+
+d4 $ spin (2) $ (density 2) $ sound (pick <$> "arpy*8" <*> (iter 5) (every 3 (slow 2) $ ((+ 3) <$> (run 8))))
+  # gain "0.6"
+
+
+
+-- change range
+d1 $ spin (3) $ (density 2) $ sound (pick <$> "arpy*3" <*> ((* 2) <$> (run 3)))
+
+d1 $ spin (3) $ (density 2) $ sound (pick <$> "arpy*3" <*> (every 3 (rev) $ ((* 2) <$> (run 3))) )
+
+d2 $ spin(3) $ spread density [2,1] $ sound (pick <$> "arpy*3" <*> (every 3 (rev) $ ((* 2) <$> (run 3))) )
+
+d1 $ spin(3) $ spread density [2,1] $ sound (pick <$> "arpy*3" <*> (every 3 (rev) $ ((* 2) <$> (run 3))) )
+
+
+-- super complex
+d1 $ spin (2) $ every 5 (density 2) $ (density 2) $ sound (pick <$> "arpy*3" <*> (every 3 (rev) $ ((* 2) <$> (run 3))) )
+
+
+-- NOPE
+d1 $ superimpose (# density (* 2 ) <$> sinewave1) $ sound (pick <$> "arpy arpy arpy" <*> "[2 3 4]/2")
+
+-- NOPE
+d1 $ superimpose (density 2 ) $ sound (pick <$> "arpy arpy arpy" <*> "[2 3 4]/2")
+  # shape ((/ 2) <$> sinewave1)
+
+d1 $ superimpose (density 2 ) $ sound "bd*2 [bd [sn sn*2 sn] sn]"
+   # shape ((/ 1) <$> sinewave1)
+
+-- does nothing??
+d1 $ sound (pick <$> "arpy arpy" <*> (iter 2 $ "[2 1 3]")
+
+d1 $ sound (pick <$> "arpy" <*> "[3]")
+
+d1 $ sound (pick "bd arpy" "1")

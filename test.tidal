@@ -1,0 +1,71 @@
+solo $ d1 $ sound (samples "hh:8(2,4)" (iter 6 $ run 3)) |+| gain "0.9"
+
+t1 anticipate $ sound (samples "bd(3,8)" (run 3))
+
+t1 anticipate $ sound (samples "hh:8(3,8)" (iter 6 $ run 4)) |+| gain "0.9"
+
+d1 $ sound "hh:7(3,8,2)" |+| gain "0.9"
+
+-- doubling
+d1 $ sound "[bd([2 2 2 4]/4,4), click([8 8 8 4]/4,4)]"
+  |+| gain "0.9"
+
+d1 silence
+
+d2 $ sound "bd:8(3,8)" |+| gain "1"
+
+d2 $ stack [
+  sound "bd:6(3,8)" |+| gain "1",
+  sound "sn:2(3,8,4)" |+| gain "0.75"
+    # shape sinewave1
+  ]
+
+d3 $ sound "hh:8(8,4,2)" |+| gain "0.85"
+    # shape sinewave1
+
+solo $ d3 $ stack [
+  sound "hh:8(8,4,2)" |+| gain "0.85"
+    # shape sinewave1,
+  sound "hh:7(3,8,2)" |+| gain "0.9"
+  ]
+
+
+
+
+d3 $ sound "cp:1([2 2 2 4]/4,4)"
+  # shape sinewave1
+  |+| gain "0.85"
+
+d3 silence
+
+d1 $ sound "[bd] bd sn [cp]"
+  # shape sinewave1
+
+d1 $ sound "[bd([1 2],4)] bd sn(2,4) [cp]"
+  # shape sinewave1
+
+d1 $ sound "[bd([1 2]*4,4)] sn([2,4],4)"
+
+d1 $ sound "bd(1,4)"
+
+d1 $ sound "bd(2,4)"
+
+-- 4 beat
+d3 $ sound "cp:1([2 2 2 4]/4,4)" |+| gain "0.85"
+
+-- brazilian, 1/2 speed
+d1 $ sound "[can(5,8)]/2"
+
+d1 $ sound "can(5,8,2)"
+
+-- bit arabic
+d1 $ sound "[bd(5,9)]/2"
+
+-- bossa nova!
+d1 $ sound "[bd(5,16)]/2"
+
+
+d1 $ sound "can([5 3]/2,8)"
+
+
+d1 $ sound "{ bd [bd [bd bd]*2]/2, [sn sn] cp }"
