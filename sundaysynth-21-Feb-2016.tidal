@@ -1,0 +1,20 @@
+-- sunday Feb 21 2016 with Tidal
+
+cps (105 / 120)
+
+d1 $ stack [
+  every 8 (density 2) $ sound "[[bat(5,8)], [[bd*2] ~ bd [can:1*2]], [hh(5,8)]]" # gain "0.8",
+  every 4 (density 2) $ every 5 (chop 16) $ sound $ "circus" # up (iter 3 "[0 1 5]")
+  ]
+
+d2 $ every 16 (spin 2) $ sound "[~ [xx:20] ~ [xx:15] ~ xx:5 ~ [xx:10]]*2"
+  # up (iter 4 "[32 16 0]/6") # delay "0.6"
+
+
+--every 2 (spin 3) $ sound "[porsche:1 porsche:2]/4"
+
+d1 silence
+
+-- timing... change beats per second
+-- err... 105 bps is synth...
+-- kinda works...

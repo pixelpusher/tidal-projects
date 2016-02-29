@@ -1,0 +1,195 @@
+-- Saturday Feb 27th with Tidal
+-- attention KMart shoppers! https://archive.org/details/KmartWeekOf08.02.1992
+--kmart:
+-- 1 piano 1
+-- 2 piano
+-- k10 oil
+-- k9 package
+-- k8 hello
+-- k6 guys...
+-- k5 go
+-- k4 guy ttt
+-- k3 hey!
+-- k2 psssh
+-- k1 lady ow
+-- fourteen
+-- testedfluids
+
+-- try writing this live, starting with the first part of stack then adding in drum beats and swapping between copies and
+-- modifying beat patterns then cutting out bits for the drop
+d1 $ superimpose ((# speed "2") . (0.125 <~)) $ stack [
+  s "kmart:8 kmart:9 kmart:4 kmart:10" # gain "0.8",
+  s "[rnbsn(5,8), rnb(3,8)]" # gain "0.8"
+]
+
+d1 $ superimpose ((# speed "2") . (0.125 <~)) $ stack [
+  s "kmart:8 kmart:9 kmart:4 kmart:6" # gain "0.8",
+  s "[hh(5,8), rnb(3,8)]"
+]
+
+d1 $ superimpose ((# speed "2") . (0.125 <~)) $ chop 16 $ stack [
+  s "kmart:8 kmart:9 kmart:4 kmart:6" # gain "0.85",
+  s "[hh(5,8), nbsn(2,8), rnb(3,8)]"
+]
+
+d1 $ foldEvery [6,8] (rev) $ foldEvery [4,16] (slow 2) $ superimpose ((# speed "2") . (0.125 <~)) $ chop 16 $ stack [
+  s "[hh(5,8), rnb(3,8)]",
+  striate 2 $ s "fourteen/2"
+]
+
+
+d1 $ foldEvery [1,2] (gap 16) $ s "[kmart:1 kmart:2 kmart:3 kmart:4 kmart:5 kmart:6 kmart:7 kmart:8]/8"
+
+--WTF... abstract beat
+d1 $ foldEvery [3,4] (striate 2) $ foldEvery [1,2] (gap 16) $ s "[kmart:2*2 kmart:3 kmart:4*2]"
+
+--WTF... great 8bit noisy version
+d2 $ smash 3 [0.5,2,1,2] $ foldEvery [3,4] (striate 2) $ foldEvery [1,2] (gap 16) $ s "[kmart:2*2 kmart:3 kmart:4*2]" # gain "0.75"
+
+
+
+d1 $ fit' 1 4 "0 1 2 3" "2 1 0 3" (striate 16 $ sound "breaks157") # speed "[1 1.375 1.25 1.125]/4"
+
+d1 $ fit' 1 4 "0 1 2 3" "0 1 2 3" (striate 4 $ s "kmart:1") -- same
+
+d1 $ fit' 1 4 "0 1 2 3" "2 2 3 2" (striate 4 $ s "kmart:1") -- chopped
+
+d1 $ fit' 1 4 (run 4) (iter 4 $ run 4) (striate 4 $ s "kmart:14") -- moving
+
+-- odd beat... KMRT!!!! (gap 16 adds robot voice)
+d1 $ smash 4 [0.5,4,1,2] $ gap 2 $ fit' 1 4 (run 4) (iter 8 $ run 4) (striate 4 $ s "kmart:14") -- moving
+
+
+-- slow exmaples
+d1 $ slow 2 $ sound "ho ho:2 ho:3 hc"
+
+d1 $ spread slow [3,1] $ sound "ho ho:2"
+
+d1 $ smash 3 [3,1] $ sound "ho ho:2"
+
+
+-- yaxu - doesn't work
+let oneshot d p
+do now <- getNow
+    d $ (playWhen (< now+1) p)
+
+oneshot d1 $ sound "arpy*8"
+
+
+cps (120/186)
+
+
+d1 $ stack [
+  sound "k6 [k2]*2 k1 k3",
+  every 8 (spin 3) $ sound "k4([4 4 4 6],8)",
+  spin 4 $ sound "k5(6,8)" # gain "0.6"
+]
+
+
+d1 $ stack [
+  sound "k2(4,8)",
+  chop 2 $ every 8 (spin 3) $ sound "k5([4 4 4 6],8)" # speed "0.5",
+  sound "k4"
+]
+
+
+d2 $ spin 1 $ chop 6 $ sound "k5([2 2 2 4],8)" # speed "0.4" # gain "0.85"
+
+d3 $ every 4 (spin 4) $ sound "k4([2 2 2 4],8,2)" # gain "1.2"
+
+
+-- robot voice
+d8 $ every 2 (slow 4) $ smash 4 [1, 2] $ chop 8 $ sound "kmart2/2" # gain "0.8"
+
+d4 $ stack [
+  sound "[testedfluids ~ fourteen ~]/4",
+  sound "[rnbsn k4*3]" # gain "1.3"
+]
+
+d4 $ sound "[k6 shoes k3 fourteen k3 k4 k5 k6]/4"  -- rhythm
+
+
+d1 $ sound "[kmart:1 kmart:2]/2"
+
+d1 $ sound "kmart:2/4" # gain "0.75"
+
+d1 $ slow 2 $ sound "kmart2:1" # gain "0.75" |+| speed "0.75" --KMRT
+
+d1 silence
+
+d6 $ spin (4) $ smash 8 [2,1] $ sound "elton3([4 6 4]/4,8)" # gain "0.8"
+
+d4 $ every 4 (density 2) $ sound "elton4(2/2,4)"
+
+d5 $ every 4 (density 2) $ sound "elton3(1/2,4)"
+
+d3 $ sound "elton4/4"  --dance
+
+d4 $ every 8 (spin 4) $ smash 8 [2,1] $ sound "elton1"
+
+d1 silence
+
+d2 silence
+
+d3 silence
+
+d4 silence
+
+d5 silence
+
+d6 silence
+
+
+d6 $ stack [
+  every 8 (smash 8 [1,0.5]) $ sound "hh:8([2 4 2 4]/4,4,1)" |+| gain "0.9",
+  every 8 (slow 2) $ sound "bd:8([2 4 2 8]/4,4)" |+| gain "0.8"
+  ]
+
+
+  d2 $ every 16 (slow 2) $ sound $ stack [
+    "[[hh]*2 [~ sn:1]*2]/2",
+    "[~ sn:2]/2 [bd:3 ~]*4",
+    "[[hh]]*8"
+  ]
+
+-- rand chop
+  d4 $ do let x = chop 8 $ slow 2 $ sound "kmart1" # gain "0.8"
+          a <- rand
+          zoom (0, toRational a) x
+
+
+d4 $ sound "kmart1/2 kmart1/2 kmart1/8 kmart1/8"
+
+d1 $ jux (slow 4 . every 4 ((2/16) <~)) $ sound "[k8(3,8) k7(1,8)]/4" # speed "[1 4 2 1]/2" # gain "0.85"  --try k1, k2 k3 k4 k5 k8 k9
+
+d2 $ jux (rev . every 6 ((2/16) <~)) $ sound "k10(4,8)" # speed "[1 3 1 5 9]/4" -- play with speed patterns.... [1 3]/12  and [1/12 3/3]
+
+d3 $ jux (rev . every 6 ((8/16) <~)) $ sound "k2(7,8)" # speed "[1 3 2]/3" # gain "0.8"
+
+d4 $ every 4 (density 2) $ sound "[[rnb rnbsn]/2 [rnb ~]*2]/4"    -- basic hit beat
+
+d4 $ slow 2 $ spin 2 $ every 4 (density 4) $ sound "k8(2,5) rnbsn(3,8)" # speed "[0.5 1]/6" # gain "1.2" -- more engeretic beat
+
+d5 $ slow 2 $ spin 2 $ every 4 (density 2) $ sound "[k9(2,4) shoes k3(3,8) fourteen]/4"  -- rhythm
+
+d7 $ sound "elton2/2"
+
+d6 $ sound "[easypainters ~ ~ fourteen ~]/4" # gain "0.85"
+
+d6 silence
+
+d5 silence
+
+d1 silence
+
+d2 silence
+
+d3 silence
+
+d4 silence
+
+d5 silence
+
+d7 silence
+
+d8 silence

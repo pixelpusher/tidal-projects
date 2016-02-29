@@ -1,0 +1,38 @@
+-- arpeggiating
+
+d1 $ every 16 (density 2) $ sound "[hh xx:20*2, [~ xx:32]*4, [~ bd]*2]" # up "[[16,0] [8,24]]/16"
+
+d1 $ every 4 (density 2) $ sound "[[hh]*2 [hh]]*4" # gain "0.9" # delay "0.45"
+
+d1 $ every 16 (spin 2) $ sound "[~ [xx:20] ~ [xx:15] ~ xx:5 ~ [xx:10]]"
+  # up (iter 4 "[32 16 0]/6") # delay "0.6"
+
+d1 silence
+
+d2 $ every 16 (slow 2) $ sound $ stack [
+  "[[hh]*4 [~ sn:1]*2]",
+  "[~ sn:2] [bd:3 ~]*2"
+]
+
+d2 silence
+
+d3 $ sound "cp([5 3]/2,8)" # gain "0.85"
+
+d3 $ every 3 (rev) $ sound "cp([5,4]/2,8)" # gain "0.85"
+
+d3 silence
+
+d4 $ every 8 (spin 2) $ every 4 (rev) $ sound "sn:2(5,8,1)" # gain "0.8"
+
+d4 $ every 16 (spin 2) $ sound "bd:1([5 3]/2,8)" # gain "0.85"
+
+d4 silence
+
+
+-- arps
+
+d1 $ every 8 slow 2 $ sound (samples "[arpy*2]*4" (iter 8 $ run 8)) # up "[0 3 5]/8"
+
+d1 silence
+
+d2 $ every 4 (density 2) $ every 6 (spin 2) $ sound (samples "[[arpy*2] ~]*4" (iter 8 $ run 8)) # up "[3 -3 12]/8"
