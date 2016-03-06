@@ -54,7 +54,7 @@ d1 $ fit' 1 4 "0 1 2 3" "0 1 2 3" (striate 4 $ s "kmart:1") -- same
 
 d1 $ fit' 1 4 "0 1 2 3" "2 2 3 2" (striate 4 $ s "kmart:1") -- chopped
 
-d1 $ fit' 1 4 (run 4) (iter 4 $ run 4) (striate 4 $ s "kmart:14") -- moving
+d1 $ fit' 1 4 (run 4) (iter 4 $ run 4) (striate 4 $ s "kmart:1") -- moving
 
 -- odd beat... KMRT!!!! (gap 16 adds robot voice)
 d1 $ smash 4 [0.5,4,1,2] $ gap 2 $ fit' 1 4 (run 4) (iter 8 $ run 4) (striate 4 $ s "kmart:14") -- moving
