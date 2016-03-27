@@ -1,0 +1,68 @@
+(cps, getNow) <- bpsUtils
+
+(d1, t1) <- superDirtSetters getNow
+
+(d2, t2) <- superDirtSetters getNow
+
+(d3, t3) <- superDirtSetters getNow
+
+d2 $ stack [
+  every 16 (slow 4) $ every 8 (density 2) $ sound "man01:2([2 4],6)" # gain "0.8",
+  spin 2 $ sound "man01:3([2 4],6,2)" # gain "0.8"
+  ]
+
+  d2 $ stack [
+    every 16 (slow 4) $ every 8 (density 2) $ sound "~ woman01:26" # gain "0.8",
+    spin 2 $ sound "woman01:33 ~" # gain "0.8"
+    ]
+
+
+d2 $ stack [
+  every 16 (slow 2) $ every 8 (slow 2) $ sound "man01:0([2 4],6)" # gain "0.8",
+  spin 2 $ sound "man01:1([2 4],6,2)" # gain "0.8",
+  sound "man01:6([4 6]/4,6)" # gain "0.7",
+  sound "man01:9([4 6]/2,6,2)" # gain "0.8",
+  sound "man02:8([4 6]/2,6,2)" # gain "0.8" # speed "0.75"
+  ]
+
+d1 $ stack [
+  sound "wobble(6/3,3,3)"
+    # delay "0.8"
+    # gain "1",
+  sound "[techno:1*2]",
+  every 4 (slow 4) $ density 0.5 $ sound "hits:5",
+  every 2 (slow 2) $ density 0.25 $ sound "hits:7",
+  sound "woman01:8(6/3,3,3)"
+    # delay "0.8"
+    # gain "1"
+]
+
+
+d1 $ sound "woman01:8(6/3,3,3)"
+  # delay "0.8"
+  # gain "1"
+
+d3 $ sound "woman01:3([1 2]/4,12,3)"
+  # delay "0.1"
+  # gain "0.85"
+
+
+d1 $ sound "woman01:10(6/3,3,3)"
+  # delay "0.8"
+  # gain "1"
+
+d1 $ sound "woman01:21([2 4]/2,6,2)"
+  # delay "0.9"
+  # gain "0.85"
+
+
+d2 silence
+
+d1 silence
+
+d3 silence
+
+
+d3 $ sound "hh(4,3)"
+  # delay "0.25"
+  # gain "0.9"
