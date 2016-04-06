@@ -56,13 +56,16 @@ d1 $ sound "woman01:21([2 4]/2,6,2)"
   # gain "0.85"
 
 
-d2 silence
+d2 $ silence
 
-d1 silence
+d1 $ silence
 
-d3 silence
+d3 $ silence
 
 
-d3 $ sound "hh(4,3)"
-  # delay "0.25"
-  # gain "0.9"
+d3 $ stack [
+    sound "bass1:4([3 4],3)",
+    every 4 (density 2) $ sound "hh(2,3)"
+  ]
+  # gain "[0.7 0.9 0.7 0.8]/3"
+  # delay "0.1"

@@ -1,0 +1,90 @@
+(cps, getNow) <- bpsUtils
+
+(d1, t1) <- superDirtSetters getNow
+
+(d2, t2) <- superDirtSetters getNow
+
+(d3, t3) <- superDirtSetters getNow
+
+(d4, t4) <- superDirtSetters getNow
+
+(d5, t5) <- superDirtSetters getNow
+
+(d6, t6) <- superDirtSetters getNow
+
+
+cps (120/218.5)
+
+--
+d1 $ slowspread ($) [density 2, rev] $ s "man01 man01" # n ((+ 3) <$> (run 2)) # gain "0.85"
+
+
+d1 $ s "man01*2" # n ((+ 3) <$> (run 2))
+
+-- stolen from mike hodges
+d2 $ every 3 (slow (4/3)) $ sound (samples "{ch(3,8) ch*4 ~ ch*4 ~}%2" "0 6 3 4") |+| gain "0.9"
+
+let offset=8
+
+d2 $ every 3 (slow (4/3)) $ s "{man01(5,8) woman01*2 ~ man01*2 man01*3 ~}%4" # n (iter 4 $ ((+ offset) <$> (run 4))) |+| gain "0.8"
+
+d2 $ every 3 (slow (4/3)) $ s "man01([5 3 2]/3,8) woman01*2 ~ man01(5,8)" # n (iter 4 $ ((+ offset) <$> (run 4))) |+| gain "0.75"
+
+d6 $ stack [
+    every 8 (density 2) $ slow 4 $ sound "man02:4(6,16,1)" # speed "[-1 1]*8" # gain "0.7",
+    chop 2 $ slow 2 $ sound "man02:18(3,16)" # speed "[-0.8 0.8]*8" # gain "0.8",
+    every 2 (slow 2) $ sound "amencutup:27(6,16,2)" # gain "0.9",
+    every 16 (density 2) $ whenmod 8 2 (slow 4) $ sound "amencutup:1(14,16)" # gain "0.9" # speed "0.85",
+    every 3 (slow (4/3)) $ s "amencutup([5 3 2]/3,8) woman01*2 ~ amencutup(5,8)" # n (iter 4 $ ((+ 12) <$> (run 4))) |+| gain "0.15",
+    every 16 (density 2) $ every 3 (slow (4/3)) $ s "amencutup([2 3 5]/3,8) woman01*2" # n (iter 4 $ ((+ 1) <$> (run 4))) |+| gain "0.75" # speed "0.8"
+    ]
+
+d6 $ stack [
+  every 6 (slow (4/3)) $ whenmod 8 2 (slow 2) $ sound "amencutup:1(14,16)" # gain "0.9" # speed "0.85",
+  every 3 (slow (4/3)) $ s "{amencutup([5 3 2]/3,8) woman02 amencutup(5,8)}%4" # n (iter 4 $ ((+ 12) <$> (run 4))) |+| gain "0.15"
+]
+
+d3 $ striate 2 $ every 8 (density 2) $ every 3 (slow (4/3)) $ s "amencutup([2 3 5]/3,8) woman01*2" # n (iter 10 $ ((+ 1) <$> (run 8))) # gain "0.6" # speed "1.5"
+
+
+d2 $ every 3 (slow (4/3)) $ s "amencutup([5 3 2]/3,8) woman01*2 ~ amencutup(5,8)" # n (iter 4 $ ((+ 4) <$> (run 4))) |+| gain "0.75"
+
+
+d2 $ every 3 (slow (4/3)) $ whenmod 8 2 (density 2) $ s "east([4,6,8]/3,8)" # n (iter 4 $ ((+ 5) <$> (run 4))) |+| gain "0.75"
+
+let n = [1..5]
+
+
+-- list to a pattern?
+--d3 $ s "pluck(4,8)" # n (iter 12 $ ((+ 8) <$> n)) |+| gain "0.75"
+
+-- hand drums
+d1 $ every 2 (slow 2) $ whenmod 4 3 (density 2) $ s "east([3 5]/2,8,2)" # n "4 8" # gain "0.85"
+
+
+d4 $ every 6 (striate 8) $ every 8 (slow 2) $ slow 2 $ s "pluck(12,16)" # n (iter 16 $ ((+ 4) <$> (run 12))) |+| gain "0.75"
+
+
+d3 $ every 2 (slow 2) $ s "man02([2 6],8,1)" # n "6 11" # gain "0.85" # speed "[0.875 1.25]/4"
+
+
+d3 $ every 2 (slow 2) $ s "man02([2 6],8,1)" # n (irand 4) # gain "0.85" # speed "[0.875 1.25]/4"
+
+
+d3 $ sound "[hits:5*2 hits:1]" # gain "0.85"
+
+d3 $ every 6 (striate 8) $ every 3 (slow (1/2)) $ sound "[hits:9 ~]*2" # gain ((* 1.1) <$> sinewave1)
+
+
+
+d1 silence
+
+d2 silence
+
+d3 silence
+
+d4 silence
+
+d5 silence
+
+d6 silence
