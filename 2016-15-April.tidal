@@ -1,0 +1,96 @@
+-- 15 April 2016
+
+cps 0.6
+
+bps (109/60)
+
+-- bass sounds have some octave resonance from 0-3
+
+-- bass:0 is a nice hit
+
+d1 $ sound "bass*3" # n "0 1 2"
+
+d1 $ sound "bass1*3" # n "0 1 2"
+
+-- bleep:6 is annoying...
+
+cps 0.2
+
+d1 $ density (0.5) $
+    every 8 (const $ stack [
+    sound "bd08:4(2,8) bd08:4(3,8)" # delay "0.9",
+    sound "man02:0(14,16,1)" # gain "0.7",
+    brak $ sound "man02:4*2 man02:3 man02:0*4" # gain "[0.8 0.7 0.8]" # cut "3"
+    ])
+    $ every 2 (const $ stack [
+        sound "bd08:4(2,8) bd08:4(3,8)",
+        sound "ch808:4(4,8) ch808:4(6,8)" # delay "0.9",
+        sound "ch808:6(4,8) ch808:4(6,8)",
+        brak $ gap 16 $ sound "woman01:6?(4,8) woman01:4(6,8)" # cut "4" # gain "0.7",
+        every 8 (e 6 4) $ interlace (brak $ e 8 4 $ sound "{cl808?*3}%2 cl808*2" # gain "0.8") (s "ch808?*4 bd08*2" # n (run 4))
+    ])
+    $ every 16 (const $ stack [
+    slow 2 $ sound "bd08(2,8)",
+    sound "ch808:8(14,16)",
+    e 4 12 $ sound "man01:4 man01:3? man01:0" # gain "[0.9 0.8]"
+    ])
+  $ stack [
+    every 8 (e 6 4) $ interlace (brak $ e 8 4 $ sound "{cl808?*3}%2 cl808*2" # gain "0.8") (s "ch808?*4 bd08*2" # n (run 4)),
+    e 3 4 $ sound "bass1?" # n "0" # cut "2",
+    brak $ sound "sd808:8?*8"
+ ]
+
+d1 $ every 16
+    (const $ density 2 $ sound "[sd808:8*2 ~ sd808:7*2]")
+   $ sound "sd808:7 ~ sd808:8 ~"
+
+d2 $ every 8 (const $ stack [
+  density (2) $ s "[bd08? ~ bd08? ~]*2" # n (run 2)
+  ])
+  $ s "[bd08 ~ bd08 ~]*2, [~*3 bd08?*2]" # n (run 2)
+
+d3 $ every 16 (const (stack [
+      e 16 8 $ n (run 16) # s "cy808" # gain ((* 0.05) <$> (run 16)) # cut "4"
+  ])) $ stack [
+    every 4 (# n "0 1 2 3") $ n (run 8) # s "cy808" # gain "[0.6 0.5]*4"
+  ]
+
+d1 $ silence
+
+d2 $ silence
+
+d3 $ silence
+
+d4 $ every 16 (const (stack [
+      e 16 8 $ n (run 16) # s "arpy" # gain ((* 0.4) <$> (run 4)) # cut "5" # up "-12"
+  ])) $ stack [
+     every 16 (density 0.25) $ every 2 (e 6 8) $ n ((* 2) <$> "[0 1 3 5]*2") # s "arpy" # gain "[0.7 0.85 0.8 0.85]" # up "-24" # cut "6"
+  ]
+
+d4 $ silence
+
+d5 $ every 6 (slow 2) $ slowcat [
+    interlace (sound "man01:2(4,8,2)") (sound "man01:3(2,8,2) ~ ~ man01:9*4"),
+    every 4 (slow 2) $ sound "man01:6(2,8,2) man01:7(2,8,2)",
+    sound "~ man01:8 ~ ~"
+    ] # cut "6" # delay "0.2" # gain "0.65"
+
+d5 $ silence
+
+
+hush
+
+-- complex synth loop
+
+ d2 $ randcat [
+  n ((* 4) <$> "[1 3? 5 1?]") # s "arpy" # up "-7",
+  stut 8 0.5 0.2 $ n ((* 2) <$> (run 8)) # s "woman01" # cut "2",
+  n ((* 2) <$> (run 8)) # s "arpy" # up "7",
+  n ((+ 3) <$> (run 4)) # s "arpy" # speed "0.875" # up "5"
+ ] # gain "0.6"
+
+hush
+
+d1 $ silence
+
+d2 $ silence

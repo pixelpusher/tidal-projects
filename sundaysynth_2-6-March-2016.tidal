@@ -14,9 +14,9 @@ solo $ d2 $ every 8 (const $ s "80sbeats:2" # speed "0.5")
 d1 $ slow 4 $ striate 4 $ every 8 (const $ gap 16 $ s "80sbeats:2" # speed "[5 3.75 4]*4")
  $ every 4 (gap 4) $ every 2 (chop 16) $ striate 2 $ s "80sbeats:1" # speed "[5 2.5 8]"
 
-let n=4
+let n=8
 
-d1 $ every 2 (rev) $ fit' 1 n (run n) (iter n $ run n) (striate n $ s "80sbeats:2" # speed "0.75")
+d1 $ every 2 (rev) $ fit' 1 n (run n) (iter n $ run n) (striate n $  sound "baa:2" # speed "0.25") # cut "1"
 
 d1 $ fit' 1 n (run n) (iter n $ run n) (striate n
    $ every 8 (const $ gap 2 $ s "80sbeats:2" # speed "[0.5 0.75 0.66]/4")
@@ -27,39 +27,71 @@ d1 $ fit' 1 n (run n) (iter n $ run n) (striate n
 -- damnit
 -- fuck that trailing comma
 
-d2  $ every 8 (const $ stack [
-  s "amencutup:25(6,16,1)",
-  striate 4 $ s "amencutup:5(5,16,1)"
-] # gain "0.85")
-$ stack [
-  spin 2 $ s "amencutup:5(5,16,1)",
-  s "amencutup:3(6,16)",
-  s "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2"
-] # gain "0.85"
+hush
 
-
-solo $ d2 $ every 2 (rev) $ every 8 (const $ stack [
-  s "amencutup:25(6,16,1)",
-  striate 4 $ s "amencutup:5(5,16,1)"
+d2
+$ every 16 (const $ stack [
+  sound "amencutup:25(6,16,1)",
+  striate 4 $ sound "amencutup:5(5,16,1)"
 ] # gain "0.85")
-$ every 4 (slow 2) $ every 2 (rev) $ stack [
+$ every 4 (const $ stack [
+  sound "amencutup:22(2,16,1)",
+  striate 4 $ sound "amencutup:2(10,16,1)"
+] # gain "0.65")
+$
+stack [
   spin 2 $ s "amencutup:5(5,16,1)",
-  s "amencutup:3(6,16)",
-  s "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2"
+  every 4 (density 2) $ sound "amencutup:3(6,16)",
+  every 8 (const $ stack [
+    sound "woman01:20(2,16)",
+    striate 4 $ sound "woman01:23(10,16,1)"
+  ] # gain "0.65")
+  $ sound "amencutup:7(8,16,2)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2",
+  every 12 (const $ stack [
+    sound "man01:3(4,16)",
+    striate 4 $ sound "man02:5(10,16,1)"
+  ] # gain "0.75")
+  $ sound "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2",
+  every 4 (slow 2) $ sound "hh(16,8)",
+  sound "bd(4,8)"
 ] # gain "0.85"
 
 
 d2 $ every 2 (rev) $ every 8 (const $ stack [
-  s "amencutup:25(12,16,1)",
-  striate 4 $ s "amencutup:5(10,16,1)"
+  sound "amencutup:25(6,16,1)",
+  striate 4 $ s "amencutup:5(5,16,1)"
 ] # gain "0.85")
-$ every 5 (slow 2) $ stack [
-  spin 2 $ s "amencutup:5(10,16,1)",
-  s "amencutup:5(6,16,2)",
-  every 3 (striate 2) $ s "amencutup:5(6,16,1)" # speed "0.85",
-  gap 2 $ s "amencutup:8(6,16)" # speed "0.85",
-  every 2 (slow 2) $ s "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2"
+$ every 4 (slow 2) $ every 2 (rev) $ stack [
+  spin 2 $ sound "amencutup:5(5,16,1)",
+  sound "amencutup:3(6,16)",
+  sound "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2"
 ] # gain "0.85"
+
+
+d2 $ every 2 (rev) $ every 8 (const $ stack [
+  sound "amencutup:25(12,16,1)",
+  striate 4 $ sound "amencutup:5(10,16,1)"
+] # gain "0.85")
+$ every 2 (slow 4) $ stack [
+  spin 2 $ sound "amencutup:5(10,16,1)",
+  every 3 (striate 2) $ sound "amencutup:5(6,16,1)" # speed "0.85",
+  density 0.5 $ sound "amencutup:8(6,16)" # speed "0.85",
+  every 6 (slow 2) $ sound "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2"
+  ] # gain "0.85"
+
+hush
+
+  d2 $ every 2 (rev) $ every 8 (const $ stack [
+    sound "amencutup:25(12,16,1)",
+    striate 4 $ sound "amencutup:5(10,16,1)"
+  ] # gain "0.85")
+  $ every 2 (slow 4) $ (const $ stack [
+    spin 2 $ sound "amencutup:5(10,16,1)",
+    every 3 (striate 2) $ sound "amencutup:5(6,16,1)" # speed "0.85",
+    density 0.5 $ sound "amencutup:8(6,16)" # speed "0.85",
+    every 6 (slow 2) $ sound "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2"
+    ])
+    $ sound "amencutup:2(10,16,1)" # gain "0.85"
 
 
 d2  $ every 8 (const $ stack [
@@ -75,11 +107,11 @@ $ stack [
   s "amencutup:1(12,16)" # gain "[0.5 1 0.5 1]*2" # speed "[0.5 1]*2"
 ] # gain "0.85"
 
-let n=8
+let n=4
 
 d1 $ fit' 1 n (run n) (iter n $ run n) (striate n
-   $ every 8 (const $ s "80sbeats:1" # speed "[1.5 1.75 1.66]/4")
-   $ every 2 (chop 4) $ s "80sbeats:2" # speed "[0.5 0.75 0.66]/4"
+   $ every 8 (const $ sound "speechless:1" # speed "[1.5 1.75 1.66]/4")
+   $ every 2 (chop 4) $ sound "hit:3" # speed "[0.5 0.75 0.66]/4"
   )
 
 
@@ -108,19 +140,22 @@ $ stack [
 
 -- beats
 
-d2  $ every 8 (const $ stack [
-  s "amencutup:26(6,16)",
-  s "amencutup:25(6,16,1)",
-  s "amencutup:5(5,16,1)",
-  chop 4 $ s "kmart:2(3,16)" # speed "[1 -1]/3"
-] # gain "0.85")
+d2  $ every 4 (const $ stack [
+  sound "amencutup:26(6,16)",
+  sound "amencutup:25(6,16,1)",
+  sound "amencutup:5(5,16,1)",
+  chop 16 $ sound "man02:2(6,16)" # speed "[1 -1]/6"
+])
 $ stack [
-  s "amencutup:5(5,16,1)",
-  s "amencutup:3(6,16)",
-  chop 4 $ s "kmart:4(6,16)" # speed "[1 -1]/3"
+  every 6 (rev) $ sound "amencutup:5(5,16,1)",
+  every 4 (rev) $ sound "amencutup:3(6,16)",
+  every 12 (density 2) $ every 3 (rev) $ sound "amencutup:2(7,16)",
+  every 3 (rev) $ sound "amencutup:3(7,16,1)",
+  every 9 (slow 2) $ every 3 (rev) $ sound "amencutup:7(9,16)" # speed "0.75",
+  sound "bass(6,16)" # gain "[0.3 0.1 0.3]" # speed "[1 1.2 0.8]/3"
 ] # gain "0.85"
 
-d2 silence
+d1 silence
 
 d4 $ chop 2 $ every 2 (const $ s "kmart:26*2(5,16,1)") $ s "kmart:26*2(10,16,1)" # speed "1"
 

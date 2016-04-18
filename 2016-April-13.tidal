@@ -1,0 +1,70 @@
+let n=16
+
+d1 $ every 2 (rev) $ fit' 1 n (run n) (iter n $ run n) (striate n $  sound "baa:2" # speed "0.85") # cut "1" # gain "0.85"
+
+d1 silence
+
+d1 $ stack [
+  every 4 (density 2) $ sound "amencutup:3(5,8)" # delay "0.8",
+  every 6 (slow 2) $ sound "amencutup:1(2,8)",
+  sound "amencutup:23(6,16,2)" # gain "0.8 0.6*4",
+  every 3 (spin 4) $ sound "amencutup:21(5,8,2)" # gain "0.8"
+]
+
+d2 $ every 4 (const $ sound "909*2")
+
+d1 $ every 4 (slow 2)
+   $ up "12*2 -24?*2 -12*2 -21.75?*2, 1*8" # sound "arpy" # gain (slow 2 $ scale 0.4 1.2 $ sine1)
+
+d1 $ whenmod 4 2 (density 2) $ slowcat [
+  sound "arpy*4" # up (iter 12 $ ((* 4) <$> (run 12))) # gain (iter 6 $ ((* 0.5) <$> (run 5))),
+  sound "casio?*2"
+] # vowel "[a e o]/3" # delay "0.2" # gain "0.9"
+
+d3 $ every 6 (rev) $ stack [
+  every 8 (density 2) $ sound "909:4(2,4)" # speed "0.66",
+  sound "909([1 2]/2,12,3)" # gain "1",
+  whenmod 4 2 (density 2) $ sound "[oh ch]*2, [~ hh]*4" # gain "0.7 0.85, 1*8" # speed "0.85"
+] # delay "0.3"
+
+d4 $ stack [
+  sound "[amencutup:10*4]",
+  every 16 ((density 2) . (# gain "[1 1.8]*4")) $ sound "[~ amencutup:1]*2",
+  sound "909([2 4]/2,12,3)" # gain "1" # speed "[0.55 0.85]",
+  brak $ whenmod 4 3 ((slow 2) . (# gain "0.4")) $ sound "hh*8" # delay "0.8" # speed "[1.8 1.2]*2"
+]
+
+d4 $ stack [
+  sound "[amencutup:10*8]" # gain (scale 0.4 0.9 sine1),
+  brak $ whenmod 4 3 ((slow 2) . (# gain "0.4")) $ sound "hh*8" # delay "0.8" # speed "[1.8 1.2]*2" # gain "0.9"
+]
+
+d4 silence
+
+d2 silence
+
+d3 silence
+
+d1 silence
+
+d5 silence
+
+d3 $ stack [
+  sound "909([1 2]/2,12,3)"
+  # delay "0.1"
+  # gain "0.85"
+  ]
+
+d2 silence
+
+d1 silence
+
+d5 $ stack [
+    every 16 (density 2) $ slow 32 $ spread' (striate' 128) (scale 0.01 0.2 $ rev $ sine1)
+      $ sound "bev:0" # gain "1.5" # speed "-3" # vowel "[a e]/4",
+      sound "man02:1?/2" # speed "0.8" # gain "1.1"
+    ] # hresonance "0.001" # bandq "0.4" # bandf "0.8" # coarse (floor <$> scale 1 5 sine1)  # pan "0.75" # delay "0.8"
+
+
+
+d5 silence
