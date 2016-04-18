@@ -48,12 +48,12 @@ d1 $ sound "[bd([1 2]*4,4)] sn([2,4],4)"
 
 d1 $ sound "bd(1,4)"
 
-d1 $ sound "bd(2,4)"
+d1 $ every 2 (slow 2) $ whenmod 4 3 (density 2) $ s "bd([2 4]/2,4)"
 
 -- 4 beat
 d3 $ sound "cp:1([2 2 2 4]/4,4)" |+| gain "0.85"
 
--- brazilian, 1/2 speed
+-- brazilian, 1/2 speedgit
 d1 $ sound "[can(5,8)]/2"
 
 d1 $ sound "can(5,8,2)"
