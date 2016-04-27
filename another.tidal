@@ -1,0 +1,61 @@
+
+bps (109/120)
+
+d1 $ every 8 (const $ stack [
+   sound "amencutup:23(6,16)",
+   sound "amencutup:21(6,16,2)" # speed "[1 0.75]/2",
+   n (run 8) # s "alphabet"
+])
+$ every 4 (const $ stack [
+   gap 4 $ n ((+ 8) <$> (run 8)) # s "alphabet" # speed "0.75"
+])
+  $ stack [
+  every 4 (# speed "0.75") $ sound "amencutup:23(6,16)",
+  every 6 (slow 2) $ sound "amencutup:21(6,16,2)" # speed "[1 0.75]/2",
+  every 8 (const $ s "909*8") $
+    s "909(4,8)",
+  sound "amencutup:12([8 6 4 8 6]/2,16)" # gain "[0.8 0.9 0.7 0.8]/2"
+]
+
+d1 $ stack [
+   sound "amencutup:23(12,16)",
+   --sound "amencutup:20([4 2 24 [2 4]*4]/2,16,[0 2]/2)" # gain "0.8",
+   --sound "amencutup:18([4 2 24 [2 4]*4]/2,16,[2 0]/2)",
+   sound "amencutup:21(6,16,2)" # speed "[1 0.75]/2"
+   ]
+
+d1 $ silence
+
+d2 $ striate 4 $ density 2 $ (brak) $ slowcat [
+  gap 2 $ n (iter 8 $ ((* 4) <$> run 4)) # s "arpy" # up "-9" # gain "0.8" # cut "1",
+  gap 2 $ n (iter 8 $ ((* 4) <$> run 8)) # s "arpy" # up "-7" # gain "0.8" # cut "1",
+  gap 2 $ n (iter 8 $ ((* 2) <$> run 6)) # s "arpy" # up "12" # gain "0.8" # cut "1"
+]
+
+d3 $ every 16 (brak) $ every 4 (slow 2) $ every 8 (e 4 6) $ s "[man02 woman01]*4" # n "5 7 6 8 7 3 4 1" # gain "[0.6 0.6]*8"
+
+d3 $ silence
+
+d2 $ silence
+
+--------------------------
+
+d4 $ stack [
+  density 4 $ every 4 (e 3 5) $ s "ch808",
+  randcat [
+    density 4 $ every 4 (e 2 5) $ n "4" # s "cb808",
+    every 4 ((density 2) . (# gain "0.8 0.7")) $ sound "casio(3,9)"
+    ]
+  ]
+
+d4 $ silence
+
+d5 $ silence
+
+d1 $ silence
+
+d1 $ e 5 12 $ up "0 2 3 2 3 5 3 0" # s "bd08" # n "1 0 3 4 0 1"
+
+d5 $ every 8 (density 2) $ every 6 (slow 2) $ sound "sd808:3([3 1 3* 1]/2,12)" # speed "[1*4 0.75]/4"
+
+d3 $ every 2 (gap 4) $ striate 4 $ sound "ch808:12*4" # gain "[0.9 0.8]*2"

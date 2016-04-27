@@ -1,0 +1,154 @@
+
+bps (109/120)
+
+bps 2
+
+cps 1
+
+-- robot!
+d3 $ slow 4 $ spread' (striate' 256) (scale 0.001 0.6 sine1) $ stack [
+  sound "woman01:23" # gain "0.4",
+  sound "woman01:14" # gain "0.4" # speed "1.4"
+]
+
+
+
+d3 $ silence
+
+d2 $ every 16 (const (stack [
+      e 16 8 $ n (run 16) # s "cy808" # gain ((* 0.05) <$> (run 16)) # cut "4"
+  ])) $ stack [
+    every 4 (# n "0 1 2 3") $ n (run 8) # s "cy808" # gain "[0.6 0.5]*4"
+  ]
+
+d3 $ silence
+
+d4 $ stack [
+  every 8 (density 3) $ s "hh(4,8,1)",
+  every 4 (slow 2) $ s "bd808*4" # n "3"
+]
+
+d4 $ silence
+
+d2 $ stack [
+  s "[man02*3]/6" # n "[5 4 8 2]/3",
+  s "[~ woman01]*3/6" # n "[1 3 4 1]/6"
+] # gain (slow 16 $ scale 0.1 0.9 (sine1))
+
+
+d1 $ every 32 (slow 2) $ every 8 (const $ density 2 $ stack [
+    s "amencutup(2,8)" # n "2" # speed "1 0.75"
+  ])
+ $ every 16 (# up "3") $ every 24 (# up "-5") $ every 12 (slow 2) $ every 6 (const $ density 2 $ stack [
+  s "amencutup(3,8)" # n "3",
+  s "amencutup(2,8,2)" # n "12",
+  s "amencutup(3,8,1)" # n "24" # gain "0.8"
+]) $ every 8 (const $ density 2 $ stack [
+  s "amencutup(3,8)" # n "3",
+  s "amencutup(8,8,1)" # n "12",
+  s "amencutup(6,8,1)" # n "21" # gain "0.8"
+]) $ every 4 (slow 2) $ stack [
+  s "amencutup(3,8)" # n "23",
+  s "amencutup(3,8,1)" # n "25",
+  s "amencutup(6,8,1)" # n "21" # gain "0.8"
+]
+
+d1 $ every 8 (# up "3") $ every 20 (# up "-5") $ stack [
+  s "amencutup([3 6]/2,8)" # n "1" # gain "0.8",
+  s "amencutup([2 4]/2,8,2)" # n ((* 2) <$> (run 4)),
+  s "amencutup([6 3],8,1)" # n "22" # gain "0.8"
+]
+
+d2 $ every 8 (# up "3") $ every 20 (# up "-5") $ stack [
+  s "amencutup([3 6]/2,8)" # n "1" # gain "0.8",
+  s "amencutup([2 4]/2,8,2)" # n ((+ 8) <$> (run 4)),
+  s "amencutup([6 3],8,1)" # n "22" # gain "0.8"
+]
+
+d2 $ silence
+
+d1 $ silence
+
+d3 $ stack [
+  sound "hits:0/4",
+  sound "[~ hits:0]/8" # up "-12",
+  sound "[hits:1]/6" # up "-12",
+  sound "[hits:6]/4" # up "1"
+  ]
+
+d2 $ every 8 (# up "-12") $ every 16 (slow 4) $ every 8 (brak) $ stack [
+  s "bd808(5,8)" # n (run 8),
+  every 2 (density 2) $ s "hh([4 6],8)" # gain "0.8"
+  ]
+
+d2 $ silence
+
+
+d2  $ every 16 (const $ every 32 (# up "-5") $ stack [
+      s "cl808([3 6]/2,8)" # n "1",
+      density 2 $ s "east([4 6]/2,8)" # n ((+ 8) <$> (run 4)),
+      s "cy808([6 3],8,1)" # n "22"
+  ] # gain "0.8")
+    $ every 8 (const $ brak $ stack [
+    s "bd808(5,8)" # n (run 8),
+    density 2 $ s "cl808([4 6],8)" # n "3" # gain "0.7" # up "-12"
+    ])
+  $ stack [
+    s "bd808*2" # n "4",
+    s "cl808" # n "2" # gain "0.8"
+] # orbit "1"
+
+
+
+-------- REVERB
+
+d1 $ slow 2 $ stack [
+    sound "woman01:19([2 4],8,1)",
+    sound "woman01:21?([2 4],8,1)",
+    sound "woman01:22([2 4],8,2)",
+    sound "woman01:2? ~ woman01:5? ~ woman01:3 ~"
+    ]
+  # gain (slow 24 (scale 0.2 0.7 $ sine1))
+  # size (slow 6 (scale 0.01 0.6 $ sine1))
+  # room (slow 4 (scale 0.1 2 $ sine1))
+  # bandf (slow 8 (scale 100 1200 $ (sine1)))
+  # bandq (slow 16 (scale 0.01 0.9 $ (sine1)))
+  # orbit "2"
+
+d1 $ silence
+
+
+-- rand chop
+d4 $ do let x = chop 16 $ gap 8 $ slow 4 $ sound "misc:1" # gain "0.6"
+        a <- rand
+        zoom (0, toRational a) x
+
+
+-- choppy
+d1 $ do n <- scale 0.0 0.25 sine1
+        slow 2 $ striate' 12 n $ sound "woman01:13" # gain "0.8" # vowel "[e a o i u]/5"
+        # resonance (slow 32 (scale 0.01 0.9 $ (sine1)))
+        # bandf "40"
+        # bandq (slow 16 $ scale 0.01 0.6 $ sine1)
+
+d1 $ silence
+
+d4 $ silence
+
+d5 $ silence
+
+d1 $ e 5 8 $ sound "hh:4"
+  # vowel "[e a o i u]/5"
+  # resonance (slow 32 (scale 0.01 0.9 $ (sine1)))
+  # bandf "2200"
+  # bandq (slow 16 $ scale 0.01 0.95 $ sine1)
+
+d1 $ e 5 8 $ sound "hh:4"
+  # vowel "[e a o i u]/5"
+  # resonance (slow 32 (scale 0.01 0.9 $ (sine1)))
+  # bandf "2200"
+  # bandq (slow 16 $ scale 0.01 0.95 $ sine1)
+
+
+
+hush
