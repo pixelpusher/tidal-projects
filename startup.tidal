@@ -18,8 +18,6 @@
 
 -- useful functions
 
-let every' n o f = when ((== (o-1)) . (`mod` n)) f
-
-let hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9]
-
-let solo = (>>) hush
+let every' n o f = when ((== (o-1)) . (`mod` n)) f,
+  hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9],
+  solo = (>>) hush

@@ -1,7 +1,7 @@
 
 bps (109/120)
 
-bps 2
+bps 1
 
 cps 1
 
@@ -63,7 +63,7 @@ d2 $ every 8 (# up "3") $ every 20 (# up "-5") $ stack [
   s "amencutup([3 6]/2,8)" # n "1" # gain "0.8",
   s "amencutup([2 4]/2,8,2)" # n ((+ 8) <$> (run 4)),
   s "amencutup([6 3],8,1)" # n "22" # gain "0.8"
-]
+] # crush "[3 4 6]/6"
 
 d2 $ silence
 
@@ -74,23 +74,23 @@ d3 $ silence
 d2 $ silence
 
 
-d3 $ stack [
-  sound "hits:0/4",
-  sound "[~ hits:0]/8" # up "-12",
-  sound "[hits:1]/6" # up "-12",
-  sound "[hits:6]/4" # up "1"
+d4 $ stack [
+  sound "hits:0/4" # up "[-12 0 12 0]/8",
+  sound "[~ hits:0]/8" # up "[-24 -12]/16",
+  sound "[hits:1]/6" # up "-7",
+  sound "[hits:6]*2/4" # up "7"
   ]
-  # gain "0.9"
+  # gain "0.7"
   # crush "6"
 
 d2 $ every 8 ((# up "-12") . (# crush "4")) $ every 16 (slow 4) $ every 8 (brak) $ stack [
   s "bd808(5,8)" # n (run 8),
-  every 2 (density 2) $ s "hh([4 6],8)" # gain "0.8"
+  every 2 (density 2) $ s "hh-blo([4 6],8)" # gain "0.8"
   ]
 
 -- so dirty... with crush
 
-d2 $ every 8 (# up "-12") $ every 16 (slow 4) $ every 8 (brak) $ stack [
+d3 $ every 8 (# up "-12") $ every 16 (slow 4) $ every 8 (brak) $ stack [
   s "bd808(5,8)" # n (run 8) # gain (slow 12 (scale 0.8 0.95 (sine1))),
   every 2 (density 2) $ s "hh([4 6],8)" # gain (slow 8 (scale 0.75 0.95 (sine1))),
   every 8 (density 2) $ slow 2 $ s "cp(6,16,1)" # gain "0.75" # up "5"
@@ -163,7 +163,7 @@ d2 $ e 5 8 $ sound "hh:4"
 
 -- lowpass filtering on the land of the free
 
-d2 $ every 8 (slow 2) $ slow 2 $ e 5 8 $ sound "woman01:1"
+d3 $ every 8 (slow 2) $ slow 2 $ e 5 8 $ sound "woman01:1"
   # vowel "[e a o i u]/5"
   # resonance (slow 32 (scale 0.01 0.4 $ sine1))
   # cutoff (slow 64 (scale 80 2200 $ sine1))
@@ -171,12 +171,14 @@ d2 $ every 8 (slow 2) $ slow 2 $ e 5 8 $ sound "woman01:1"
 
 -- hipass filtering
 
-d2 $ every 8 (slow 2) $ slow 2 $ e 5 8 $ sound "woman01:1"
+d2 $ every 8 (slow 2) $ slow 2 $ e 5 8 $ sound "woman01:3? woman01:1"
   # vowel "a"
   # resonance (slow 32 (scale 0.01 0.4 $ sine1))
   # hresonance (slow 16 (scale 0.2 0.5 $ sine1))
   # hcutoff (slow 24 (scale 200 2200 $ sine1))
-  # gain "0.6"
+  # gain "0.8"
+  # size (slow 6 (scale 0.01 0.6 $ sine1))
+  # room (slow 4 (scale 0.1 2 $ sine1))
 
 
 hush

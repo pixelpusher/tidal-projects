@@ -1,0 +1,178 @@
+-- Algorave!!!!
+
+d3 $ slow 48 $ spread' (striate' 160) (scale 0.001 0.3 sine1) $ sound "granular:0" # gain "0.6" # up "12"
+  # size (slow 6 (scale 0.01 0.6 $ sine1))
+  # room (slow 4 (scale 0.1 2 $ sine1))
+  # orbit "1"
+
+
+
+bps (0.5)
+
+bps (110/120)
+
+d4 $ every 4 (0.5 ~>) $ slowcat [
+  s "bd808*4" # n "2 0 1 4",
+  sometimes (degradeBy 0.25) $  "bd808*4" # n "2 2 2 2"
+  ] # orbit "3"
+
+d2  $ slow 2 $ slowcat [
+    sometimes (density 4) $ s "sn606*4" # n "2 0 1 4",
+    density 2 $ sound "[sn606:0 ~] ~ sn606:3 [~ sn606:1*2]"
+    ]
+    # orbit " [1 2]/2"
+
+d4 $ every 4 (density 2) $ s "[cym?*2 cym?]*4" # n "4" # gain (slow 2 $ scale 0.5 0.9 $ tri1)
+
+d4 $ randcat [
+  s "granular?/2" # n "0",
+  s "granular/2" # n "1"
+  ] # orbit "3"
+    # hresonance (slow 4 (scale 0.2 0.5 $ tri1))
+    # hcutoff (slow 8 (scale 200 2200 $ sine1))
+
+d1 $ stack
+[
+  slowcat [
+    s "afrobeatguitar?" # n "0",
+    s "bd808" # n "1",
+    s "afrobeatguitar" # n "1",
+    s "bd808" # n "1"
+  ] # hresonance (slow 16 (scale 0.2 0.5 $ sine1))
+    # hcutoff (slow 24 (scale 200 2200 $ sine1))
+    # orbit "1",
+  slowcat [
+    s "afrobeatbass" # n "0",
+    s "~" # n "1",
+    s "afrobeatbass?" # n "0",
+    s "~" # n "1",
+    s "afrobeatbass" # n "1",
+    s "~" # n "1"
+    ] # orbit "2" # up "[12 0]/16"
+] # gain "0.8"
+
+
+d1 $ slow 2 $ sound "bd808([8 16 8],4,0)" # n "0 2 1 2" # gain "1.2"
+
+d2 $ stack [
+  s "hh-blo([6 8 16?],16)" # gain (density 2 $ (scale 0.8 0.9 tri)),
+  every 8 (const $ s "[~ cp-blo]*2 [~ cp-blo*3]") $ every 4 (density 2) $ every 6 (rev) $ s "cp-blo(2,4,2)",
+  every 4 (density 2) $ every 6 (slow 2) $ s "[cym ~]*16" # gain "0.9",
+  every 4 (slow 2) $ brak $ s "[sn ~]*8" # n "2"
+  ] # hresonance (slow 16 (scale 0.2 0.5 $ sine1))
+    # hcutoff (slow 24 (scale 200 2200 $ sine1))
+    # orbit "1"
+
+d3 $ s "notes*4" # n "1 2 3 4"
+
+d4 $ (0.215 ~>) $ every 4 (# up "-7") $ brak $ s "[~ afrobeatorgan]*4" # n "0 1" # gain "0.65" # size (slow 6 (scale 0.01 0.6 $ sine1))
+  # room (slow 4 (scale 0.1 2 $ sine1)) # orbit "2"
+
+
+hush
+
+d1 $ silence
+
+d2 $ silence
+
+d3 $ silence
+
+d4 $ silence
+
+bps (120/120)
+
+d1 $ within (0,0.5) (# n "1") $ density 1 $ every 4 (rev)
+  $ s "~ afrobeatorgan afrobeatorgan ~ afrobeatorgan ~ afrobeatorgan afrobeatorgan?" # n "0"
+  # up ((+ 3) <$> "0 -7 0 -5 -5 1 -12 12") # gain "0.75"
+  # hresonance (slow 8 $ scale 0.2 0.6 $ tri1)
+  # hcutoff (slow 4 $ scale 120 2200 $ tri1)
+
+d1 $ s "granular/4" # gain "0.7"
+
+
+d2 $ (0.125 ~>) $ s "bd808([4 4? 6 8]/2,8)" # n "2*1" # up "[0 3 -1 0]/4" # orbit "1" # gain "1" # cut "1"
+  # hresonance (slow 2 $ scale 0.01 0.6 $ tri1)
+  # hcutoff "[30 40 60 80]/8"
+
+d2 $ (0.125 ~>) $ s "bd808([4 4 6 8]/2,8)" # n "[1 2]*4" # up "[6 3 -1 0]/4" # orbit "3" # gain "1"
+
+d4 $ stack [
+  every 4 (sometimes (density 2)) $ s "bd-blo*4" # n "3 3 3 0" # gain "[0.8*3 0]/8",
+  every 4 (rev) $ sometimes (density 2) $ degradeBy 0.125 $ s "hh-blo*8" # gain "[0.8 0]/8",
+  every 2 (const $ (0.25 ~>) $ every 4 (rev) $ sometimes (density 4) $ degradeBy 0.25 $ s "sn606*4" # n "0 1 0 2" # gain "0.8")
+    $ (0.25 ~>) $ every 4 (rev) $ sometimes (density 2) $ degradeBy 0.125 $ s "sn606*8" # gain "0.7"
+    ] # gain (slow 24 (scale 0.2 0.7 $ sine1))
+    # size (slow 6 (scale 0.01 0.6 $ sine1))
+    # room (slow 4 (scale 0.1 2 $ sine1))
+
+
+d3 $ stack [
+    every 4 (sometimes ((density 2) . brak)) $ s "bd-blo*4" # n "3 2 3 0" # gain "[0.8*3 0]/8" # up "12 0 12 0",
+    every 4 (rev) $ sometimes (density 2) $ degradeBy 0.125 $ s "hh-blo*8" # gain "[0.8 0]/8",
+    every 4 (const $ sound "sn606*8" # gain "[0.7 0.9]*4" # up "5")
+       $ every 6 (const $ sound "sn606*16" # gain "[0.7 0.9]*8" # up "5")
+       $ sometimes (# gain "0") $ every 4 (brak) $ every 8 (rev) $ sometimes ((degradeBy 0.25) . (density 2))
+        $ sound "[~ sn606:4 ~ sn606:2 ~ sn606 cp-blo:3 sn606:1]" # gain (slow 12 $ scale 0.6 0.75 $ tri1)
+] # gain "1"
+
+
+
+d1 $ silence
+
+d3 $ silence
+
+d2 $ silence
+
+d4 $ silence
+
+bps (110/120)
+
+-----------  cheat sheet: ----------------------
+
+d1 $ (0 ~>) $ stack [
+  brak $ s "pluck*4" # n (iter 8 $ run 8) # cut "2",
+  every 4 (density 2) $ brak $ s "alphabet*4" # n (iter 8 $ run 8) # gain "0.65"
+  ] # orbit "0"
+
+bps (100/120)
+
+d1 $ (0 ~>) $ stack [
+  degradeBy 0.2 $ s "pluck*4" # n (iter 8 $ run 8),
+  degradeBy 0.2 $ s "pluck*4" # n "0",
+  degradeBy 0.5 $ brak $ s "alphabet([8 10],16)" # n (iter 24 $ run 16) # gain "0.65"
+  ] # up (slow 4 $ "0 3 5, 3 5 7")
+    # orbit "0"
+
+d1 $ (0.25 ~>) $ stack [
+  brak $ s "pluck*4" # n (iter 8 $ run 8) # cut "1"
+  ] # gain "0.8"
+    # orbit "2"
+
+
+
+d2 $ silence
+
+d1 $ silence
+
+-- time shift
+(0.25 ~>)
+
+-- add together beat sequences
+d1 $ slowcat [
+  s "" # n "",
+  s "" # n ""
+  ]
+
+-- reverbs
+
+# gain (slow 24 (scale 0.2 0.7 $ sine1))
+# size (slow 6 (scale 0.01 0.6 $ sine1))
+# room (slow 4 (scale 0.1 2 $ sine1))
+# bandf (slow 8 (scale 100 1200 $ (sine1)))
+# bandq (slow 16 (scale 0.01 0.9 $ (sine1)))
+# orbit "2"
+
+# vowel "[e a o i u]/5"
+# resonance (slow 32 (scale 0.01 0.9 $ sine1))
+# bandf "2200"
+# bandq (slow 16 $ scale 0.01 0.95 $ sine1)
