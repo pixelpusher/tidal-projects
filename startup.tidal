@@ -16,8 +16,24 @@
 
 (d8, t8) <- superDirtSetters getNow
 
--- useful functions
+-- useful functions, somewhat 'borrowed' from other tidal'ers like yaxu and kindohm and etc.
 
-let every' n o f = when ((== (o-1)) . (`mod` n)) f,
-  hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9],
-  solo = (>>) hush
+let every' n o f = when ((== (o-1)) . (`mod` n)) f
+
+let hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9]
+    off t f p = superimpose (f . (t ~>)) p
+    offadd t n p = off t ((+n) <$>) p
+    rip a b p = within (0.25, 0.75) (slow 2 . rev . stut 8 a b) p
+    rip' a b c d e p = within (a, b) (slow 2 . rev . stut c d e) p
+    spike p = ((|+| delaytime (scale 0.001 0.3 $ slow 7.1 sine1)) . (|+| delayfeedback (scale 0.7 0.99 $ slow 6.71 sine1))) $ p
+    spike' p = (|+| delay "0.3") $ spike $ p
+    ghost'' a f p = superimpose (((a/2 + a*2) ~>) . f) $ superimpose (((a + a/2) ~>) . f) $ p
+    ghost' a p = ghost'' a ((|*| gain "0.7") . (|=| end "0.2") . (|*| speed "1.25")) p
+    ghost p = ghost' 0.125 p
+    jit start amount p = within (start, (start + 0.5)) (trunc (amount)) p
+    gtfo p = (const $ sound "~") p
+    shift p = (1024 <~)  p
+    shift' x p = (x <~) p
+    choose xs = (xs !!) <$> (irand $ fromIntegral $ length xs)
+
+hush

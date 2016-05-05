@@ -5,7 +5,18 @@ d3 $ slow 48 $ spread' (striate' 160) (scale 0.001 0.3 sine1) $ sound "granular:
   # room (slow 4 (scale 0.1 2 $ sine1))
   # orbit "1"
 
+d1 $ (0.05 <~) $ every 2 (slow 2) $ stack [
+ every 4 ((density 2) . (degradeBy 0.25)) $ brak $ s "hh-blo*8" # n "2*4 3*4" # gain "0.85",
+ every 8 ((density 2) . (degradeBy 0.25)) $ s "[sn606*2] ~ sn606 ~" # n "1" # gain "0.7"
+ ] # hresonance (slow 16 (scale 0.2 0.5 $ sine1))
+   # hcutoff (slow 24 (scale 200 2200 $ sine1))
+   # orbit "2"
 
+d1 $ silence
+
+d2 $ silence
+
+d3 $ silence
 
 bps (0.5)
 
@@ -13,8 +24,42 @@ bps (110/120)
 
 d4 $ every 4 (0.5 ~>) $ slowcat [
   s "bd808*4" # n "2 0 1 4",
-  sometimes (degradeBy 0.25) $  "bd808*4" # n "2 2 2 2"
+  sometimes (degradeBy 0.25) $ s "bd808*4" # n "2 2 2 2"
   ] # orbit "3"
+
+d1 $ ghost $ stack [
+  slowcat [
+    s "hh-blo*4" # n "2",
+    s "hh-blo*8" # n "2",
+    s "hh-blo*2" # n "4",
+    s "[~ hh-blo]*2" # n "4"
+  ],
+  randcat[
+    s "bd808*2" # n "1",
+    degradeBy 0.25 $ s "bd808*4" # n "1",
+    s "[bd808 ~]*2" # n "2"
+  ],
+  every 4 (const $ ghost $ s "jazz*2 ~ ~") $ s "jazz ~ [jazz*2] ~" # n "4" # gain "0.8*2 0.7 0.8"
+]
+
+d2 $ ghost $ stack [
+  slowcat [
+    s "pluck*2 ~ ~ ~" # n "2",
+    s "[hh ~]*2" # n "3",
+    s "pluck ~ ~ ~" # n "1",
+    s "pluck*4" # n "0"
+  ] # up "-12" # cut "2",
+  randcat[
+    s "~ ~ cl808*2" # n "1",
+    s "cl808 ~ cl808 ~" # n "1",
+    s "cl808 ~ ~ cl808" # n "1"
+  ] # up "-36" # gain "0.8" # cut "1",
+  every 4 (const $ ghost $ s "cl808 ~ ~") $ s "cl808" # n "0"
+]
+
+d1 $ silence
+
+d2 $ silence
 
 d2  $ slow 2 $ slowcat [
     sometimes (density 4) $ s "sn606*4" # n "2 0 1 4",
@@ -22,35 +67,48 @@ d2  $ slow 2 $ slowcat [
     ]
     # orbit " [1 2]/2"
 
-d4 $ every 4 (density 2) $ s "[cym?*2 cym?]*4" # n "4" # gain (slow 2 $ scale 0.5 0.9 $ tri1)
+hush
+
+d5 $ (0.3 ~>) $ every 4 ((density 2) . degradeBy 0.25) $
+  stack [
+    s "[cym?*2 cym*2?]*4" # n "[4 5]*4" # gain (slow 2 $ scale 0.5 0.9 $ tri1),
+    s "cl808*4",
+    every 4 (density 2) $ every 6 (slow 2) $ s "[cym? ~]*16" # gain "0.8"
+    ] # hresonance (slow 4 (scale 0.2 0.5 $ tri1))
+      # hcutoff (slow 8 (scale 200 2200 $ sine1))
 
 d4 $ randcat [
   s "granular?/2" # n "0",
   s "granular/2" # n "1"
   ] # orbit "3"
-    # hresonance (slow 4 (scale 0.2 0.5 $ tri1))
+  # hresonance (slow 4 (scale 0.2 0.5 $ tri1))
     # hcutoff (slow 8 (scale 200 2200 $ sine1))
 
-d1 $ stack
+bps (109/120)
+
+d1 $ (0.25 ~>) $ stack
 [
   slowcat [
     s "afrobeatguitar?" # n "0",
     s "bd808" # n "1",
-    s "afrobeatguitar" # n "1",
+    every 4 (# n 1) $ s "afrobeatguitar" # n "0",
     s "bd808" # n "1"
   ] # hresonance (slow 16 (scale 0.2 0.5 $ sine1))
     # hcutoff (slow 24 (scale 200 2200 $ sine1))
     # orbit "1",
   slowcat [
-    s "afrobeatbass" # n "0",
+    s "afrobeatbass" # n "1",
     s "~" # n "1",
     s "afrobeatbass?" # n "0",
     s "~" # n "1",
-    s "afrobeatbass" # n "1",
+    s "afrobeatbass" # n "0",
     s "~" # n "1"
-    ] # orbit "2" # up "[12 0]/16"
+    ] # orbit "2" # up "0"
 ] # gain "0.8"
 
+hush
+
+d1 $ silence
 
 d1 $ slow 2 $ sound "bd808([8 16 8],4,0)" # n "0 2 1 2" # gain "1.2"
 
@@ -65,9 +123,12 @@ d2 $ stack [
 
 d3 $ s "notes*4" # n "1 2 3 4"
 
-d4 $ (0.215 ~>) $ every 4 (# up "-7") $ brak $ s "[~ afrobeatorgan]*4" # n "0 1" # gain "0.65" # size (slow 6 (scale 0.01 0.6 $ sine1))
+d3 $ silence
+
+d4 $ (0.215 ~>) $ every 4 (# up "-7") $ brak $ s "[~ afrobeatorgan]*2" # n "0 1" # gain "0.65" # size (slow 6 (scale 0.01 0.6 $ sine1))
   # room (slow 4 (scale 0.1 2 $ sine1)) # orbit "2"
 
+d4 $ silence
 
 hush
 
@@ -96,7 +157,7 @@ d2 $ (0.125 ~>) $ s "bd808([4 4? 6 8]/2,8)" # n "2*1" # up "[0 3 -1 0]/4" # orbi
 
 d2 $ (0.125 ~>) $ s "bd808([4 4 6 8]/2,8)" # n "[1 2]*4" # up "[6 3 -1 0]/4" # orbit "3" # gain "1"
 
-d4 $ stack [
+d5 $ stack [
   every 4 (sometimes (density 2)) $ s "bd-blo*4" # n "3 3 3 0" # gain "[0.8*3 0]/8",
   every 4 (rev) $ sometimes (density 2) $ degradeBy 0.125 $ s "hh-blo*8" # gain "[0.8 0]/8",
   every 2 (const $ (0.25 ~>) $ every 4 (rev) $ sometimes (density 4) $ degradeBy 0.25 $ s "sn606*4" # n "0 1 0 2" # gain "0.8")
@@ -105,8 +166,13 @@ d4 $ stack [
     # size (slow 6 (scale 0.01 0.6 $ sine1))
     # room (slow 4 (scale 0.1 2 $ sine1))
 
+d3 $ silence
 
-d3 $ stack [
+d2 $ silence
+
+d1 $ silence
+
+d3 $ (0.3 ~>) $ stack [
     every 4 (sometimes ((density 2) . brak)) $ s "bd-blo*4" # n "3 2 3 0" # gain "[0.8*3 0]/8" # up "12 0 12 0",
     every 4 (rev) $ sometimes (density 2) $ degradeBy 0.125 $ s "hh-blo*8" # gain "[0.8 0]/8",
     every 4 (const $ sound "sn606*8" # gain "[0.7 0.9]*4" # up "5")
@@ -130,8 +196,8 @@ bps (110/120)
 -----------  cheat sheet: ----------------------
 
 d1 $ (0 ~>) $ stack [
-  brak $ s "pluck*4" # n (iter 8 $ run 8) # cut "2",
-  every 4 (density 2) $ brak $ s "alphabet*4" # n (iter 8 $ run 8) # gain "0.65"
+  every 2 (# up "12") $ every 3 (# up "-12") $ brak $ s "pluck*4" # n "0 3 5 0" # cut "2",
+  every 4 (density 2) $ brak $ s "alphabet*4" # n (iter 4 $ run 16) # gain "0.5"
   ] # orbit "0"
 
 bps (100/120)
@@ -148,11 +214,30 @@ d1 $ (0.25 ~>) $ stack [
   ] # gain "0.8"
     # orbit "2"
 
-
-
 d2 $ silence
 
 d1 $ silence
+
+bps (120/120)
+
+d1 $ stack [
+  s "~ [arpy arpy]*2 ~ ~ ~ ~ ~" # n "0 0 0 0 0 0 0 0" # up "[-15 -12]/4, [12 9]/4",
+  every 4 ((rev) . (slow 2)) $ density 4 $ s "~ arpy ~ arpy" # n "0 5 0 5" # up "[-24 -20]/4",
+  every 8 (brak) $ s "hh-blo*8" # n "1" # gain "0.8",
+  every 16 (rev) $ every 8 (const $ s "bd-blo ~ bd-blo [sn606*2] bd-blo [sn606*2] bd-blo sn606" # n "0 1 3 3 2 1 0 3")
+    $ s "bd-blo? hh-blo bd-blo [sn606*2]? bd-blo ~ bd-blo ~" # n "2 1 3 1 4 1 0 0"
+]
+
+d2 $ stack [
+    every 4 (# gain "0") $ brak $ every 8 (slow 2) $ every 8 (const $ s "pluck([6 10]/2,8)" # up ((* 8) <$> (run 8))) $ s "pluck([6 12]/2,8)" # up ((* 16) <$> (run 8)),
+    every 12 (# gain "0") $ every 4 (const $ brak $ sound "sn606:2(8,8)") $ degradeBy 0.2 $ sound "hh-blo:2(16,8)",
+    every 6 (density 4) $ degradeBy 0.2 $ sound "hh-blo:0(6,8,1)" # gain (slow 24 (scale 0.2 0.7 $ sine1))
+    # size (slow 6 (scale 0.01 0.6 $ sine1))
+    # room (slow 4 (scale 0.1 2 $ sine1)),
+    every 12 (# gain "0") $ every 4 ((density 4) . degradeBy 0.25) $ sound "jazz:0*4",
+    every 8 (# gain "0") $ every 2 ((slow 2) . (rev)) $ sound "[~ sn606:3]*4" # gain "0.85"
+  ]
+
 
 -- time shift
 (0.25 ~>)

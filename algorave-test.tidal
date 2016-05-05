@@ -3,7 +3,9 @@ bps (109/120)
 
 bps 1
 
-cps 1
+bps 1.8
+
+cps 0.5
 
 -- robot!
 d3 $ slow 4 $ spread' (striate' 256) (scale 0.001 0.6 sine1) $ stack [
@@ -92,10 +94,13 @@ d2 $ every 8 ((# up "-12") . (# crush "4")) $ every 16 (slow 4) $ every 8 (brak)
 
 d3 $ every 8 (# up "-12") $ every 16 (slow 4) $ every 8 (brak) $ stack [
   s "bd808(5,8)" # n (run 8) # gain (slow 12 (scale 0.8 0.95 (sine1))),
-  every 2 (density 2) $ s "hh([4 6],8)" # gain (slow 8 (scale 0.75 0.95 (sine1))),
+    every 2 (density 2) $ s "hh([4 6],8)" # gain (slow 8 (scale 0.75 0.95 (sine1))),
   every 8 (density 2) $ slow 2 $ s "cp(6,16,1)" # gain "0.75" # up "5"
   ]
   # crush "[4 3 2]/24"
+
+-- add this every 4 (# gain "0") $ every 2 ((brak) . (density 2)) $ every 12 (density 1.5) $ s "sn606*8" # n "[0 1]*4" # gain "0.85",
+
 
 d3 $ silence
 
@@ -123,7 +128,7 @@ d1 $ slow 2 $ stack [
     sound "woman01:22([2 4],8,2)",
     sound "woman01:2? ~ woman01:5? ~ woman01:3 ~"
     ]
-  # gain (slow 24 (scale 0.2 0.7 $ sine1))
+  # gain (slow 24 (scale 0.3 0.65 $ sine1))
   # size (slow 6 (scale 0.01 0.6 $ sine1))
   # room (slow 4 (scale 0.1 2 $ sine1))
   # bandf (slow 8 (scale 100 1200 $ (sine1)))

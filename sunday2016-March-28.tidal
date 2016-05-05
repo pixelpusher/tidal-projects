@@ -34,11 +34,12 @@ hush
 d1 silence
 
 -- robot!
-d1 $ slow 4 $ spread' (striate' 256) (scale 0.001 0.6 sine1) $ stack [
+d3 $ slow 4 $ spread' (striate' 256) (scale 0.001 0.6 sine1) $ stack [
   sound "woman01:23" # gain "0.6",
   sound "woman01:14" # gain "0.4" # speed "1.4"
 ]
 
+d3 $ silence
 
 d1 $ slow 2 $ spread' (striate' 12) (scale 0.0 0.25 sine1) $ sound "woman01:13" # gain "0.9"
 
