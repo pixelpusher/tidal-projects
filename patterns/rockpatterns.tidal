@@ -1,0 +1,91 @@
+bps (120/120)
+
+-- by evan raskob  http://pixelist.info
+-- inspired by classic drum patterns https://docs.google.com/spreadsheets/d/19_3BxUMy3uy1Gb0V8Wc-TcG7q16Amfn6e8QVw4-HuD0/edit#gid=0
+
+-- billie jean
+
+d1 $ stack [
+  sound "bd808:1 ~ bd808:0 ~",
+  sound "~ sn606 ~ sn606",
+  delayline' 0.25 "0.55" $ sound "hh:0*4"
+]
+
+--impeach the president
+
+d1 $ stack [
+  slowcat [
+    sound "bd808:1 ~ ~ [~ bd808:0]",
+    sound "bd808:1 ~ ~ ~ bd808:0"
+  ],
+  sometimes (delayline) $ sound "~ ~ sn606:2 ~",
+  slowcat [
+    sound "[ch808 ~]*3 ch808*2",
+    sound "ch808 [~*3] [ch808 ~]*2"
+  ],
+  sound "~ ~ ~ ~ ~ [~ cy808:5?] ~ ~ ~" # speed "0.8" # cut "1" # gain "0.75"
+]
+
+-- using delayline
+
+d1 $ stack [
+  slowcat [
+    sound "bd808:5 ~ ~ [~ bd808:5]",
+    sound "bd808:5 ~ ~ ~ bd808:5"
+  ],
+  sometimes (delayline) $ sound "~ ~ sn606:2 ~",
+  slowcat [
+    delayline $ sound "hh-blo*4",
+    delayline $ sound "hh-blo [~*2] bleep:7?"
+  ],
+  sound "~ ~ ~ ~ ~ [~ bd-blo:1] ~ ~ ~" # speed "0.825" # cut "1"
+]
+
+
+
+-- basic patterns ---------------------------------
+
+-- rock
+
+d1 $ stack [
+  slowcat [
+    s "bd808*2 ~ bd808" # n "5",
+    s "bd808*2 ~ [~ [bd808 bd808?]]" # n "5"
+  ],
+  sound "~ ~ sd808:6 ~",
+  slowcat [
+    delayline' 0.25 "0.55" $ sound "hh-blo:2*4"
+  ]
+]
+
+
+-- hip hop
+
+d1 $ every 8 (delayline' 0.125 "0.4") $ stack [
+  slowcat [
+    s "bd808 ~*2 [~ bd808] ~" # n "5",
+    s "~ bd808 [~ bd808*2?] bd808*2" # n "5"
+  ],
+  slowcat [
+    sound "~ ~ sd808:6 ~",
+    sound "~ ~ sd808:6*2 ~"
+  ],
+  slowcat [
+    delayline' 0.25 "0.45" $ sound "hh-blo:2*4"
+  ]
+]
+
+d2 $ delayline $ slow 2 $ delayline' 0.25 "0.45" $ sound "[arpy:0*4 arpy:2*4]/2" # up "-16 -21 -29 -24"
+
+d1 $ stack [
+  every 4 ((brak) . density 2) $ sound "[bd808:2 bd808]*2",
+  delayline' 0.25 "0.65" $ sound "hh*4",
+  every 8 (density 2) $ density 2 $ sound "~ cp",
+  degradeBy 0.25 $ sound "man01:4 man01:0"
+]
+
+d2 $ silence
+
+d1 $ silence
+
+-- fills

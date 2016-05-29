@@ -1,6 +1,8 @@
 
 bps (109/120)
 
+bps (120/120)
+
 bps 1
 
 bps 1.8
@@ -13,17 +15,42 @@ d3 $ slow 4 $ spread' (striate' 256) (scale 0.001 0.6 sine1) $ stack [
   sound "woman01:14" # gain "0.4" # speed "1.4"
 ]
 
-
+hush
 
 d3 $ silence
 
-d2 $ every 16 (const (stack [
-      e 16 8 $ n (run 16) # s "cy808" # gain ((* 0.05) <$> (run 16)) # cut "4"
+let degradeFill a = (density 2) . (degradeBy a)
+
+d3 $ stack [
+  every 2 ((degradeFill 0.75) . (ghost' (1/16))) $ ghost' (1/8) $ sound "[[cy808:6*2] cy808:7]*2" # gain (slow 8 $ scale 0.45 0.75 $ sine1),
+  every 4 (degradeFill 0.25) $ whenmod 4 3 (ghost' (1/8)) $ sound "bd808:2 [cp*2]? bd808 [sn:1 [sn:1? ~]]" # up "[0 2 0 4]/8"
+]
+
+d4 $ every 4 (degradeFill 0.25) $ whenmod 4 3 (ghost' (1/8)) $ sound "arp arpy:3? arpy [arpy:1 [arpy:1*2?]]" # up "[2 4 -6 0]/32"
+
+d4 $ silence
+
+d2 $ every 8 (const (stack [
+      e 16 8 $ s "bd808" # n "0" # gain (scale 0.5 1 $ saw1),
+      sound "cy808:5(16,8,1)" # gain saw1
   ])) $ stack [
-    every 4 (# n "0 1 2 3") $ n (run 8) # s "cy808" # gain "[0.6 0.5]*4"
+    every 4 (# n "0 1 6 1") $ n "5*8" # s "cy808" # gain "[0.8 0.7]*4"
   ]
 
-d3 $ silence
+  d2 $ silence
+
+  d1 $ every 32 (slow 2) $ every 8 (const $ (density 2) . (degradeBy 0.25) $ stack [
+      s "amencutup(2,8)" # n "2" # speed "1 0.5"
+    ])
+    $ stack [
+        s "amencutup(6,8)" # n "2" # speed "1 0.5",
+        degradeBy 0.25 $ s "amencutup(6,8,1)" # n "23" # speed "1 0.5",
+        degradeBy 0.25 $ s "sn606(8,8,1)" # n "2" # speed "1"
+      ] # crush "4"
+
+
+
+d1 $ silence
 
 d4 $ stack [
   every 8 (density 3) $ s "hh(4,8,1)",
@@ -82,7 +109,7 @@ d4 $ stack [
   sound "[hits:1]/6" # up "-7",
   sound "[hits:6]*2/4" # up "7"
   ]
-  # gain "0.7"
+  # gain "0.6"
   # crush "6"
 
 d2 $ every 8 ((# up "-12") . (# crush "4")) $ every 16 (slow 4) $ every 8 (brak) $ stack [
@@ -104,7 +131,7 @@ d3 $ every 8 (# up "-12") $ every 16 (slow 4) $ every 8 (brak) $ stack [
 
 d3 $ silence
 
-d3  $ every 16 (const $ every 32 (# up "-5") $ stack [
+d3  $ density 2 $ every 16 (const $ every 32 (# up "-5") $ stack [
       s "cl808([3 6]/2,8)" # n "1",
       density 2 $ s "east([4 6]/2,8)" # n ((+ 8) <$> (run 4)),
       s "cy808([6 3],8,1)" # n "22"
@@ -178,12 +205,13 @@ d3 $ every 8 (slow 2) $ slow 2 $ e 5 8 $ sound "woman01:1"
 
 d2 $ every 8 (slow 2) $ slow 2 $ e 5 8 $ sound "woman01:3? woman01:1"
   # vowel "a"
-  # resonance (slow 32 (scale 0.01 0.4 $ sine1))
-  # hresonance (slow 16 (scale 0.2 0.5 $ sine1))
+  # resonance (slow 32 (scale 0.01 0.3 $ sine1))
+  # hresonance (slow 16 (scale 0.2 0.4 $ sine1))
   # hcutoff (slow 24 (scale 200 2200 $ sine1))
-  # gain "0.8"
+  # gain "0.7"
   # size (slow 6 (scale 0.01 0.6 $ sine1))
   # room (slow 4 (scale 0.1 2 $ sine1))
 
+d3 $ silence
 
 hush
