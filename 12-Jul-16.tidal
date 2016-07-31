@@ -6,13 +6,13 @@
 
 bps (115/120)
 
-d1 $ sound "british:3" # speed "1.218" # gain "0.9" # begin "0" # end "0.5"
+d1 $ sound "british:3" # speed "1.218" # gain "1.1" # begin "0" # end "0.5"
 
-d1 $ sound "british:4/2" # speed "1.05" # gain "0.9"
+d1 $ sometimes (# end "0.5") $ sound "british:4/2" # speed "1.05" # gain "0.9"
 
 d1 $ silence
 
-d5 $ delayline' 0.25 "0.55" $ sound "bch:1*4" # gain "1.2" # room "0.4"
+d5 $ every 2 (rev) $ delayline' 0.25 "0.55" $ every 4 (degradeFill 0.5) $ sound "bch:1*4" # gain "1.2" # room "0.4"
 
 d5 $ silence
 
