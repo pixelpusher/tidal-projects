@@ -1,4 +1,6 @@
-bps (120/120)
+bps (125/120)
+
+bps (115/120)
 
 -- by evan raskob  http://pixelist.info
 -- inspired by classic drum patterns https://docs.google.com/spreadsheets/d/19_3BxUMy3uy1Gb0V8Wc-TcG7q16Amfn6e8QVw4-HuD0/edit#gid=0
@@ -49,15 +51,27 @@ d1 $ stack [
 
 d1 $ stack [
   slowcat [
-    s "bd808*2 ~ bd808" # n "5",
-    s "bd808*2 ~ [~ [bd808 bd808?]]" # n "5"
+    s "bd808 ~ bd808 ~" # n "5",
+    s "bd808*2 ~ ~ [bd808 bd808?]" # n "5"
   ],
-  sound "~ ~ sd808:6 ~",
+  sound "~ ~ bch:3 ~",
   slowcat [
-    delayline' 0.25 "0.55" $ sound "hh-blo:2*4"
+    delayline' 0.125 "0.55" $ sound "hh-blo:2*4"
   ]
 ]
 
+d1 $ stack [
+  slowcat [
+    s "bbass ~ bbass ~" # n "5",
+    s "bbass*2 ~ ~ [bbass bbass?]" # n "2"
+  ] # speed "0.99",
+  sound "~ ~ bch:3 ~" # speed "0.8",
+  slowcat [
+    delayline' 0.125 "0.75" $ sound "bch:2*4" # up "4"
+  ]
+] # size "0.3" # room "0.3"
+
+d1 $ silence
 
 -- hip hop
 
@@ -83,6 +97,85 @@ d1 $ stack [
   every 8 (density 2) $ density 2 $ sound "~ cp",
   degradeBy 0.25 $ sound "man01:4 man01:0"
 ]
+
+
+
+-- hip hop
+
+
+bps (98/60)
+
+d1 $ every 8 (delayline' 0.125 "0.4") $ stack [
+  slowcat [
+    s "bbass ~*2 [~ bbass] ~" # n "2",
+    s "~ bbass [~ bbass*2?] bd808*2" # n "5"
+  ],
+  slowcat [
+    sound "~ ~ bbass:1 ~",
+    sound "~ ~ bbass:1*2 ~"
+  ],
+  every 2 (spin 2 ) $ slowcat [
+    sound "bsn:6 ~ ~ ~",
+    sound "bsn:5*2 ~ ~ boh",
+    sound "bsn:6 ~ ~ boh",
+    sound "bsn:5*2 ~ bsn:3*2 bsn:2"
+  ],
+  slowcat [
+    delayline' 0.25 "0.45" $ sound "[bch:6 bch:5]*4" # gain "0.8" # resonance "0.8" # room (slow 4 $ scale 0.1 0.7 $ sine1) # size "0.8" #orbit "1" # crush "[4 6 16 7]/4",
+    delayline' 0.25 "0.45" $ sound "[boh:6 boh:5]*4" # gain "0.8" # resonance "0.8" # room (slow 4 $ scale 0.1 0.7 $ sine1) # size "0.8" #orbit "1" # crush "[4 6 16 7]/4"
+  ]
+]
+
+
+d1 $ every 8 (delayline' 0.125 "0.4") $ stack [
+  slowcat [
+    s "bbass ~*2 [~ bbass] ~" # n "2",
+    s "~ bbass [~ bbass*2?] bd808*2" # n "5"
+  ],
+  every 2 (spin 2 ) $ slowcat [
+    sound "bsn:6 bch ~ bch*2",
+    sound "bsn:5*2 bch*2 ~ [bch, boh]",
+    sound "bsn:6 bch bch*2 boh",
+    sound "bsn:5*2 bch bsn:3*2 bsn:2"
+  ] # size "0.5",
+  every 4 (slow 2) $ every 4 (degradeBy 0.8) $ sound "[~ bride:7]*2"
+]
+
+
+d1 $ stack [
+  slowcat [
+    s "bbass ~ bbass ~" # n "5",
+    s "bbass*2 ~ ~ [bbass bbass?]" # n "5"
+  ],
+  sound "~ ~ bsn:6 ~"  # size "0.5" # orbit "1",
+  slowcat [
+    delayline' 0.25 "0.55" $ sound "hh-blo:2*4" # orbit "1"
+  ],
+    slowcat [
+      delayline' 0.25 "0.45" $ sound "[bch:6 bch:7]*4" # gain "0.8" # resonance "0.8" # room (slow 4 $ scale 0.1 0.7 $ sine1) # size "0.8" #orbit "1" # crush "[4 6 16 7]/4",
+      delayline' 0.25 "0.45" $ sound "[boh:6 boh:7]*4" # gain "0.8" # resonance "0.8" # room (slow 4 $ scale 0.1 0.7 $ sine1) # size "0.8" #orbit "1" # crush "[4 6 16 7]/4"
+    ]
+]
+
+d1 $ stack [
+  slowcat [
+    s "bbass ~ bbass ~" # n "5 6",
+    s "bbass*2 ~ ~ [bbass bbass?]" # n "5 1 1",
+    s "bbass ~ bbass ~" # n "5",
+    s "bbass bbass:1 ~ [~ bbass]" # n "5 1 1 2"
+  ],
+  every 16 (rev . spin 2 . degradeBy 0.5) $ every 4 (density 2) $ slowcat [
+    sound "~ ~ [bsn:6 ~] ~",
+    sound "bsn:2 ~ bsn:6 ~",
+    sound "~ ~ [bsn:6 ~]*2? ~",
+    sound "~ bsn:1 bsn:6 ~"
+  ] # size "0.5" # orbit "1",
+  every 16 (rev . degradeBy 0.2) $ slowcat [
+    delayline' 0.25 "0.55" $ sound "hh-blo:1*4" # orbit "1",
+    delayline' 0.25 "0.55" $ sound "hh-blo:1*2 hh-blo" # orbit "1"
+  ]
+]
+
 
 d2 $ silence
 

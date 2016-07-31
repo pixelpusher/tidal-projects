@@ -1,0 +1,90 @@
+d3 $ slow 1 $ degradeBy 0.25 $ stack [
+  slowcat [
+    n "fs2 fs3 a2 cs2", -- F#
+    n "b2 ds2 e2 fs2", -- B
+    n "a2 cs2 gs2 e2", -- A
+    n "gs2 b3 e2 e3" -- E
+  ] # s "ffmoog" # gain "1.3" # speed "1" # up "-18"
+]
+
+
+d4 $ every 8 (const $
+    density 1 $ s "ffmoog ffmoog ~ ffmoog" # n "cs4 b4 a4 e4" # gain "1.3" # up "-12"
+  )
+  $ slowcat [
+    density 1 $ s "ffmoog ~ ffmoog ffmoog" # n "cs2 b2" # gain "1.3" # up "-12",
+    s "ffmoog*2 ~ ~ [ffmoog ffmoog?]" # n "[cs2 c0]*4" # gain "1.3" # up "-16"
+  ]
+
+d3 $ slowcat [
+    density 1 $ s "ffmoog ffmoog ~ ffmoog" # n "cs4 b4 a4 e4" # gain "1.3" # up "-12",
+    sound "",
+    density 1 $ s "ffmoog ffmoog ~ ffmoog" # n "cs3 b3 fs4 ds4" # gain "1.3" # up "-12",
+    sound ""
+]
+
+d3 $ slowcat [
+    density 1 $ s "ffmoog*2 ffmoog ~ ffmoog" # n "cs3*4" # gain "1.3" # up "-4",
+    sound "",
+    density 1 $ s "ffmoog*2 ffmoog*2 ~ ffmoog*2" # n "cs3 b5 fs4 ds3" # gain "1.3" # up "-4",
+    sound ""
+]
+
+d4 $  slowcat [
+    density 1 $ s "ffmoog*2 ffmoog*2 ~ ffmoog" # n "as2*4" # gain "1.3" # up "-4",
+    sound "",
+    density 1 $ s "ffmoog*2 ffmoog ~ ffmoog" # n "as1*4" # gain "1.3" # up "-1",
+    sound ""
+]
+
+d3 $ stack [
+  slowcat [
+    density 1 $ s "ffmoog ffmoog ~ ffmoog" # n "a0" # gain "1.3" # up "-2"
+    ],
+  s "~ sinetone*2 sinetone [sinetone sinetone?]" # n "cs3" # gain "1.8" # speed "0.2",
+  sound "woman01:4 ~ sn606:1 woman01:6?"
+]
+
+
+
+d1 $ silence
+
+d5 $ silence
+
+d4 $ silence
+
+d3 $ silence
+
+d2 $ silence
+
+d3 $ every 8 (density 2) $ every 2 (density 2 . (# end "0.5")) $ sound "breaks125:1" # speed "0.75" # begin "0" # end "0.25"
+
+d4 $ every 4 (chop 8) $ s "beats" # speed "0.55" # n "[0 1]/2" # gain "0.8"
+
+d5 $ gap 4 $ sound "breaks152louder/4" # speed "0.48" # gain "0.5"
+
+d2 $ slow 1 $ every 4 (density 2) $ stack [
+  slow 4 $ slowcat [
+    s "bbass ~ bbass*2 ~" # n "2",
+    s "bbass*2 ~ ~ [bbass bbass?]" # n "5"
+  ],
+  slow 4 $ sound "~ ~ bsn:6 ~"  # size "0.5" # orbit "1",
+  slow 4 $ slowcat [
+    delayline' 0.25 "0.55" $ sound "[bch:2 [bride:5 bride:8?]]*4" # orbit "1"
+  ],
+  slow 2 $ slowcat [
+    delayline' 0.25 "0.65" $ sound "bsn:2*2" # orbit "1"
+  ]
+] # gain "0.7"
+
+d2 $ delayline' 0.25 "0.65" $ sound "[bch ~]*2"
+
+d1 $ sound "british:0/2" # speed "1.1" # gain "0.8" # begin "0" # end "0.5"
+
+d1 $ sound "british:0/4" # speed "1.1" # gain "0.7" # begin "0" # end "1"
+
+d1 $ sound "british:2/4" # speed "1.1" # gain "0.9"
+
+d1 $ sound "british:3/2" # speed "1.26" # gain "0.9" # begin "0" # end "0.5"
+
+d1 $ sound "british:4/4" # speed "1.1" # gain "0.9"

@@ -1,0 +1,50 @@
+-- some samples from Lewis Lane Pop Vocals:
+-- https://www.conversesamplelibrary.com/pack/lewis-lane-pop-vocals
+-- others from Great British Drunk Kits from some free CD I got with a magazine ages ago...
+
+-- JULY 12, 2016 ------ pixepusher --------
+
+bps (115/120)
+
+d1 $ sound "british:3" # speed "1.218" # gain "0.9" # begin "0" # end "0.5"
+
+d1 $ sound "british:4/2" # speed "1.05" # gain "0.9"
+
+d1 $ silence
+
+d5 $ delayline' 0.25 "0.55" $ sound "bch:1*4" # gain "1.2" # room "0.4"
+
+d5 $ silence
+
+d4 $ stack [
+  sound "bbass:1 ~ bbass:0 ~",
+  sound "~ bsn:3 ~ [bsn bsn:2?]",
+  every 2 ((density 2) . degradeBy 0.25) $ delayline' 0.25 "0.55" $ sound "bride:3*4" # up "4"
+]
+
+d4 $ stack [
+  sound "bbass:1 ~ bbass:0 bbass:0?",
+  slowcat [
+    sound "~ bsn:3 ~ bsn",
+    sound "~ bsn:3*2 ~ bsn*2"
+  ],
+  delayline' 0.25 "0.55" $ sound "bride:3*4" # up "4"
+]
+
+
+d4 $ silence
+
+d3 $ slowcat [
+  sound "lewislane:2/2",
+  sound "lewislane:3",
+  sound "lewislane:2/2",
+  chop 4 $ sound "lewislane:3"
+]
+
+d3 $ silence
+
+solo $ d2 $ every 4 (const $ sound "lewislane:1/2") $ sound "lewislane:0/2"
+
+d2 $ sound "lewislane:1/4"
+
+d2 $ silence
