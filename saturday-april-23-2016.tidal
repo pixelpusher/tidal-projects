@@ -8,7 +8,7 @@ let n=16
 d3 $ every 2 (rev) $ fit' 2 n (run n) (iter n $ run n) (striate n $  sound "porsche:0" # speed "[0.75 1 0.85 0.5 0.75]/4") # cut "1" # gain "0.8"
 
 d1 $ slow 4 $ striate 4 $ every 8 (const $ gap 16 $ sound "man02:6" # speed "[5 3.75 4]*4")
- $ every 4 (gap 4) $ every 2 (chop 16) $ striate 2 $ sound "sitar:1" # speed "[0.25 2.5 0.1]"
+ $ every 4 (gap 4) $ every 2 (chop 16) $ striate 2 $ sound "british:1" # speed "[0.25 2.5 0.1]"
 
 
  d2 $ stack [

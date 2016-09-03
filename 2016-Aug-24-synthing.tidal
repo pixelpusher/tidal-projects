@@ -1,0 +1,63 @@
+bps (122.5/120)
+
+let (modamp, _) = pF "modamp" (Just 0)
+    (modfreq, _) = pF "modfreq" (Just 0)
+    (decay, _) = pF "decay" (Just 0)
+
+
+d1 $ n "[{c4 d4 ef4}%1,[ef d g3]/2 g4]/2" # s "supervibe" # sustain "3"
+    # modfreq "3.5"
+    # velocity (slow 8 $ scale 0.8 1.2 sine1)
+    # modamp "1.3"
+    # decay (slow 32 saw1)
+
+d1 $ silence
+
+let stutty p = stut 8 0.4 (1/8) p
+
+
+-- `n ((+) <$> "3 3 4" <*> "a2 a3 a4")`,  You can also do `n "a2 a3 a4" |+| n "3 3 4"`.
+
+-- try 0.125 for t
+
+let arpegg noteshift t p = superimpose ((t ~>) . (|+| n noteshift) . (|*| gain "1")) $ p
+
+-- nice clicks
+
+d3 $ every 8 (stutty . (slow 2) . (# delay "0.5") . (# delaytime "0.9") . (# delayfeedback "0.8")) $ density 4 $ (arpegg "~ 1 ~ 1" (-0.25)) $ n "~ 0 ~ 0" # s "bch" # gain "0.9" # room "0.6"
+
+-- snare fills
+
+solo $ d4 $ superimpose (density 2 . rev . arpegg "1 1 1 1" 0.125) $ slowcat [
+  s "bsn ~ cp ~",
+  s "bsn ~ bsn ~",
+  s "~ [~ cp] bsn*2 ~",
+  sometimes (density 2 . (# up "1") ) $ s "bsn ~ [~ cp] ~"
+] # n "0 0 1 0" # orbit "2" # room "0" # gain "0.85"
+
+
+d5 $ every 6 (slow 2) $ every 2 (rev . arpegg "7 -1 3 1*2" 0.125) $ n "c5 c5 c5 c5*2" # s "laserbeam" # gain "1.15"
+
+d2 $ every 3 (degradeFill 2 0.25) $ sometimes (# gain "0") $ (0.125 ~>) $ every 2 (rev . arpegg "8 2 8 6" 0.125) $ n "c4 c4 c4 c4*2" # s "sn bsn" # gain "0.9"
+
+d1 $ every 8 (stutty . (# delay "0.8") . (#delaytime "0.9") . (# delayfeedback "0.8")) $
+    every 4 (delayline) $ n "4 4 4 4" # s "boh" # orbit "1" # up "1"
+
+
+d5 $ slowcat [
+  n "[b4 ~ ~ ~]",
+  n "es5*2 ~ c5 [~ a4]]",
+  n "[b4 ~ ~ ~]",
+  n "es5*2 ~ c5 [~ ds5]]"
+] # s "laserbeam" # gain "1.15" # orbit "2"
+
+d5 $ silence
+
+d5 $ every 2 (|+| n "-3") $ n "3 0 3*2 ~" # s "laserbeam" # gain "1.15"
+
+d5 $ silence
+
+d6 $ every 4 (# sustain "3") $ n "[a5 ~ ~ ~, b4 ~ ~ ~]/2" # s "supervibe" # gain "0.8" # sustain "1"
+
+
+d6 $ every 4 (# sustain "3") $ n "[3 0 -4 3*2 ~, 6 -7 6 -9*2 ~]/2" # s "supervibe" # gain "0.8" # sustain "1"

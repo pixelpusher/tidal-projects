@@ -1,0 +1,27 @@
+
+
+bps (130/60)
+
+d1 $ slow 2 $ every 4 (degradeBy 0.2) $ sound "[bsn hh] bd808 [hh hh?] bd808" # room "0.6" # crush "[3 5]/2" # size "0.5" # up "-12" # speed "0.5"
+
+d2 $ sometimes (slow 2) $ density 2 $ sound "bch bch ~ boh*2" # crush "4" # speed "-12"
+
+d4 $ every 4 (density 2) $ sound "bd808*2 bd808 ~ bd808" # up "-2 -4 4 8" # room "0.4"
+
+
+d4 $ sound "lewislane/2" # speed "[0.3 0.2 0.4 0.3]/3" # end "0.25" # gain "0.7" # room "0.6"
+
+d4 $ slow 2 $ striate 3 $ sound "lewislane:4/2" # speed "0.4" # end "0.125" # gain "0.7" # room "0.6"
+
+d4 $ slow 3 $ striate 5 $ sound "lewislane:4/2" # speed "0.8" # cut "1" # gain "0.7" # room "0.4"
+
+d5 $ stack [
+  sometimes ((density 2). degradeBy 0.2) $ sound "amencutup:21(6,12,2)",
+  sometimes (spin 2) $ sound "amencutup:21(6,12,2)"
+] # room "[0.4 0.6 0.2]/2"
+
+
+
+
+
+let ghost'' a f p = superimpose (((a/2 + a*2) ~>) . f) $ superimpose (((a + a/2) ~>) . f) $ p

@@ -1,0 +1,214 @@
+cps 0.4
+
+let (lforate, _) = pF "lforate" (Just 0)
+    (lfowidth, _) = pF "lfowidth" (Just 0)
+    (cutoff, _) = pF "cutoff" (Just 0)
+    (cutfreq, _) = pF "cutfeq" (Just 0)
+    (rq, _) = pF "rq" (Just 0)
+    (gate, _) = pF "gate" (Just 0)
+
+d4 $ slowcat [
+  s "profit5*4",
+  s "profit5*4",
+  s "profit5 ~ profit5 ~",
+  s "~ [~ profit5] profit5*2 ~",
+  s "profit5*4",
+s "profit5 ~ profit5 ~"
+] # n "[c3 c2] [c4 c3] c6 c7" # orbit "2" # room "0" # resonance "0" # gain "0.75" # cutfreq (slow 16 $ scale 1000 12000 sine1) # cutoff "12000"
+  # lforate "0.25" # lfowidth "0.85" # sustain (slow 10 $ scale 0.2 0.85 $ sine1) # accelerate "0.2"
+
+
+d4 $ s "profit5*4" # n "[c3 c2] [c4 c3] c6 [c7]" # orbit "2" # room "0" # resonance "0" # gain "0.75"
+  # speed "0.5"
+  # cutfreq "4000"
+  # lforate "16"
+  # lfowidth "0.5"
+  # sustain "0.4"
+  # accelerate "0.25"
+  # rq "0.8"
+
+d4 $ n "[c3 f2] [a4 c3] d5 [c5]" # s "profit5" # orbit "2" # room "0" # resonance "0" # gain "0.75"
+  # speed (slow 4 $ "1 0.667")
+  # cutfreq "12000"
+  # lforate "12"
+  # lfowidth (slow 16 $ scale 0.5 1 $ sine1)
+  # sustain (slow 5 $ "0.8 0.65 0.9 0.65")
+  # rq "[0.8 0.1 0.2 0.5]/4"
+  # accelerate "0.175"
+  # pan (density 2 $ sine1)
+  -- # accelerate (slow 16 $ scale 0.25 0.4 $ saw1)
+
+
+d4 $ n (slow 2 $ "[c3 f2] [a4 c3] d5 [c5]") # s "profit5" # gain "0.85"
+  # speed "1"
+  # cutfreq "12000"
+  # lforate "12"
+  # lfowidth "0.5"
+  # sustain "0.5"
+  # rq "0.05"
+  # accelerate "0.175"
+  # pan "0.5"
+  # velocity "1"
+  # orbit "1"
+
+
+d4 $ n "g5*2 c5 d5 [c5, a2]" # s "profit5" # gain "0.85"
+  # speed "1"
+  # up "[0 3]/4"
+  # cutfreq "12000"
+  # lforate "12"
+  # lfowidth "0.5"
+  # sustain "0.5"
+  # rq "0.95"
+  # accelerate "0.275"
+  # pan "0.5"
+  # orbit "1"
+
+d4 $ superimpose (density 2 . rev . arpegg "1 1 1 1" 0.125) $ slowcat [
+  s "profit5 ~ profit5 ~",
+  s "profit5 ~ profit5 ~",
+  s "~ [~ profit5] profit5*2 ~"
+] # n "c3 g5 c6 c7" # orbit "2" # room "0" # gain "0.75"
+
+--- done fucking around
+-- september 2nd 2016
+-- pixelpushingggggg
+
+solo $ d1 $ n "[{c4 d4 ef4}%1, {g4 c4 ef5}%2]" # s "supervibe" # sustain "4"
+    # modfreq "2.5"
+    # velocity (slow 8 $ scale 0.8 1.2 sine1)
+    # modamp "1.3"
+    # decay (slow 32 saw1)
+    # gain "0.8"
+
+d4 $ density 2 $ n "g6 c5 d5 c4" # s "profit5" # gain "0.75"
+  # speed "1"
+  # sustain (slow 8 $ scale 0.4 0.7 $ sine1)
+  # rq "0.1"
+  # orbit "1"
+
+-- start easy
+
+d5 $ e 16 8 $ n "[g4,g5 g5,g3]*2" # s "profit5" # gain "0.8" # speed (sometimes (density 2)) "[1 3 5]/2"
+
+solo $ d5 $ e 5 8 $ n "[g5,c3 g4,es3]*2" # s "profit5" # gain "0.8" # lforate "0.25" # lfowidth "0.8" # rq (slow 4 $ scale (-0.1) 0.8 $ sine1) # speed "[0.5 2]/4"
+
+d3 $ n "c5 ~ fs4? [~ d5]" # s "laserbeam" # gain "1.2" # room "0.6"
+
+let stutty p = rev $ stut 8 0.4 (1/8) p
+
+d2 $ stack [
+  sound "amencutup:1(6,16)",
+  sound "amencutup:2(6,16,1)",
+  sound "amencutup:8([8 4],16,2)",
+  sound "boh:8([4 6],16)",
+  sound "bch:2([6 4],16,1)" # speed "0.8"
+]
+
+d6 $ silence
+
+d1 $ superimpose (|*| size "0.8" # cutoff (slow 4 $ scale 1200 4000 $ saw1) # resonance "0.3") $
+  every 6 (superimpose $ (slow 2) . (# speed "0.8")) $ every 4 ((# room "0.6") . (# gain "0.8")) $ every 8 (superimpose $ ((density 0.2) . (rev))) $
+randcat [
+  sometimes (degradeBy 0.2) $ stack [
+    sound "amencutup:8(6,16)",
+    sound "amencutup:9(6,16,2)",
+    sound "amencutup:21([8 4],24)",
+    sound "bcrash"
+  ],
+  stack [
+    sound "amencutup:5(12,16)",
+    sound "amencutup:4(12,16,1)" # speed "0.7",
+    sound "amencutup:9([4 6],16,2)",
+    sound "amencutup:21([8 4],24)"
+  ],
+  stack [
+    sound "amencutup:2(10,16,2)",
+    sound "amencutup:1(12,16,1)" # speed "1.25",
+    sound "amencutup:9([6 4],16,2)" # speed "1.5",
+    sound "amencutup:23([4 8],24)" # speed "0.33"
+  ],
+  sometimes (degradeBy 0.8 . stutty) $ stack [
+    sound "amencutup:0(9,16)",
+    sound "amencutup:1(9,16,2)",
+    sound "sn606:1"
+  ]
+] # orbit "2" # resonance "0" # gain "0.8"
+
+d2 $ sometimes (superimpose (stutty)) $ sound "boh:1 bch:1 boh:2 bch" # orbit "2"
+
+-- afterwards
+
+bps (92/120)
+
+let shiftdown p = superimpose ((sometimes (rev)) . (# speed "0.67") . (# gain "0.75") . (0.25 ~>)) p
+
+d1 $ s "[bch bch]!4" # n "1 2"
+
+d4 $ n "[~ c4 b3 c4]!3 [g5? d6 c4 b5]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+
+d4 $ shiftdown $ n "[~ c4 b3 c4]!3 [g5? d6 c4 b5]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+
+d4 $ shiftdown $ n "[~ c4 d4 c4]!3 [~ d6 d4 b5]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.4"
+  # accelerate "0.02"
+  # rq (slow 4 $ "0.2 0.8")
+  # sustain (slow 4 $ "0.22 0.25")
+
+d4 $ shiftdown $ n "[~ g5 c5 g5]!3 [ef6 ef6? d4 c5]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+
+d4 $ n "[~ g5 c5 c4]!3 [ef6 ~ d4 c5]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+
+d4 $ sometimes (# speed "1.33") $ (superimpose ((rev) . (# speed "0.33") . (# gain "0.75") . (0.25 ~>)))
+  $ every 8 ((# up "24") . (degradeBy 0.66) . stutty) $ n "[~ g5 c5 c4]!3 [ef6 ~ d4 c5]"
+  # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+
+
+d1 $ sometimes (delayline' 0.25 "0.7") $ sound "[bch:1*2 bch]!3 [bcrash:2? bch:2]"
+
+d2 $ sometimes (# gain "0") $ stack [
+  sound "bd808:0!2 bd808:1*2? bd808:2",
+  sound "sn606:1 ~ bsn:2 ~"
+]
+
+
+-- not quite...
+
+d4 $ every 4 (superimpose ((rev) . (# speed "0.33") . (# gain "0.75") . (0.25 ~>))) $ n "[[c4 b3] [c4 ~]] [[c5 b4] [c5 ~]]!2 [[c5 ~] [b5 b4]]" # s "profit5" # orbit "2" # room "0" # resonance "0" # gain "0.85" # up "0"
+  # lforate "8"
+  # lfowidth (slow 3 $ scale 0.1 0.6 $ sine1)
+  # sustain "0.22"
+  # accelerate "0.08"
+  # rq ((0.5 ~>) $ slow 6 $ scale 0.05 0.6 $ sine1)

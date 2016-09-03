@@ -1,0 +1,110 @@
+d5 $ every 2 (# up "2") $ n "-12*2 -6 -8*2 -3" # s "laserbeam" # resonance "0.25"
+
+d6 $ stack [
+  every 2 (stut 8 0.6 (1/8)) $ sound "~ ~ [~ bd808] bd808",
+  whenmod 8 4 (slow 2) $ delayline' 0.25 "0.55" $ sound "bch*2",
+  every 8 (const $ degradeBy 0.5 $ rip 0.4 1 $ sound "[bsn:2 cp:1]*8") $
+    every 4 (# gain "1") $ sound "sn606 ~ ~ sn606*2" # gain "0"
+]
+
+
+bps (110/120)
+
+d1 $ every 2 (stut 8 0.6 (1/8)) $ slow 4 $ striateL' 32 (1/16) 4 $ sound "lariffsamin" # cut "1" # begin "0" # end "0.5"
+
+d1 $ sound "lariffsamin" # cut "1" # begin "0" # end "0.5"
+
+d1 $ every 8 ((stut 8 0.7 (1/8))) $ every 4 (within (0,0.5) (# up "-6") . (density 4) . (rev)) $ sound "lariffsamin" # cut "1" # begin "0" # end "0.5"
+
+
+
+
+-- doesn't work with above
+
+solo $ d1 $ every 3 (slow 2) $ sometimes ((density 2) . (# up "3")) $ degradeBy 0.2 $ (density 1 . gap 2) $ stack [
+  sound "bd808:2([3 6],8)",
+  whenmod 4 8 (slow 2 . stut 8 0.7 (1/8)) $ chop 4 $ sound "bch ~ bch*2 ~" # speed "2" # gain "1.2"
+]
+
+-- sounds fucked up! yeah!
+
+d2 $ sometimes (density 1.09) $ every 4 (density 2 . chop 2 . gap 8) $ up (slow 4 $ "0 -2 [2? -3] 0 -9? 0 [[26? 24?] -6] 0") # sound "bass:2" # orbit "2" # gain "0.9"
+
+d2 $ silence
+
+-- sounds fucked up TOO! yeah!
+
+solo $ d3 $ every 3 ((slow 3)  . density 1.1) $ sometimes (# gain "0") $ every 3 (density 2 . chop 8 . gap 4) $ every 4 (within (0.5,1) (density 2) . (# up "6")) $ sound "{[hh-blo:4 ~]*3}%5" # orbit "2" # up "12" # size "0.5" # room "0.6"
+
+d3 $ silence
+
+d4 $ silence
+
+d4 $ every 8 (# gain "0") $ slow 2 . gap 16 $ striate 4 $ sound "lewislane" # speed "[0.66 0.5 0.66]/1.5" # end "0.25"
+  # gain "0.5"
+  # room "0.2"
+  # resonance "0.4"
+  # cutoff (scale 200 1200 $ slow 8 saw1)
+  # orbit "1"
+  # pan (scale 0 1 $ slow 16 saw1)
+
+
+let stutty p = stut 8 0.4 (1/8) p
+
+d5 $ every 4 (slow 2) $ brak $ e 5 8 $ s "cl808" # speed (slow 4 $ scale 0.03 0.06 $ saw1) # gain "1.2"
+
+d5 $ every 4 (slow 2) $ degradeBy 0.4 $ e 5 8 $ s "cl808" # speed (slow 4 $ scale 0.015 0.045 $ saw1) # gain "1.2"
+
+d5 $ density 2 $ every 2 ((# crush "[6 4 3]/1.5") . (# gain "[0.75 0.9 0.8]/1.5")) $ every 6 ((stutty)) $ sometimes (gap 2 . chop 2) $ slowcat [
+  e 3 8 $ s "cl808" # speed (slow 4 $ scale 0.03 0.06 $ saw1),
+  brak $ e 5 8 $ s "cl808" # speed (slow 4 $ scale 0.03 0.06 $ saw1),
+  e 6 8 $ s "cl808" # speed (slow 4 $ scale 0.06 0.015 $ saw1),
+  brak $ e 2 8 $ s "cl808" # speed (slow 4 $ scale 0.03 0.045 $ saw1)
+]
+
+-- a VERY dubby Aug Sunday 21st or year 2016
+-- by pixelpusher (evan raskob)
+
+-- slower
+
+d1 $ rarely (# speed "1.2") $ slow 1 $ sound "{cl808 hh:2 ~ cl808:2 hh-blo:2 cl808 ~ ~}%5" # speed "0.02" # gain "0.78" # room "0.4" # size "0.8" # hresonance "0.8" # hcutoff (density 1 $ slow 2 $ "[80 240 120 658?]") # cut "4"
+
+d3 $ slow 2 $ sometimes (# up "12")  . (chop 4) $ slow 2 $ sound "sn606([2 6],32)" # size "0.4" # room "0.6"
+
+d3 $ silence
+
+-- part 2 of 2 sunday august 21 2016 by pixepusher
+
+-- chill hats -- dubby
+
+solo $ d4 $ every 16 (# gain "0") $ delayline $ every 4 ((# speed "0.04") . (# gain "0.8") . (gap 32)) $ degradeBy 0.2 $ slow 3 $ stutty $ slow 2 $ sound "hh-blo(3,6)" # orbit "3" # delayfeedback (slow 4 $ scale 0.2 0.8 $ sine1) # delaytime (slow 8 $ scale 0.1 1 $ saw1) # delay "0.85" # room "0.8" # size "0.6" # orbit "4"
+
+-- now we crash Supercollider
+
+d2 $ sometimes (slow 2 . (# speed "2.3")) $ every 8 (# gain "0") $ degradeBy 0.33 $ gap 16 $ slow 8 $ striateL' 32 (2/32) 2 $ stack [
+  sound "woman01:2",
+  sound "lewislane:2"
+] # speed "[1.66 1.42 0.86]" # gain "0.66" # cut "3" # delayfeedback (slow 2 $ scale 0.2 1 $ sine1) # delaytime (slow 16 $ scale 0.1 1 $ saw1) # delay "0.95" # room "0.8" # size "0.6" # orbit "2" # crush "12"
+
+
+d2 $ silence
+
+-- chiller hats
+
+d3 $ gap 16 $ every 12 (density 2) $ slow 2 $ sound "~ woman01:4 ~ ~ cp:2 ~ [man02:1*2?] ~" # orbit "3" # crush "6" # speed "[0.5 0.8]/2" # gain "0.8" # delayfeedback (slow 2 $ scale 0.2 1 $ sine1) # delaytime (slow 16 $ scale 0.1 1 $ saw1) # delay "0.95" # room "0.8" # size "0.6" # orbit "2" # crush "12"
+
+d6 $ stack [
+  sound "click? ~ click ~",
+  sound "bsn([3 6]/3,8)",
+  delayline $ sound "bch*4"
+] # room "0.5"
+
+solo $ d2 $ sometimes (density 2 . jux (rev) . stutty) $ slowcat
+[
+  sound "bd808:2 ~ bd808:3 ~",
+  sound "bd808:2 ~ ~ ~",
+  sound "bd808:4 ~ sn ~",
+  sound "bd808:3 ~ bd808:4 ~"
+]
+
+-- n "a2 a3 a4" |+| n "3 3 4"

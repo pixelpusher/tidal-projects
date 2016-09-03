@@ -8,7 +8,7 @@ bps (115/120)
 
 d1 $ sound "british:3" # speed "1.218" # gain "1.1" # begin "0" # end "0.5"
 
-d1 $ sometimes (# end "0.5") $ sound "british:4/2" # speed "1.05" # gain "0.9"
+solo $ d1 $ sometimes (# end "0.5") $ sound "british:4/2" # speed "1.05" # gain "1.2"
 
 d1 $ silence
 
@@ -39,7 +39,7 @@ d3 $ slowcat [
   sound "lewislane:3",
   sound "lewislane:2/2",
   chop 4 $ sound "lewislane:3"
-]
+] # gain "0.9"
 
 d3 $ silence
 
@@ -48,3 +48,36 @@ solo $ d2 $ every 4 (const $ sound "lewislane:1/2") $ sound "lewislane:0/2"
 d2 $ sound "lewislane:1/4"
 
 d2 $ silence
+
+
+----- new!
+
+d3 $ every 4 ((density 2) . (brak)) $ n "1 -3*2 5 3" # s "laserbeam" # gain "1.2"
+
+
+
+solo $ d3 $ n "1*2 ~ ~ -12*2 ~ -12 ~ -8" # s "laserbeam" # gain "1.2"
+
+d4 $ sound "bd808:2*4" # up "0 0 2 0"
+
+d5 $ delayline' 0.125 "0.6" $ sound "cy808:7*2" # up "-4"
+
+d6 $ slowcat [
+  n "2 ~ 5*2 ~" # s "woman01",
+  n "2 ~ 3 ~" # s "woman01",
+  n "2 ~ ~ 3*3" # s "woman01",
+  n "2 ~ 2*2 ~" # s "bsn"
+] # gain "0.8"
+
+d5 $ density 2 $ delayline' 0.125 "0.5" $ n "1*4" # s "bride" # gain "0.6" # size "0.5" # room "0.3"
+
+d6 $ brak $ degradeBy 0.1 $ delayline' 0.125 "0.5" $ n "3*8" # s "bch"
+
+d7 $ n "2 3 4 5 2 3 5 2" # s "man01" # gain "0.8"
+
+bps (150/60)
+
+
+solo $ d4 $ n "a3 a4 b4 a3" # s "sinetone" # gain "1.7" # speed (slow 4 $ scale 0 0.8 $ sine1) # room "0.3"
+
+solo $ d4 $ n "a2 c3 b2 a3" # s "sinetone" # gain "1.8" # speed (slow 4 $ scale 0 0.8 $ sine1) # room "0.3"
