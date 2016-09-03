@@ -6,6 +6,7 @@ let (lforate, _) = pF "lforate" (Just 0)
     (cutfreq, _) = pF "cutfeq" (Just 0)
     (rq, _) = pF "rq" (Just 0)
     (gate, _) = pF "gate" (Just 0)
+    (modamp, _) = pF "modamp" (Just 0)
 
 d4 $ slowcat [
   s "profit5*4",
@@ -72,7 +73,7 @@ d4 $ superimpose (density 2 . rev . arpegg "1 1 1 1" 0.125) $ slowcat [
 
 --- done fucking around
 -- september 2nd 2016
--- pixelpushingggggg
+-- pixelpushing
 
 solo $ d1 $ n "[{c4 d4 ef4}%1, {g4 c4 ef5}%2]" # s "supervibe" # sustain "4"
     # modfreq "2.5"
@@ -137,15 +138,56 @@ randcat [
 
 d2 $ sometimes (superimpose (stutty)) $ sound "boh:1 bch:1 boh:2 bch" # orbit "2"
 
--- afterwards
+---
+-- afterwards -----------------------------------------------------------------
+-- saturday syth Sept 3rd 2016
+-- by pixelpusher ....
+-- first time, the recording f***** up!
+-- third (fourth?) time is the charm
 
-bps (92/120)
+bps (88/120)
 
 let shiftdown p = superimpose ((sometimes (rev)) . (# speed "0.67") . (# gain "0.75") . (0.25 ~>)) p
 
-d1 $ s "[bch bch]!4" # n "1 2"
+let fastecho p = superimpose ( (rev) . (0.125 ~>) . (# gain "0.65")) p
 
-d4 $ n "[~ c4 b3 c4]!3 [g5? d6 c4 b5]" # s "profit5"
+d1 $ shiftdown $ density 1 $ sound "[sn606? boh:6 bd808:2 ~ bsn]!1"
+
+
+-- not this time!
+
+d2 $ fastecho $ shiftdown $ s "[bch bch]!4" # n "1 2" # room "0" # size "0"
+
+-- cheating a bit
+
+-- ugh
+
+d4 $ density 4 $ superimpose ((rev) . (0.125 ~>) . (# gain "0.7")) $ slowcat [
+  n "[~ c4 c4 ~ ~]*2",
+  n "[~ [c4,g4] ~ ~ [c4,c5]]"
+] # s "profit5" # gain "0.85" # up (slow 4 $ "0 12")
+  # accelerate "0.08" # sustain "0.18" # delay "0.2"
+
+
+
+-- eh/// not a great transition there
+-- this next one sucks
+
+d4 $ n "[~ c4 c5 ~]!3 [g5? d4 ~ g6]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain "0.05"
+
+d1 $ stack [
+  fastecho $ sound "[bch:6 bch:1]!4",
+  sound "bd808:0 ~ ~ bd808:2 bd808?",
+  sound "cp ~ ~ cp ~"
+]
+
+d4 $ n "[~ bf4 ef4 d4]!3 [g5? c6 d4 c5]" # s "profit5"
   # gain "0.85" # up (slow 4 $ "0 12")
   # lforate "11"
   # lfowidth "0.2"
@@ -153,7 +195,9 @@ d4 $ n "[~ c4 b3 c4]!3 [g5? d6 c4 b5]" # s "profit5"
   # rq (slow 4 $ "0.1 0.8")
   # sustain (slow 4 $ "0.1 0.25")
 
-d4 $ shiftdown $ n "[~ c4 b3 c4]!3 [g5? d6 c4 b5]" # s "profit5"
+-- part 2 - tension
+
+d4 $ shiftdown $ n "[~ c4 g3 c4]!3 [g5? ef6 g4 ef5]" # s "profit5"
   # gain "0.85" # up (slow 4 $ "0 12")
   # lforate "11"
   # lfowidth "0.2"
@@ -161,47 +205,159 @@ d4 $ shiftdown $ n "[~ c4 b3 c4]!3 [g5? d6 c4 b5]" # s "profit5"
   # rq (slow 4 $ "0.1 0.8")
   # sustain (slow 4 $ "0.1 0.25")
 
-d4 $ shiftdown $ n "[~ c4 d4 c4]!3 [~ d6 d4 b5]" # s "profit5"
+d4 $ shiftdown $ n "[~ c4 g4 g4]!3 [~ c6 ef4 bf4]" # s "profit5"
   # gain "0.85" # up (slow 4 $ "0 12")
   # lforate "11"
   # lfowidth "0.4"
   # accelerate "0.02"
   # rq (slow 4 $ "0.2 0.8")
-  # sustain (slow 4 $ "0.22 0.25")
+  # sustain (slow 4 $ "0.25 0.35")
+  # delay "0"
 
-d4 $ shiftdown $ n "[~ g5 c5 g5]!3 [ef6 ef6? d4 c5]" # s "profit5"
+-- more complex...
+-- needs a better transition too nxt..
+
+
+d3 $ stack [
+  sound "bd808:2 bsn:5 ~ bd808 bd808" # gain "1.2"
+]
+
+-- drama
+
+d4 $ shiftdown $ n "[~ [g4,c4] c5 g5]!3 [ef6 [g4,ef6]? [d4,c5] c5]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 5")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+  # delay "0"
+
+-- echoey
+
+d4 $ n "[~ [g5,g4] c5 c4]!3 [ef6 ~ [d4,ef5] c5]" # s "profit5"
   # gain "0.85" # up (slow 4 $ "0 12")
   # lforate "11"
   # lfowidth "0.2"
   # accelerate "0.01"
   # rq (slow 4 $ "0.1 0.8")
   # sustain (slow 4 $ "0.1 0.25")
+  # delay "0.3" # delayfeedback "0.7" # delaytime "64"
 
-d4 $ n "[~ g5 c5 c4]!3 [ef6 ~ d4 c5]" # s "profit5"
-  # gain "0.85" # up (slow 4 $ "0 12")
+-- denser
+
+d4 $ n "[c3 [g5,c4,bf4] ~ [c4,bf6]]!3 [ef6 bf3 [g4,ef5,bf4] c5]" # s "profit5"
+  # gain "0.85" # up (slow 8 $ "0 12 0 5")
   # lforate "11"
   # lfowidth "0.2"
   # accelerate "0.01"
   # rq (slow 4 $ "0.1 0.8")
   # sustain (slow 4 $ "0.1 0.25")
+  # delay "0.08"
 
-d4 $ sometimes (# speed "1.33") $ (superimpose ((rev) . (# speed "0.33") . (# gain "0.75") . (0.25 ~>)))
+
+d4 $ n "[~ [g5,c4 bf4] c5 [c4,bf6]]!3 [ef6 ~ [g4,ef5 bf4] c5]" # s "profit5"
+  # gain "0.85" # up (slow 8 $ "0 12 0 5")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+  # delay "0.2"
+  # delaytime "160"
+
+-- complex!
+
+d4 $ superimpose ((0.125 ~>) . (# speed "1 0.5") . (# gain "0.55") . (# accelerate "0.1") . (# sustain "0.2") . (# rq "0.6"))
+  $ superimpose ((0.25 ~>) . (# gain "0.85")) $ n "[~ [g5,g4] ~ c4]!3 [ef6 ~ [d4,ef5] ~]" # s "profit5"
+  # gain "0.85" # up (slow 8 $ "0 12 0 5")
+  # lforate "11"
+  # lfowidth "0.4"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+  # delay "0.2" # delayfeedback "0.7" # delaytime "64"
+
+-- intense,slow
+
+solo $ d4 $ slow 1 $ superimpose ((0.125 ~>) . (# speed "1 0.5") . (# gain "0.6") . (# accelerate "0.1") . (# sustain "0.2") . (# rq "0.6"))
+  $ superimpose ((0.25 ~>) . (# gain "0.85")) $ n "[[c3,c6] g3? ~ ~]!3 [[ef3,ef7] ~ [d4,g7] ~]" # s "profit5"
+  # gain "0.85" # up (slow 8 $ "0 12 7 5")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+  # delay "0.2" # delayfeedback "0.7" # delaytime "64"
+
+-- fade  out ....
+
+d3 $ fastecho $ sound "bch:2*5" # gain "1" # room "0.8" # size "0.6"
+
+
+d1 $ slow 1 $ sometimes (fastecho) $ sound "[bch:1*2 bch]!3 [bcrash:2? bch:2]" # size "0.8" # room "0.6" # orbit "3"
+
+
+d5 $ slow 1 $ rev $ fastecho $ superimpose ((0.25 ~>) . (# gain "0.7")) $ n "[[c5,g3] g4 ~ [d6,ef4]] [bf4 c3 ~ ~]" # s "profit5"
+  # gain "0.88"
+  # lforate "12"
+  # lfowidth "0.2"
+  # accelerate "0.08"
+  # rq (slow 8 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.15 0.35")
+  # delay (slow 4 $ scale 0 0.2 $ sine1) # delayfeedback "0.8" # delaytime "64"
+
+d1 $ sometimes (fastecho)
+  $ stack [
+    sound "bd808 ~ ~ bd808 ~",
+    sound "[bch boh]!4"
+]
+
+
+d1 $ every 8 (const $ sometimes (fastecho)
+  $ stack [
+    sound "bd808 ~ ~ bd808 ~",
+    sound "[bch boh]!4"
+]) $ sometimes (delayline' 0.25 "0.7") $
+  stack [
+    sound "[bch:1*2 bch:3]!3 [~ bch:2]",
+    slowcat [
+      sound "bd808:2 ~ cp ~ ~",
+      sound "bd808:2 bsn ~ bd808 ~",
+      sound "bd808:2 cp ~ bd808*2 ~",
+      sound "bd808:2 bsn ~ bd808 bsn:2*2"
+    ]
+] # size "0.8" # room "0.6" # orbit "3"
+
+
+d2 $ silence
+
+d1 $ silence
+
+d3 $ silence
+
+
+-- full on
+
+d4 $ every 4 (# room "0.75") $ sometimes (# speed "1.33") $ (superimpose ((rev) . (# speed "0.33") . (# gain "0.75") . (0.25 ~>)))
   $ every 8 ((# up "24") . (degradeBy 0.66) . stutty) $ n "[~ g5 c5 c4]!3 [ef6 ~ d4 c5]"
   # s "profit5"
-  # gain "0.85" # up (slow 4 $ "0 12")
+  # gain "0.85" # up (slow 8 $ "0 12 0 5")
   # lforate "11"
   # lfowidth "0.2"
   # accelerate "0.01"
   # rq (slow 4 $ "0.1 0.8")
   # sustain (slow 4 $ "0.1 0.25")
+  # delay "0.08"
+  # orbit "1"
 
 
-d1 $ sometimes (delayline' 0.25 "0.7") $ sound "[bch:1*2 bch]!3 [bcrash:2? bch:2]"
+d1 $ sometimes (fastecho) $ sound "[bch:1*2 bch]!3 [bcrash:2? bch:2]" # size "0.8" # room "0.6" # orbit "3"
 
-d2 $ sometimes (# gain "0") $ stack [
-  sound "bd808:0!2 bd808:1*2? bd808:2",
-  sound "sn606:1 ~ bsn:2 ~"
-]
+d3 $ sometimes (# gain "0") $ stack [
+  sound "bd808:0!2 ~ bd808:1",
+  sound "[sn606:1 bsn:4?] ~ ~ [bsn:3 ~] ~" # delay "0.1"
+] # room "0.3" # size "0.4" # orbit "2"
 
 
 -- not quite...
@@ -212,3 +368,15 @@ d4 $ every 4 (superimpose ((rev) . (# speed "0.33") . (# gain "0.75") . (0.25 ~>
   # sustain "0.22"
   # accelerate "0.08"
   # rq ((0.5 ~>) $ slow 6 $ scale 0.05 0.6 $ sine1)
+
+
+-- echoey
+
+d4 $ n "[~ g5,g4 c5 c4]!3 [ef6 ~ d4,ef5 c5]" # s "profit5"
+  # gain "0.85" # up (slow 4 $ "0 12")
+  # lforate "11"
+  # lfowidth "0.2"
+  # accelerate "0.01"
+  # rq (slow 4 $ "0.1 0.8")
+  # sustain (slow 4 $ "0.1 0.25")
+  # delay "0.8" # delayfeedback "0.7" # delaytime "64"

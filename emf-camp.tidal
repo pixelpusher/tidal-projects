@@ -1,6 +1,6 @@
 bps (80/120)
 
-d1 $ delayline' 0.0625 "0.5" $ degradeBy 0.1 $ sometimes (# n "2 1 3") $ n ((+ 2) <$> (run 21)) # s "amencutup" # speed "0.75"
+d4 $ delayline' 0.0625 "0.5" $ degradeBy 0.1 $ sometimes (# n "2 1 3") $ n ((+ 2) <$> (run 16)) # s "amencutup" # speed "0.75"
 
 d4 $ density 2 $ slowcat [
   sound "amencutup:2(6,16)",
@@ -9,46 +9,64 @@ d4 $ density 2 $ slowcat [
 ]
 
 
-d4 $ every 4 (const $ n (run 6) # s "amencutup")
+d4 $ every 4 (const $ n (run 8) # s "amencutup")
   $ slowcat [
   every 4 (degradeBy 0.2) $
-    density 2 $ delayline' 0.125 "0.65" $ sound "amencutup:3(4,16)",
-  sound "amencutup:7(3,8)"
+    density 2 $ delayline' 0.125 "0.65" $ sound "amencutup:3(6,16)",
+  sound "amencutup:7([12 16],8)"
 ]
 
-d4 $ sometimes (# speed "0.8") $ every 4 ((# room "0.6") . (# gain "0.8")) $ every 8 ((density 0.2) . (rev)) $ stack [
-  sound "amencutup:8(6,16)",
+solo $ d4 $ slow 2 $ sometimes (# speed "0.8") $ every 4 ((# room "0.6") . (# gain "0.8")) $ every 8 (superimpose $ ((density 0.2) . (rev))) $ every 16 (const $ every 4 (const $ n (run 8) # s "amencutup")
+  $ slowcat [
+  every 4 (degradeBy 0.2) $
+    density 2 $ delayline' 0.125 "0.65" $ sound "amencutup:3(6,16)",
+  sound "amencutup:7([12 16],8)"
+]) $
+every 4 (const $ stack [
+  degradeBy 0.33 $ sound "amencutup:8(16,16)",
+  sound "amencutup:9([12 16],16,2)",
+  sound "amencutup:21([8 4],24)",
+  sound "amencutup:1([12 4],8,1)"
+]) $ stack [
+  sound "bd808:2(3,4)" # gain "1.2",
+  sound "amencutup:8(12,16)" # speed "2",
   sound "amencutup:9(6,16,2)",
   sound "amencutup:21([8 4],24)"
-]
+] # room (slow 4 $ scale 0.1 0.6 $ sine1) # size "0.4"
 
 d3 $ slowcat [
   sometimes (density 2) $ slow 2 $ sound "bd808([6 8],16)",
-  density 2 $ delayline $ sound "bch*4",
-  n "-12 ~ ~ -12*2" # s "laserbeam"
+  density 2 $ delayline $ sound "bch*4"
 ]
+
+d1 $ silence
 
 d4 $ silence
 
-solo $ d5 $ n "-8 2 ~ -12*2" # s "laserbeam"
 
-d5 $ every 4 (spin 2) $ slowcat [
+-- pixepusher 2016 Sept 3
+-- saturday RAINY
+-- just gonna press play, pre-coded :)
+
+d5 $ n "-8 2 ~ -12*2" # s "laserbeam" # gain "1.2"
+
+solo $ d5 $ every 4 (spin 2) $ slowcat [
   n "-8 2 ~ -12*2" # s "laserbeam",
-  n "-4 4 ~ -8*2" # s "laserbeam",
+  n "-4 2 ~ -8*2" # s "laserbeam",
   n "-8 2 ~ -12*2" # s "laserbeam",
   n "-4 4 ~ -8*2" # s "laserbeam"
-]
+] # gain "1.2"
 
-solo $ d6 $ slow 2 $
+d6 $ slow 2 $
   slowcat [
-  n "a0 c0 a0*2 c2",
-  n "a1 b0 c2 b2",
-  n "c1 a0 a3 c2"
+  n "a5 c5 a5*2 c7",
+  n "a6*2 b5 c7 b7",
+  n "c6 a5 a8*2 c7"
 ] # s "ffmoog" # gain "1.4" # speed "0.8" # up (slow 4 $ scale (-24) (-2) sine1) # room "0.8" # size "0.8"
 
 d6 $ silence
 
-d8 $ every 2 (degradeFill 2) $ slow 4 $ delayline' 0.0625 "0.65" $ sound "cy808:6*8" # gain "0.6" # room "0.7"
+d8 $ slow 2 $ every 2 (degradeFill 2 0.2) $ slow 1 $ delayline' 0.125 "0.65" $ sound "cy808:6*8" # gain "0.6" # room "0.7" # delay "0.25" # delayfeedback "0.7" # delaytime "12"
 
 
 
@@ -64,14 +82,14 @@ d9 $ every 4 (degradeFill 4) $ slowcat [
 d6 $ every 2 (spin 2) $ slow 2 $ striate 2 $ sound "man01:4 ~ man02:2" # gain "0.7" # speed "0.8"
 
 
-d9 $ slow 2 $ every 4 (degradeFill 4) $ slowcat [
+d9 $ slow 2 $ every 4 (degradeFill 4 0.2) $ slowcat [
   sound "bsn:2 bch bsn boh",
   sound "bsn:2? hh bsn {cym808*2 bch}%2",
   sound "sn:2 hh*2 ~ bcrash:2",
   sound "sn*2 ~ ~ bsn:2*2"
 ]
 
-d7 $ every 4 (degradeFill 2) $ every 2 (density 2 ) $ stack [
+d9 $ every 4 (degradeFill 2) $ every 2 (density 2 ) $ stack [
   sometimes (# gain "0") $ sound "bd808:1 ~ bd808:0*2? ~",
   sound "~ sn606*2? ~ sn606"
 ] # gain "1" # crush "4"
@@ -95,7 +113,7 @@ d1 $ stack [
   delayline' 0.25 "0.55" $ sound "hh:0*4"
 ] # crush "4" # orbit "1"
 
-solo $ d6 $ slowcat [
+d6 $ slowcat [
   s "man02" # n "2",
   s "man02" # n "3",
   s "man02 ~ man01" # n "4 3",
@@ -105,7 +123,7 @@ solo $ d6 $ slowcat [
 d6 $ slowcat [
   s "woman01" # n "2",
   s "woman01" # n "3",
-  s "woman02 ~ man01" # n "4 3",
+  s "woman01 ~ man01" # n "4 3",
   s "man02 ~ man01" # n "4 3"
 ] # gain "0.8" # size "0.6"
 
@@ -116,9 +134,9 @@ d8 $ slowcat [
 ] # speed "0.5"
 
 
-d4 $ every 4 (degradeFill 0.25) $ whenmod 4 3 (ghost' (1/8)) $ sound "arp arpy:3? arpy [arpy:1 [arpy:1*2?]]" # up "[2 4 -6 0]/32"
+d4 $ every 4 (degradeFill 0.25 0.2) $ whenmod 4 3 (ghost' (1/8)) $ sound "arp arpy:3? arpy [arpy:1 [arpy:1*2?]]" # up "[2 4 -6 0]/32"
 
-d4 $ silence
+d6 $ silence
 
 d6 $ slow 2 $ stack
 [
