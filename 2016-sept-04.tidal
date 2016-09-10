@@ -1,0 +1,398 @@
+-- sunday synth
+-- redux on 10 September 2016
+-- pixelpusher / oscjockey
+
+-- chord progression is E B A, repeated, then F# B A E
+-- major chords are all 1-3-5
+-- in midi notes, that's:
+-- E: E F# (3)G# A (5)B C# (7)D# E
+-- "3 5 7 8 10 12 14 15"
+
+-- let's use pentatonic scales too, Major are fun but ... sterile
+-- pentatonic: W W (2W) W (2W)
+
+-- D# pentatonic: D# F# G# A# C# D#
+-- A pentatonic:  A B C# E F# A
+-- B pentatonic:  B C# D# F# G# B
+-- E pentatonic:  E F# A B C# E (same as A)
+-- G# pentatonic: G# B C# D# F# G#
+
+bps (130/120)
+
+
+let (lforate, _) = pF "lforate" (Just 0)
+    (lfowidth, _) = pF "lfowidth" (Just 0)
+    (cutoff, _) = pF "cutoff" (Just 0)
+    (cutfreq, _) = pF "cutfreq" (Just 0)
+    (rq, _) = pF "rq" (Just 0)
+    (gate, _) = pF "gate" (Just 0)
+    (modamp, _) = pF "modamp" (Just 0)
+
+d8 $ every' 4 1 (# gain "0")
+   $ every' 4 2 (# hcutoff "800")
+   $ every' 4 3 (# speed "1.3")
+   $ superimpose ((0.25 ~>) . (rev) . (# gain "0.7")) $ sound "[boh:7 bch:1]!3" # speed "1.5" # size "0.5" # room "0.3" # hcutoff "4000"
+
+d1 $ silence
+
+d1 $ every' 16 4 (# gain "0") $ every 4 (degradeBy 0.25) $
+  stack [
+  every' 6 3 (# gain "0") $
+    every' 4 2 ((density 2) . (# cut "-1")) $
+    sound "bsn:3([3 6 3 5 3 1 3 1]/8,8)",
+  sometimes ((# resonance "0.7") . (# cutoff (slow 6 $ scale 430 1330 $ saw1)) . (# delay "0.6")) $ sound "[bch:8*2 bch:6?]!3" # gain "0.85"
+]
+
+
+d1 $ stack [
+  sound "bd808([0 2 5 1]/4, 8)",
+  sound "bsn:3([3 6 3 5 3 1 3 1]/8,8)"
+]
+
+-- main melody 1
+-- preloaded! too long to type...
+
+d2 $ superimpose ((sometimes (0.25 ~>)) . (0.125 ~>) . (rev) . (#up (slow 3 $ "0 12")))
+  $ slowcat [
+    n "~ ~ ~ [b4 e3] b4 ~ ~ e7", -- E,
+    n "~ ~ ~ [a4 gs3] a4 ~ ~ e7" ,-- E
+    n "~ ~ ~ [gs4 e3] gs4 ~ ~ e7",-- E
+    n "~ ~ ~ [b4 e3] b4 ~ ~ e7" -- E
+] # s "profit5" # gain "0.8" # accelerate "0.01" # sustain "0.12"
+  # lfowidth "0.2" # lforate "12" # rq "0.2" # room "0.2"
+
+
+d2
+  $ every' 6 4 (degradeBy 0.25) $ every' 8 2 (# up "7")
+  $ superimpose ((sometimes (0.25 ~>)) . (0.825 ~>) . (# gain "0.8") . (# up "12") . (# sustain "0.3") . (# cut "-1"))
+  $ slowcat [
+    n "~ ~ ~ [b4 e3] b4 ~ ~ e7",  -- E
+    n "~ ~ ~ [e4 fs3] e4 ~ ~ fs6",  -- A
+    n "ds4 ~ ~ [a3 gs3] cs4 ~ ~ gs5", -- D#
+    n "~ ~ ~ [cs4 e3] cs4 ~ ~ cs4"     -- E
+  ] # s "profit5" # gain "0.8" # accelerate "0.01" # sustain "0.12"
+  # lfowidth "0.2" # lforate "12" # rq "0.2" # room "0.2"
+  # resonance (slow 3 $ scale 0 0.3 $ sine1)
+  # cutoff (slow 8 $ scale 220 4000 $ saw1)
+  # cut "-1"
+  # orbit "1"
+
+
+solo $ d4 $ superimpose ((rev) . (0.25 ~>) . (# gain "0.8") . (# up "12") . (# sustain "0.3") . (# cut "-1")) $
+  slowcat [
+  n "~ e4  ~ cs5 ~ ~ e6  ~",
+  n "~ gs4 ~ e5  ~ ~ a5  ~",
+  n "~ cs4 ~ a5  ~ ~ cs5 ~"
+] # s "profit5" # gain "1" # accelerate "0.05" # sustain "0.2" # cut "2"
+  # lfowidth "0.4" # lforate "12" # rq "0.8" # cutfreq "800"
+
+-- bass 1
+-- easy start
+
+d3 $ slowcat [
+  n "~ ~ ~ [b2 e3] b3 ~ ~ e2",
+  n "~ ~ ~ [a2 gs3] a3 ~ ~ e2"
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.4"
+  # sustain "0.2 0.5"
+  # room "0.1"
+  # cutoff "440!2 1200"
+  # resonance "0.2"
+  # orbit "3"
+
+-- bass 2
+
+d3
+$ slowcat [
+  n "~ b2 ~ [b2 e3] b2 ~ ~ cs3?",
+  n "~ gs3 ~ [cs2 cs3] gs2 ~ ~ a4?"
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.5"
+  # up "0"
+  # sustain "0.5"
+
+
+d3 $ superimpose ((0.825 ~>) . (# gain "0.95") . (# up "12") . (# sustain "0.3") . (# cut "-1") . (# up (slow 12 $ "12 17 12 24")))
+$ slowcat [
+  n "~ e2 ~ [b2 e3] b2 ~ ~ e3?",
+  n "~ b3 ~ [a2 gs3] a2 ~ ~ e4?"
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.5"
+  # up "0"
+  # sustain "0.5"
+
+-- complex!!
+
+d3 $ whenmod 16 4 (superimpose ((0.825 ~>) . (# gain "0.95") . (# up (slow 12 $ "12 17 12 24")) . (# sustain "0.3") . (# cut "-1")))
+$ slowcat [
+  n "e3 e4 e3? [b2 e3] b3 ~ ~ e2",
+  n "e3 e4 ~ [a2 gs3] a3 a4? b3 b2?"
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.4"
+  # sustain "0.2 0.5"
+  # room "0.1"
+  # cutoff "440!2 1200"
+  # resonance "0.2"
+  # orbit "3"
+
+
+d3 $ whenmod 16 4 (superimpose ((0.825 ~>) . (# gain "0.95") . (# up (slow 12 $ "12 17 12 24")) . (# sustain "0.3") . (# cut "-1")))
+$ slowcat [
+  n "e3 e4 e3? b4 b3 b2 ~ e2" # up (slow 2 $ "0 3")
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.4"
+  # sustain "0.2 0.5 0.2"
+  # room "0.1"
+  # cutoff "440!2 1200"
+  # resonance "0.2"
+  # orbit "3"
+
+-- x 4
+
+d3 $ whenmod 16 4 (superimpose ((0.825 ~>) . (# gain "0.95") . (# up (slow 12 $ "-12 -17 12 -24")) . (# sustain "0.3") . (# cut "-1")))
+$ slowcat [
+  n "a3 a4 a3? cs4 a3 cs2 ~ cs2" # up (slow 2 $ "0 -3")
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.4"
+  # sustain "0.2 0.5 0.2"
+  # room "0.1"
+  # cutoff "440!2 1200"
+  # resonance "0.2"
+  # orbit "3"
+
+-- x 4
+d3 $ whenmod 16 4 (superimpose ((0.825 ~>) . (# gain "0.95") . (# up (slow 12 $ "-12 -17 12 -24")) . (# sustain "0.3") . (# cut "-1")))
+$ slowcat [
+  n "gs3 gs5 gs3? cs5 gs3 cs3 ~ cs2" # up (slow 2 $ "0 -3")
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.4"
+  # sustain "0.2 0.5 0.2"
+  # room "0.1"
+  # cutoff "440!2 1200"
+  # resonance "0.2"
+  # orbit "3"
+
+-- transition
+
+solo $ d3 $ whenmod 16 4 (superimpose ((0.825 ~>) . (# gain "0.95") . (# up (slow 12 $ "12 17 12 24")) . (# sustain "0.3") . (# cut "-1")))
+$ slowcat [
+  n "fs3 fs5 fs3? fs4 b3 fs2 ~ b2" # up (slow 2 $ "0 3")
+] # s "moogbasstone" # gain "1" # speed "1" # cut "1" # velocity "0.4"
+  # sustain "0.2 0.5 0.2"
+  # room "0.1"
+  # cutoff "440!2 1200"
+  # resonance "0.2"
+  # orbit "3"
+
+
+
+d5 $ stack [
+  off 0.125 ((rev) . (# gain "0.8") . (# cut "2")) $ slow 4 $ gap 4 $ striate' 8 0.25 $ sound "breaks125" # speed "1.04" # cut "5",
+  sound "boh:6([6 2],8)",
+  every 4 (slow 2) $ sound "bd808([2 6],8)",
+  sound "cp:2 ~ ~ ~"
+] # orbit "5" # delay "0" # room "0.2" # size "0.5"
+
+d5 $ stack [
+  sound "breaks125" # speed "0.52"  # begin "0.25" # end "0.75" # cut "5",
+  every 4 (slow 2) $ sound "bd808([2 4],8)",
+  sound "cp:2 ~ ~ ~",
+  sound "~ sn808:3 ~ sn808:2"
+] # delay "0" # orbit "5"
+
+
+
+-- doesn't work here
+
+solo $ d5 $ stack [
+  striate' 3 0.125 $ sound "breaks125" # speed "0.52",
+  every 4 (slow 2) $ sound "bd808([2 4],8)",
+  sound "cp:2 ~ ~ ~",
+  sound "~ sn808:3 ~ sn808:2"
+] # delay "0" # resonance "0"
+
+
+------- too happy!!!
+
+
+d2 $ slowcat [
+  n "~ ~ [~ b3] [b3 gs2] cs3 ~ ~ ~",
+  n "~ ~ [~ b4] [b3 b4] cs2 ~ ~ ~",
+  n "~ ~ [~ b3] [b3 b4] cs3 ~ ~ ~"
+] # s "moogbasstone" # gain "1.2" # speed "1" # cut "1" # velocity "0.3"
+  # up (slow 8 $ "0 3")
+  # sustain "0.5"
+
+solo $ d3 $ whenmod 8 7 (# speed (slow 2 $ scale (-1.2) 1.3 $ sine1)) $ sound "bd808:1([4 4 6 4]/4,8)"
+
+d4 $ chop 4 $ sound "woman01:27!1" # speed "1 2 4.5"
+
+d5 $ stack [
+  sometimes (# gain "0") $ every 4 (rev . slow 2) $ every 2 (off 0.25 (rev . (# gain "0.8"))) $ chop 16 $ sound "woman01:21" # gain "0.9",
+  (0.125 ~>) $ chop 8 $ sound "woman01:25!15" # gain (density 2 $ scale 0.2 0.8 $ saw1)
+]
+
+d6 $ n "[d6 b4 d6 d3]!3" # s "profit5" # gain "0.8" # up (slow 8 $ "0 5 0 -5") # sustain "0.1" # accelerate "0.02"
+
+
+
+d4 $ stack [
+  whenmod 8 2 (# speed (slow 2 $ scale (-1.2) 1.3 $ sine1)) $
+    sound "cy808:6([5 7]/2,8)" # speed (slow 2 $ scale (-1.2) 1.3 $ sine1),
+  sound "cy808:5([5 7]/2,8)",
+  sound "ch808:1([3 5]/2,8,1)",
+  sound "sd808:6([2 3]/2,8,1)" # speed "0.9",
+  slow 2 $ sound "cp-blo ~ ~ ~"
+]
+
+d2 $ slowcat [
+  n "~ e5  ~ ~ ~ ~ b4  ~",
+  n "~ gs5 ~ ~ ~ ~ a5  ~",
+  n "~ cs5 ~ ~ ~ ~ gs5 ~"
+] # s "profit5" # gain "0.9" # accelerate "0.08" # sustain "0.8" # cut "0"
+  # lfowidth "0.8" # lforate "0.5" # rq "0.2" # cutfreq "2000"
+
+
+--- Sept 7 2016
+-- Dmaj: D, E, F♯, G, A, B, and C
+-- Bmin: B, C♯, D, E, F♯, G, and A
+
+bps (110/120)
+
+d2 $ slowcat [
+  slow 2 $ n "[d3 d2]!3 [a2 fs2]!3",
+  slow 2 $ n "[b3 b2]!3 [fs2 a2]!3",
+  slow 2 $ n "[d3 d2]!3 [g2 a3]!3",
+  slow 2 $ n "[a3 a2]!3 [fs2 d3]!3",
+  slow 2 $ n "[a7 a3]!3 [fs2 d3]!3",
+  slow 2 $ n "[fs6 fs2]!3 [g3 fs2]!3"
+] # s "moogbasstone" # gain "1" # speed "1" # cut "0" # velocity "0.3"
+  # up "0"
+  # accelerate "0.1"
+  # sustain "0.7"
+  # cutfreq (density 4 $ scale 300 2200 $ saw1)
+
+
+d2 $ slowcat [
+  slow 0 $ n "[d3 d2]!3 [a2 fs2]!3" # cut "0" # sustain "0.2",
+  slow 2 $ n "[g2 g3]!3 [d3 d2]!3" # cut "0" # sustain "0.55"
+] # s "moogbasstone" # gain "1" # velocity "0.3"
+  # up (slow 4 $ "0 5")
+  # accelerate "0.1"
+  # cutfreq (density 4 $ scale 300 2200 $ saw1)
+
+-- wah wah
+
+solo $ d2 $ slowcat [
+  slow 1 $ n "[b3 b2]!7 [fs2 a2]!7" # sustain "0.2",
+  slow 1 $ n "[a3 a2]!3 [fs2 d3]!3" # sustain "0.2",
+  slow 1 $ n "[g2 g3]!7 [d3 d2]!7" # sustain "0.55",
+  slow 1 $ n "[d3 d2]!3 [g2 a3]!3" # sustain "0.2"
+] # s "moogbasstone" # gain "1" # velocity "0.3"
+  # up (slow 4 $ "0 5")
+  # accelerate "0.1"
+  # cut "1"
+  # cutfreq (density 4 $ scale 300 2200 $ saw1)
+
+
+bps (125/120)
+
+d2 $ every 4 (slow 2 ) $ slowcat [
+   n "[b2!7 d3!7]" # sustain "0.2",
+   n "[fs3!7 a2!7]" # sustain "0.3"
+] # s "moogbasstone" # gain "1" # velocity "0.3"
+  # accelerate "0.1"
+  # cut "0"
+  # cutfreq (density 4 $ scale 300 2200 $ saw1)
+
+-- drums
+
+d4 $ whenmod 4 2 (# gain "0") $ stack [
+  every 3 (# gain "0") $ every 2 (chop 4) $ sound "[bch:2 boh:7]!7" # gain "[0.9 0.85]!7" # crush "2",
+  every 6 (# gain "0") $ every 4 (density 2) $ off 0.125 (rev . (# gain "0.8")) $ slowcat [
+     sometimes (rev) $ slow 4 $ chop 8 $ slow 4 $ striate' 16 0.25 $ sound "breaks125",
+     sometimes (rev) $ slow 2 $ gap 4 $ slow 8 $ striate' 32 0.125 $ sound "breaks125",
+     degradeBy 0.25 $ slow 64 $ gap 32 $ striate' 16 0.125 $ sound "breaks125" # crush "3"
+  ]
+]
+
+d1 $ every 4 (rev) $ off 0.25 ((# begin "0.5") . (# end "0.75")) $ sound "breaks125" # speed "0.5" #  end "0.5"
+
+d2 $ slow 2 $ slowcat [
+   n "[b2!7 d3!7]" # sustain "0.2",
+   n "[fs3!7 a2!7]" # sustain "0.3",
+   n "[b3!7 d2!7]" # sustain "0.2",
+   n "[b2!7 a3!7]" # sustain "0.3"
+] # s "moogbasstone" # gain "1" # velocity "0.3"
+  # accelerate "0.1"
+  # cut "0"
+  # cutfreq (density 4 $ scale 300 2200 $ saw1)
+
+d2 $ slowcat [
+   n "[b2!7 d3!7]" # sustain "0.2",
+   n "[fs3!7 a2!7]" # sustain "0.3"
+] # s "moogbasstone" # gain "1" # velocity "0.3"
+  # accelerate "0.1"
+  # cut "0"
+  # cutfreq (density 4 $ scale 300 2200 $ saw1)
+
+d2 $ slowcat [
+   n "[b2!7 d3!7]" # sustain "0.3"
+] # s "moogbasstone" # gain "1" # velocity "0.3"
+  # accelerate "0.1"
+  # cut "0"
+  # cutfreq (density 2 $ scale 300 4000 $ saw1)
+
+d6 $ slowcat [
+   n "[e4!7 d5!7]" # sustain "0.3",
+   n "[a4!7 d4!7]" # sustain "0.3"
+] # s "profit5" # gain "1" # velocity "0.3"
+  # accelerate "0.1"
+  # cut "1"
+  # cutfreq (density 2 $ scale 800 12000 $ saw1)
+  # up (slow 4 $ "0 2")
+
+d6 $ slowcat [
+   n "[d6 g4 b6 fs3]!3" # sustain "0.1"
+] # s "profit5" # gain "1" # velocity "0.3"
+  # accelerate (slow 2 $ scale 0.01 0.1 $ sine1)
+  # cut "0"
+  # cutfreq (density 2 $ scale 800 12000 $ saw1)
+  # up (slow 4 $ "0 2")
+
+solo $ d6 $ slowcat [
+   n "[d6 b5 d5 a3 d6 b7 d3 d4]!2" # sustain "0.2"
+] # s "profit5" # gain "1" # velocity "0.3"
+  # accelerate (slow 2 $ scale 0.01 0.1 $ sine1)
+  # cut "0"
+  # cutfreq (slow 4 $ density 1 $ scale 200 12000 $ saw1)
+
+
+
+
+d4 $ stack [
+  slowcat [
+    degradeBy 0.5 $ slow 32 $ striate' 64 0.25 $ gap 8 $ sound "breaks125" # crush "8" # gain "0.8"
+  ]
+]
+
+d4 $ silence
+
+d3 $ stack [
+  slowcat [
+    slow 32 $ striate' 64 0.125 $ gap 8 $ sound "woman01:23" # room "0.5"
+      # hcutoff (slow 2 $ scale 200 1200 sine1) # hresonance "0.2"
+  ] # gain (slow 16 $ scale 0.45 0.95 $ saw1)
+]
+
+d7 $ every 8 (# gain "0") $ stack [
+  sound "[bd808:1 bd808:3](4,6)",
+  sound "amencutup:26(6,16)",
+  sound "amencutup:26(3,16,1)",
+  sound "amencutup:2([2 4]/2,16)"
+] # gain "0.9"
+
+d6 $ silence
+
+d1 $ slow 2 $ gap 32 $ slow 4 $ striate' 8 0.125 $ sound "woman01:31"
+  # nudge (slow 2 $ scale (-0.75) 1.5 $ saw1) # delay (slow 4 $ scale 0.1 0.5 $ sine1) # delaytime "42" # delayfeedback "0.8"
+
+
+d2 $ slow 2 $ gap 32 $ slow 4 $ striate' 8 0.125 $ sound "woman01:1"
+  # nudge (slow 2 $ scale (-0.75) 1.5 $ saw1) # delay (slow 4 $ scale 0.1 0.5 $ sine1) # delaytime "42" # delayfeedback "0.8"
+
+solo $ d1 $ slow 2 $ gap 32 $ slow 4 $ striate' 8 0.125 $ sound "woman01:7"
+  # nudge (slow 2 $ scale (-0.75) 1.5 $ saw1) # delay (slow 4 $ scale 0.1 0.5 $ sine1) # delaytime "42" # delayfeedback "0.8"

@@ -3,7 +3,7 @@ cps 0.4
 let (lforate, _) = pF "lforate" (Just 0)
     (lfowidth, _) = pF "lfowidth" (Just 0)
     (cutoff, _) = pF "cutoff" (Just 0)
-    (cutfreq, _) = pF "cutfeq" (Just 0)
+    (cutfreq, _) = pF "cutfreq" (Just 0)
     (rq, _) = pF "rq" (Just 0)
     (gate, _) = pF "gate" (Just 0)
     (modamp, _) = pF "modamp" (Just 0)
