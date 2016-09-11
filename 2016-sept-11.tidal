@@ -1,0 +1,107 @@
+-- sunday synth
+-- on 11 September 2016
+-- pixelpusher / oscjockey (soundcloud)
+
+-- this started with playing with the bassline from Portishead's Plastic
+-- and then got very off track
+
+-- main melody 1
+-- preloaded! too long to type...
+
+-- c blues
+-- c# e f# g g# b c#
+
+-- f# blues
+-- f# a b c c# e f#
+
+
+bps (82/60)
+
+
+let (lforate, _) = pF "lforate" (Just 0)
+    (lfowidth, _) = pF "lfowidth" (Just 0)
+    (cutoff, _) = pF "cutoff" (Just 0)
+    (cutfreq, _) = pF "cutfreq" (Just 0)
+    (rq, _) = pF "rq" (Just 0)
+    (gate, _) = pF "gate" (Just 0)
+    (modamp, _) = pF "modamp" (Just 0)
+
+d1 $ silence
+
+
+
+let imposeup p = superimpose ((sometimes (0.25 ~>)) . (0.125 ~>) . (rev) . (#up (slow 3 $ "0 12"))) p
+
+-- drop some of dat basssss
+
+d2
+  $ whenmod 32 31 (# gain "0") $ slowcat [
+    n "cs5!3" # up "[0 -3]/8"
+] # s "laserbeam" # gain "1.1" # room "0.3" # size "0.4" # orbit "1" # sustain (slow 8 $ scale 0.1 0.8 $ sine1)
+
+d2
+  $ whenmod 32 31 (# gain "0") $ slowcat [
+    n "fs5!3" # up "[0 -3]/8"
+] # s "laserbeam" # gain "1.1" # room "0.3" # size "0.4" # orbit "1" # sustain (slow 8 $ scale 0.1 0.8 $ sine1)
+
+
+-- lay down some synth on top
+
+d1
+  $ slowcat [
+    density 1 $ e 3 8 $ n "[gs7,b6] [fs7, b8, e9]"
+] # s "ffmoog" # gain "1.38" # sustain "1.2" # velocity (slow 8 $ scale 0.01 0.75 $ sine1) # up "[0 3]/8" # cut "1"
+
+
+solo $ d1
+  $ slowcat [
+    density 2 $ e 3 8 $ n "[gs10,b7] [fs8, b9, e10]"
+] # s "ffmoog" # gain "1.38" # sustain "0.8" # velocity (slow 8 $ scale 0.01 0.75 $ sine1) # up "[0 3]/8" # cut "1"
+
+d3 $ silence
+
+-- da drumzzzzz
+
+d3 $ density 2 $ every 16 (# gain "0") $ stack [
+  sometimes (degradeBy 0.25) $ sound "bch:3!3",
+  every 8 (density 2) $ sound "bsn? ~ [bsn:1 bsn?] ~",
+  sound "[boh:5*2 bch:6*3]" # cutoff (slow 16 $ scale 400 4000 $ saw1) # resonance "0.2"
+] # orbit "1"
+
+
+-- funky bassline
+
+d4 $ silence
+
+solo $ d4 $
+  superimpose ((0.125 ~>) . (# gain "0.85") . (# up "[3 12]/2"))  $ slowcat [
+    n "[~ [e2,e5 e3,e7]]!3"
+] # s "moogbasstone" # gain "1" # sustain "0.08" # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0"
+
+-- up slightly
+
+d4 $
+  superimpose ((0.125 ~>) . (# gain "0.85") . (# up "[3 12]/2"))  $ slowcat [
+    n "[~ [fs2 ~]]!3"
+] # s "moogbasstone" # gain "1" # sustain "0.15" # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0"
+
+
+
+
+# nudge (slow 2 $ scale (-0.75) 1.5 $ saw1)
+
+-- not really...
+d1
+  $ whenmod 16 15 (# gain "0") $ slowcat [
+    density 2 $ e 7 8 $ n "[~ g7 gs7 b7]"
+] # s "ffmoog" # gain "1" # sustain "0.12" # velocity (slow 8 $ scale 0.1 0.8 $ sine1) # speed "1" # up "[0 -3]/8"
+
+
+
+d2 $ slow 2 $ gap 32 $ slow 4 $ striate' 8 0.125 $ sound "woman01:1"
+  # nudge (slow 2 $ scale (-0.75) 1.5 $ saw1) # delay (slow 4 $ scale 0 0.5 $ sine1) # delaytime "42" # delayfeedback "0.8" # gain "0.7" # dry "0.8"
+
+d1 $ slow 2 $ gap 32 $ slow 4 $ striate' 8 0.125 $ sound "woman01:7"
+  # nudge (slow 2 $ scale (-0.75) 1.5 $ saw1) # delay (slow 4 $ scale 0.1 0.5 $ sine1) # delaytime "42" # delayfeedback "0.8"
+
+d2 $ silence
