@@ -21,8 +21,6 @@
 let every' n o f = when ((== (o-1)) . (`mod` n)) f
 
 let hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9]
-    off t f p = superimpose (f . (t ~>)) p
-    offadd t n p = off t ((+n) <$>) p
     rip a b p = within (0.25, 0.75) (slow 2 . rev . stut 8 a b) p
     rip' a b c d e p = within (a, b) (slow 2 . rev . stut c d e) p
     spike p = ((|+| delaytime (scale 0.001 0.3 $ slow 7.1 sine1)) . (|+| delayfeedback (scale 0.7 0.99 $ slow 6.71 sine1))) $ p
@@ -38,5 +36,23 @@ let hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9]
     shift' x p = (x <~) p
     choose xs = (xs !!) <$> (irand $ fromIntegral $ length xs)
     degradeFill a b = (density a) . (degradeBy b)
+
+
+let shiftdown p = superimpose ((sometimes (rev)) . (# speed "0.67") . (# gain "0.75") . (0.25 ~>)) p
+
+let fastecho p = superimpose ( (rev) . (0.125 ~>) . (# gain "0.65")) p
+
+
+let (lforate, _) = pF "lforate" (Just 0)
+    (lfowidth, _) = pF "lfowidth" (Just 0)
+    (cutoff, _) = pF "cutoff" (Just 0)
+    (cutfreq, _) = pF "cutfreq" (Just 0)
+    (rq, _) = pF "rq" (Just 0)
+    (gate, _) = pF "gate" (Just 0)
+    (modamp, _) = pF "modamp" (Just 0)
+    (vibrato, _) = pF "vibrato" (Just 0)
+
+
+
 
 hush
