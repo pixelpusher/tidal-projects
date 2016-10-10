@@ -1,0 +1,306 @@
+
+
+-- listening to Give Me the Night by George Benson (written by Rod Temperton)
+
+-- 4 beat bass drum
+-- every 16 a snare double-time-hit on the last beats with a double clap
+-- clap on the second beat
+
+-- Fm7: F Af C Ef
+-- Bfm7: Bf Df F Af
+-- Cm7: C Ef G Bf
+-- Df7: Df Ff Af Cf
+-- Ef7: Ef Gf Bf Df
+
+-- Fm7*5 Bm7 Cm7 Df7
+-- Fm7 Bm7
+-- Cm7 Df7
+-- Ef7
+
+cps (-1)
+
+bps (108/60)
+
+let dabeat = "f2 af2 c2 ef2"
+
+
+d1 $ n (fit 3 ["f2", "af2", "c2", "ef2", "af3"] "0 [~ 1] 2 1") # s "moogbasstone" # gain "1" # sustain "0.3" # velocity "0.6" # cut "0"
+
+
+d3 $ whenmod 8 6 (# gain "0") $ (0 ~>) $ slowcat [
+    n "[ef7 ef6] c6? ~ ~"
+  ] # s "moogbasstone" # gain "1" # sustain "0.1" # velocity "0.6" # cut "2"
+
+-- Fm7
+d4 $ (0 ~>) $ slowcat [
+    n "[~ af2] [f2*2] ~ [ef4 ef3]"
+  ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1"
+
+-- Bm7
+d4 $ (0 ~>) $ slowcat [
+    n "[~ bf2] [f2*2] ~ [af4 af3]"
+  ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1"
+
+-- Cm7
+d4 $ (0 ~>) $ slowcat [
+    n "[~ cf2] [g2*2] ~ [bf4 bf2]"
+  ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1"
+
+-- Df7
+d4 $ (0 ~>) $ slowcat [
+    n "[~ df2] [af2*2] ~ [cf4 cf3]"
+  ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1"
+
+
+-- BASSSLINE:
+-- Fm7*5 Bm7 Cm7 Df7
+-- Fm7 Bm7
+-- Cm7 Df7
+-- Ef7
+
+
+let fm7 = n "[~ f2] [c2*2] ~ [ef4 af3]"
+    bm7 = n "[~ bf2] [f2*2] ~ [af4 af3]"
+    cm7 = n "[~ cf2] [g2*2] ~ [bf4 bf2]"
+    dm7 = n "[~ df2] [af2*2] ~ [cf4 cf3]"
+    em7 = n "[~ ef2] [gf2*2] ~ [df4 df3]"
+  in d3 $ whenmod 16 4 (slow 2) $ slowcat [
+        fm7, fm7, fm7, bm7, cm7,
+        slow 2 $ cat [
+          dm7, em7
+        ],
+        cat [cm7, dm7], em7
+    ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1" # cutfreq "880"
+
+
+let fm71 = n "[~ f2] [~ c2] [af1 c3] [~ ef2]"
+    fm72 = n "[~ f2] [af3 c2] ~ [ef1 af3]"
+    bm7 = n "[~ bf2] [~ bf2] f2 [af2 f2]"
+    cm7 = n "[~ cf2] [~ cf2] [~ g2] [bf4 bf2]"
+    dm7 = n "[~ df2] [f3 af2] ~ [cf4 cf3]"
+    em7 = n "[~ ef2] [gf2 ~] ~ [~ df3]"
+  in d3 $ slowcat [
+        fm71, fm72, fm71, bm7, cm7,
+        slowcat [
+          dm7, em7
+        ],
+        cm7, dm7, em7
+    ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1" # cutfreq "600"
+
+
+let fm71 = n "[~ f2] [~ c2] [af2? ~] [~ ef2]"
+    fm72 = n "[~ f2] [af3? c2] ~ [ef1? af3]"
+    bfm7 = n "[~ bf2] [~ bf2] f2 [af2 f2]"
+    cm7 = n "[~ cf2] [~ cf2] [~ g2] [bf4 bf2]"
+    df7 = n "[~ df2] [f3 af2] ~ [cf4 cf3]"
+    em7 = n "[~ ef2] [gf2 gf3?] ~ [~ df3]"
+  in d3 $ slowcat [
+        fm71, fm72, fm71, bfm7, cm7, df7, fm71, bfm7
+    ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1" # cutfreq "600"
+
+
+let fm71 = n "[f2 f2] [~ c2] [~ ~] [~ ef2]"
+    fm72 = n "[~ f2] [af3 ~] ~ [~ ~]"
+    bfm7 = n "[~ bf2] [~ bf2] ~ [af2 f2]"
+    cm7 = n "[~ cf2] [~ cf2] [~ g2] [bf4 bf2]"
+    df7 = n "[~ ~] [f3 af2] ~ [cf4 cf3]"
+    em7 = n "[~ ~] [gf2 ~] ~ [~ df3]"
+  in d3 $ slowcat [
+        fm71, fm72, fm71, bfm7, cm7, df7, fm71, bfm7
+    ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1" # cutfreq "600"
+
+cps (-1)
+
+bps (108/60)
+
+
+-- combined
+
+d1 $ cat [n "a2 a2", n "e2 e2"] # s "profit5"
+
+
+let fm7_11 = n "[ef2 ~] [ef2 ef2] [~ f2] [~ f2]"
+    fm7_12 = n "~ [~ c2] ~ ef2"
+    fm7_21 = n "[ef2 ef2] [~ af2] [~ f2] [~ f2]"
+    fm7_22 = n "~ [~ c2] ~ ef2"
+    fm7_31 = n "[af2 ~] [~ af2] [~ f2] [~ f2]"
+    fm7_32 = n "~ [~ ef2] ~ c2"
+    fm7_41 = n "[f2 ~] [~ ef2] [~ af2] [~ f2?]"
+    fm7_42 = n "[~ ef2] [~ f2] ~ c2"
+    seq1 = slow 2 $ slowcat [
+        cat [ fm7_11, fm7_12],
+        cat [ fm7_11, fm7_12],
+        cat [ fm7_21, fm7_22],
+        cat [ fm7_22, fm7_32],
+        cat [ fm7_31, fm7_32]
+      ]
+    seq2 = slow 2 $ slowcat [
+        cat [ fm7_21, fm7_22],
+        cat [ fm7_31, fm7_32],
+        cat [ fm7_41, fm7_42],
+        cat [ fm7_41, fm7_42]
+      ]
+    vary = (e 12 8 $ "[0.8 0.3]")
+    in d1 $ stack [
+        slow 2 $ whenmod 8 6 (0.25 ~>) $ cat [ seq1, seq2 ] # s "moogbasstone" # gain "1" # sustain "0.18" # velocity "0.6" # cut "1" # cutfreq (e 14 6 $ "[660 880 1660]/2"),
+        slow 2 $ whenmod 8 2 (0.25 ~>) $ sometimes (rev) $ delayline' 0.125 "0.75" $ cat [ seq1, seq2 ] # s "profit5" # gain "0" # sustain vary # velocity vary # cut "0" # cutfreq (e 14 6 $ "[1200 2400 4660]/2") # up "36"
+      ] # delay "0.2" # delaytime "0.125" # delayfeedback "0.25"
+
+
+-- drums
+
+d5 $ whenmod 16 14 ((# delay "0.8") . (# delayfeedback "0.8")) $ slow 2 $ stack [
+  whenmod 8 6 (# gain "0") $ n "0 1? [~ 2] [~ 0]" # s "bd808",
+  every 16 (density 2) $ n "0 ~ [0 0?] 0?" # s "cp",
+  every 16 (slow 2) $ whenmod 8 6 (# gain "0") $ n "[~ 0]*8" # s "hh-blo" # gain (scale 0.6 0.9 $ sine1),
+  every 8 (e 16 8) $ slow 4 $ n "[7 6](6,8)" # s "sd808" # gain "[0.8 0.9](12,8)" # speed "0.5"
+] # size "0.1" # room "0.2" # delaytime "0.125" # delay "0.1" # delayfeedback "0.1"
+
+
+-- whenmod 16 14 ((# delay "0.8") . (# delayfeedback "0.8"))
+
+
+d1 $ n "[[ef2 ~] [ef2 ef2] [~ f2] [~ f2] ~ [~ c2] ~ ef2]/2" # s "moogbasstone" # gain "1" # sustain "0.18" # velocity "0.6" # cut "1" # cutfreq "660"
+
+d1 $ n "[[ef2 ef2] [~ af2] [~ f2] [~ f2] ~ [~ c2] ~ ef2]/2" # s "moogbasstone" # gain "1" # sustain "0.18" # velocity "0.6" # cut "1" # cutfreq "660"
+
+d1 $ n "[[af2 ~] [~ af2] [~ f2] [~ f2] ~ [~ ef2] ~ c2]/2" # s "moogbasstone" # gain "1" # sustain "0.18" # velocity "0.6" # cut "0" # cutfreq "660"
+
+d1 $ n "[[f2 ~] [~ ef2] [~ af2] [~ f2?] [~ ef2] [~ f2] ~ c2]/2" # s "moogbasstone" # gain "1" # sustain "0.18" # velocity "0.6" # cut "0" # cutfreq "660"
+
+
+
+
+
+
+
+
+
+let fm7 = n "[~ f2] ~ ~ [ef4 af3]"
+    bm7 = n "~ [f2*2] ~ [af4 af3]"
+    cm7 = n "[~ cf2] [g2*2] ~ [bf4 bf2]"
+    dm7 = n "[~ df2] [af2*2] ~ ~"
+    em7 = n "[~ ef2] [gf2*2] ~ [df4 ~]"
+    alt = id
+      . whenmod 7 3 rev
+  in d3 $ alt $ slowcat [
+        fm7, degrade $ fm7, fm7, fm7, bm7, cm7,
+        slow 2 $ cat [
+          dm7, em7
+        ],
+        cm7, dm7, em7
+    ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1" # cutfreq (slow 16 $ scale 800 2200 $ sine1)
+    # size "0.4" # room "0.4" # orbit "1"
+
+
+-- lead synth
+
+d2 $ (0 ~>) $ slowcat [
+    every 8 (# sustain "0.5") $ slow 2 $ n "[f6 af6?] f6 ~ af6 ~ af7 ~ [~ af7]"
+  ] # s "profit5" # gain "1" # sustain "0.082" # velocity "0.8" # cut "0"
+
+d2 $ (0 ~>) $ slowcat [
+    every 8 (# sustain "0.5") $ slow 2 $ n "[f6 af6?] f6 ~ ~"
+  ] # s "profit5" # gain "1" # sustain "0.082" # velocity "0.8" # cut "0"
+
+
+d2 $ (0 ~>) $ slowcat [
+    sometimes (density 1.25) $ slow 2 $ n "[f6 af6?] f6 ~ af6 ~ af7 ~ [~ af7] ~ cf6 bf7 ~ ~ ef7 ~ g7"
+  ] # s "profit5" # gain "1" # sustain "0.082" # velocity "0.8" # cut "2"
+
+
+d2 $ slow 1 $ (0.125 ~>) $ superimpose ((# up "[-12 -17 -5 -12 12]/3")  . (# cut "3")) $ slowcat [
+    n "f6 cf6 af6 ef6 f7 cf7 af7 ef7" # up "[0 -5 -12 -7 0]/4"
+  ] # s "profit5" # gain "1" # sustain "0.05" # velocity "0.6" # cut "2"
+
+d2 $ silence
+
+-- drums
+
+d5 $ slow 2 $ stack [
+  whenmod 8 6 (# gain "0") $ n "0 0 2 [~ 0]" # s "bd808",
+  n "~ 0 ~ 0" # s "cp",
+  whenmod 8 6 (# gain "0") $ n "0*8" # s "hh-blo" # gain (scale 0.6 0.9 $ sine1)
+]
+
+d6 $ stack [
+  whenmod 8 4 (# gain "0") $ sound "~ sd808:4 ~ ~",
+  sound "[~ ch808]*4"
+] # hresonance "0.6" # hcutoff (slow 8 $ scale 800 3000 $ sine1) # dry "0.8" # orbit "2"
+
+
+-- unused
+
+d4 $ (0.125 ~>) $ slowcat [
+  n "[~ af2] [~ f2*2] ~ ~",
+  n "[~ af2] af2*2 ~ ~",
+  n "~ c2*2 ~ ~",
+  n "~ ef2*2 ~ ~"
+] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1"
+
+
+let ap = n "[[0 0*2] [1 0] [~ 1/2 0 ~] 1]/4"
+    bp = slowcat [
+        n "[c3 [f2 af3]]!1",
+        n "[f3 [df2 af3]]!1",
+        n "[g3 [c2 bf3]]!1",
+        n "[a3 [df2 cf3]]!3"
+      ]
+    ae = id
+        . whenmod 7 3 rev
+        . whenmod 6 4 (within (0, 0.5) (density 2))
+        . whenmod 3 1 (density 2)
+    be = id
+        . whenmod 7 3 rev
+        . whenmod 8 7 ((0.25 ~>) . (# end "0.75"))
+  in d1 $ stack [
+  ae $ ap # s "bd808",
+  be $ bp # s "moogbasstone" # sustain "0.8" # cut "1" # gain "1" # velocity "0.8" # cutfreq (slow 32 $ scale 880 3000 $ saw1)
+  ]
+
+
+d1 $ n "[f2 ~ [c2 f2] [~ c2] ef2 [af2 ~] [~ c2] ef2]/2" # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1" # cutfreq "660"
+
+
+
+------- Part 2
+
+
+let fm7 = slowcat [ n "[~ f2*2] f1 ~ ef4", n "af2 gf3 c2 ~" ]
+    bm7 = n "[~ b4] [b1*2] ~ af3"
+    cm7 = n "[~ cf2] [g2*2] ~ bf2"
+    dm7 = n "[~ df2*2] af2 ~ ~"
+    em7 = n "[~ ef2] [gf2*2] ~ df4"
+  in solo $ d3 $ slowcat [
+        fm7, fm7, fm7, fm7, bm7, cm7,
+        slow 2 $ cat [
+          dm7, em7
+        ],
+        cm7, dm7, em7
+    ] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity (e 6 8 $ "0.7 0.2") # cut "1" # cutfreq (slow 16 $ scale 800 2200 $ sine1)
+    # size "0.4" # room "0.4" # orbit "1"
+
+d1 $ stack [
+  gain "1" # sound "hh(7,8)" # gain (e 6 8 $ "0.8 0.95"),
+  gain "1" # n (e 6 8 $ "0 2") # s "bd808" # gain (e 6 8 $ "0.8 1"),
+  every 16 ((degradeBy 0.25) . (# speed "0.85")) $ every 8 (const $ sound "sn:2(8,8)") $ n (e 3 8 $ "0 1 2") # s "sn"
+]
+
+d5 $ stack [
+  n "f7(6,8,1)" # s "profit5" # sustain (e 12 8 $ "0.25 0.1"),
+  n (e 6 8 $ "af7 cs7") # s "profit5" # sustain (e 12 8 $ "0.1 0.25") # gain (e 12 8 $ "0.85 1")
+]  # cutfreq (e 12 8 $ slow 2 $ "[880 1200 2400 1600]")
+
+d5 $ stack [
+  n "f5(6,8,1)" # s "profit5" # sustain (e 12 8 $ "0.25 0.1"),
+  sometimes (# up "5") $ n (e 6 8 $ "af4 ef6") # s "profit5" # sustain (e 12 8 $ "0.1 0.25") # gain (e 12 8 $ "0.85 1")
+]  # cutfreq (e 12 8 $ slow 2 $ "[880 1200 2400 1600]")
+
+
+d5 $ stack [
+  n "[f5,f4 ef6](6,8,1)" # s "profit5" # sustain (e 12 8 $ "0.25 0.1") # gain (e 16 8 $ "[[0 1] 1]/2")
+] # cutfreq (e 12 8 $ slow 2 $ "[880 1200 2400 1600]")
+
+d5 $ silence
+
+d2 $ silence

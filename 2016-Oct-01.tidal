@@ -1,0 +1,99 @@
+-- Oct 1 2016
+-- another livecoding Saturday (rainy, London)
+
+cps 1
+
+cps (0.55)
+
+cps (-1)
+
+d1 $ silence
+
+d4 $ slow 8 $ striate' 32 0.25 $ slowcat [
+  sound "asher:1",
+  sound "asher:2",
+  sound "asher:0",
+  sound "asher:1"
+] # size "0.2" # room "0.4" # resonance (scale 0.1 0.5 $ sine1)
+
+solo $ d3 $ sound "asher:2" # crush "5" # gain (slow 3 $ scale 0.7 1.25 $ sine1)
+
+d6 $ sound "asher:8" # crush "16" # size "0.5" # gain "1.2"
+
+d5 $ slow 16 $ striate' 32 0.25 $ sound "asher:3" # speed "[1.25 0.75]/2" # size "0.2" # cutoff "[1100 800]/3" # resonance (slow 4 $ scale 0.1 0.6 $ sine1) # gain "1"
+
+
+-- Oct 1 2016 pt 2
+-- another livecoding Saturday (rainy, London)
+
+
+solo $ d3 $ ghost $ sound "asher:25([6 8],8)" # cut "0"
+
+solo $ d3 $ every 4 ((gap 2) . (striate 4)) $ stack [
+  every 8 (const $ sound "asher:2" # gain "1.2") $ sound "asher:28*2" # begin "0.125" # end "0.5" # gain "1.2",
+  every 6 (# speed "0.75") $ every 4 (density 2) $ sound "bch*8",
+  sometimes (# gain "0") $ slow 2 $ sound "bd bsn:3 ~ [bsn*2 bd] bd bd bsn:1*2 [~ bd]"
+]
+
+solo $ d6 $ stack [
+  every 4 ((gap 2) . (striate 4)) $ sound "asher:28" # begin "0" # end "1" # gain "1.2" # cutoff "[400 800 1200]/3" # resonance (slow 4 $ scale 0.1 0.6 $ sine1), -- always remain true to yourselves
+  every 6 (# speed "0.75") $ every 4 (density 2) $ sound "bch*8"
+]
+
+
+
+solo $ d4 $ n "[~ [[e2,e3] [e3,e4]] ~ [e3,b5,e6]]!1" # s "moogbasstone" # gain "1" # sustain (slow 4 $ scale 0.08 0.25 $ sine1) # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0"
+
+solo $ d4 $
+  every 8 (slow 2) $ superimpose ((0.125 ~>) . (# gain "0.85") . (# up "[3 12]/2"))  $ slowcat [
+    n "[~ [[e2,e5] [e3,e7]] ~ [e3,e5,b7]]!1",
+    n "[~ [[e2,e5] ~]*2 ~ [e3,e5,b7]]!1",
+    n "[~ [[e2,e5] [e3,e7]] ~ [e3,e5,b7]*2]!1",
+    n "[~ [[e2,e5] ~]*3 ~ [e3,e5,b7]]!1"
+] # s "moogbasstone" # gain "1" # sustain "0.08" # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0"
+
+d5 $ stack [
+  ghost $ sound "bd808:0(3,8)",
+  sound "bd808:2 ~ bd808:2 ~",
+  sound "bsn(3,8,1)" # crush "4",
+  ghost $ sound "bch([6 8],8)" # room "0.2" # size "0.4"
+]
+
+
+d5 $ stack [
+  sound "bd808:2(3,8)",
+  sound "bsn:8(3,8,1)" # crush "4",
+  ghost $ sound "bch(6,8)" # size "0.3" # room "0.5"
+]
+
+
+
+
+
+d3 $ silence
+
+d3 $ every 6 ((density 1.5) . (degradeBy 0.2)) $ sometimes (const $ stack [
+sound "[hh*4 {hh*4}%3]/2",
+sound "[bd808(10,8) {bd808*5}%6]/4",
+sound "cp"
+]) $ ghost $ sound "hh([6 8],8)"
+
+
+d2 $ silence
+
+d3 $ every 8 (const $ sound "asher:8" # gain "1.2" # room "0.8" # size "0.7") $
+    sometimes (const $ stack [
+    sound "hh*4",
+    sound "bd808(3,8)",
+    sound "cp"
+    ])
+  $ stack [
+  sound "asher:27(5,8)" # gain "1", --my sins
+  sometimes (# gain "0") $ ghost $ sound "hh*4",
+  sound "asher:26 [asher:22 asher:22?]" # gain "1.2", -- central
+  sound "asher:25([5 10],8,1)"
+] # room "0.2"
+
+solo $ d6 $ slow 2 $ striate' 12 0.25 $ sound "asher:9" # cut "1" # gain "1.2" # room "0.4" # speed (slow 4 $ scale 0.5 1.2 $ sine1)
+
+solo $ d6 $ slow 64 $ striate' 128 0.25 $ sound "asher:24" # cut "-1" # speed "0.825" # gain "1.2"
