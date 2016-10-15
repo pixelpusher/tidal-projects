@@ -7,8 +7,8 @@ bps (115/120)
 
 -- billie jean
 
-d1 $ stack [
-  sound "bd808:1 ~ bd808:0 ~",
+solo $ d1 $ fastecho $ stack [
+  every 8 (density 2)  $ sound "bd808:1 ~ bd808:0 ~",
   sound "~ sn606 ~ sn606",
   delayline' 0.25 "0.55" $ sound "hh:0*4"
 ]

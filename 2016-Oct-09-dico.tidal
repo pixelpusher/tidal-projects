@@ -1,6 +1,9 @@
 
+-- pixelpusher!!
+-- early October livecoding sessions
 
 -- listening to Give Me the Night by George Benson (written by Rod Temperton)
+-- making a total hash of it....
 
 -- 4 beat bass drum
 -- every 16 a snare double-time-hit on the last beats with a double clap
@@ -128,22 +131,20 @@ let fm7_11 = n "[ef2 ~] [ef2 ef2] [~ f2] [~ f2]"
     fm7_41 = n "[f2 ~] [~ ef2] [~ af2] [~ f2?]"
     fm7_42 = n "[~ ef2] [~ f2] ~ c2"
     seq1 = slow 2 $ slowcat [
-        cat [ fm7_11, fm7_12],
-        cat [ fm7_11, fm7_12],
-        cat [ fm7_21, fm7_22],
-        cat [ fm7_22, fm7_32],
-        cat [ fm7_31, fm7_32]
+        cat [ fm7_11, fm7_11],
+        cat [ fm7_21, fm7_21],
+        cat [ fm7_31, fm7_31]
       ]
     seq2 = slow 2 $ slowcat [
-        cat [ fm7_21, fm7_22],
-        cat [ fm7_31, fm7_32],
-        cat [ fm7_41, fm7_42],
-        cat [ fm7_41, fm7_42]
-      ]
-    vary = (e 12 8 $ "[0.8 0.3]")
+        cat [ fm7_21, fm7_42],
+        cat [ fm7_32, fm7_32],
+        cat [ fm7_41, fm7_41],
+        cat [ fm7_41, fm7_41]
+      ] # up "-12"
+    vary = (e 12 8 $ "[0.8 0.2]")
     in d1 $ stack [
-        slow 2 $ whenmod 8 6 (0.25 ~>) $ cat [ seq1, seq2 ] # s "moogbasstone" # gain "1" # sustain "0.18" # velocity "0.6" # cut "1" # cutfreq (e 14 6 $ "[660 880 1660]/2"),
-        slow 2 $ whenmod 8 2 (0.25 ~>) $ sometimes (rev) $ delayline' 0.125 "0.75" $ cat [ seq1, seq2 ] # s "profit5" # gain "0" # sustain vary # velocity vary # cut "0" # cutfreq (e 14 6 $ "[1200 2400 4660]/2") # up "36"
+        every 32 (# gain "0") $ slow 2 $ every 16 (# sustain "0.1") $ whenmod 8 6 (0.25 ~>) $ cat [ seq1, seq2 ] # s "moogbasstone" # gain "1" # sustain "0.18" # velocity "0.6" # cut "1" # cutfreq (e 14 6 $ "[660 880 1260]/2"),
+        slow 2 $ whenmod 8 2 (0.25 ~>) $ sometimes (rev) $ delayline' 0.125 "0.75" $ cat [ seq1, seq2 ] # s "profit5" # gain "1" # sustain vary # velocity vary # cut "0" # cutfreq (e 14 6 $ "[1200 2400 4660]/2") # up "[24 36 48]/2"
       ] # delay "0.2" # delaytime "0.125" # delayfeedback "0.25"
 
 
@@ -151,9 +152,16 @@ let fm7_11 = n "[ef2 ~] [ef2 ef2] [~ f2] [~ f2]"
 
 d5 $ whenmod 16 14 ((# delay "0.8") . (# delayfeedback "0.8")) $ slow 2 $ stack [
   whenmod 8 6 (# gain "0") $ n "0 1? [~ 2] [~ 0]" # s "bd808",
-  every 16 (density 2) $ n "0 ~ [0 0?] 0?" # s "cp",
-  every 16 (slow 2) $ whenmod 8 6 (# gain "0") $ n "[~ 0]*8" # s "hh-blo" # gain (scale 0.6 0.9 $ sine1),
+  every 16 (density 2) $ n "0 ~ [0 0?] 0?" # s "cp" # gain "1",
+  every 16 (slow 2) $ whenmod 8 6 (# gain "0") $ n "[~ 0]*8" # s "hh-blo" # gain (scale 0.6 0.9 $ sine1) # gain "0.8",
   every 8 (e 16 8) $ slow 4 $ n "[7 6](6,8)" # s "sd808" # gain "[0.8 0.9](12,8)" # speed "0.5"
+] # size "0.1" # room "0.2" # delaytime "0.125" # delay "0.1" # delayfeedback "0.1"
+
+
+d5 $ whenmod 16 14 ((# delay "0.8") . (# delayfeedback "0.8")) $ slow 2 $ stack [
+  density 2 $ whenmod 8 6 (# gain "0") $ n "0 1? [~ 2] [~ 0]" # s "bd808",
+  every 4 (rev) $ n "0 ~ [0 0?] 0?" # s "cp" # gain "1",
+  every 6 (density 2) $ n "[0 0*2 0 0]" # s "sn606" # gain "0"
 ] # size "0.1" # room "0.2" # delaytime "0.125" # delay "0.1" # delayfeedback "0.1"
 
 
@@ -231,12 +239,12 @@ d6 $ stack [
 
 -- unused
 
-d4 $ (0.125 ~>) $ slowcat [
+d4 $ slow 4 $ (0.125 ~>) $ slowcat [
   n "[~ af2] [~ f2*2] ~ ~",
   n "[~ af2] af2*2 ~ ~",
   n "~ c2*2 ~ ~",
   n "~ ef2*2 ~ ~"
-] # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.6" # cut "1"
+] # s "moogbasstone" # gain "1" # sustain "0.825" # velocity "0.6" # cut "1"
 
 
 let ap = n "[[0 0*2] [1 0] [~ 1/2 0 ~] 1]/4"

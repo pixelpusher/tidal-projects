@@ -1,0 +1,44 @@
+bps (40/60)
+
+d4 $ slow 4 $ n "[~ af2] [f2 ~] ~ [ef4 ~]"
+  ] # s "moogbasstone" # gain "1" # sustain (slow 4 $ scale 0.1 0.8 $ saw1) # velocity "0.6" # cut "1"
+
+
+d4 $ (sometimes (# up "12")) $ (0 ~>) $ slow 8 $ slowcat [
+    n "[~ af2] [f2 ~] ~ [ef4 ef3]"
+  ] # s "moogbasstone" # gain "1" # sustain (slow 16 $ scale 0.3 1.2 $ saw1) # velocity "0.6" # cut "1" # crush "5"
+
+
+d1 $ slow 4 $ sound "bd808 ~ ~ bd808 [~ bd808] bd808 ~ ~ bd808" # gain (slow 4 $ scale 0.3 0.9 $ sine1)
+
+d1 $ silence
+
+d2 $ slow 4 $ every 8 ((# delay "0.8") . (# delayfeedback "0.8")) $ degradeBy 0.75 $ n "[0 ~ 3 ~]*2" # s "bch" # gain (slow 8 $ scale 0.3 0.9 $ saw1) # size (slow 8 $ scale 0.1 0.5 $ sine1) # room "0.4"
+
+d2 $ every 6 (# gain "0") $ every 4 (const $ sound "~ bsn:6 ~ ~") $
+  slow 4 $ stack [
+  degradeBy 0.75 $  n "[0 1]*4" # s "boh" # gain (slow 8 $ scale 0.4 0.8 $ saw1) # size (slow 4 $ scale 0.1 0.5 $ sine1)
+    # room "0.4"
+  ]
+
+
+
+-- voice
+
+solo $ d6 $ slow 4 $ stack [
+  slow 2 $ every 4 ((gap 2) . (striate 4)) $ sound "asher:28" # begin "0" # end "1" # gain "1" # cutoff "[400 800 1200]/3" # resonance (slow 4 $ scale 0.1 0.6 $ sine1) # speed "0.7", -- always remain true to yourselves
+  every 3 (# gain "0.8") $ every 6 (# speed "0.5") $ every 9 (density 2) $ sound "bch*8" # gain "0" # speed "0.3"
+]
+
+solo $ d3 $ every 4 (# gain "1") $ ghost $ sound "asher:3([1 2]/3,8)" # cut "0" # speed "0.6" # gain "0" # crush "4" # hresonance (slow 4 $ scale 400 2000 $ sine1) # resonance "0.4"
+
+
+
+d2 $ slow 8 $ slowcat [
+  every 4 ((slow 2) . (# sustain "0.33") . (0.25 ~>)) $
+  every 2 (degradeBy 0.5) $ slowcat [
+    n "[[gs4,css4] [fs2,fs4,cs3 b7,gs5,gs4]]",
+    n "[a5 [a6,a4,e3 e5,a6,a4]]*2",
+    n "[e3 [gs6,e4,e3 e5,fs6,fs4]]"
+  ] # s "superhammond" # sustain "2" # accelerate "0" # vibrato "0.8" # decay (slow 4 $ scale 0.2 0.8 $ sine1)
+] # speed "[1 0.5 1 2]/32" # delay "0.2" # delaytime "0.2" # delayfeedback "0.4" # gain (slow 8 $ scale 0.2 1 $ tri1)

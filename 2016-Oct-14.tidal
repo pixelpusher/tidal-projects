@@ -1,0 +1,102 @@
+-- Saturday jam in tidal by pixelpusher / soundcloud: oscjockey
+--
+
+d1 $ fastecho $ stack [
+  every 8 (density 2)  $ sound "bd808:1 ~ bd808:0 ~",
+  every 16 ((degradeBy 0.25) . density 4) $ sound "~ sn606 ~ sn606",
+  every 6 (# gain "0") $ delayline' 0.25 "0.55" $ sound "hh:0*4"
+]
+
+
+let bd1  = sound "bd808:2 ~ bd808:0 [~ bd808:1?]"
+    cym1 = sound "[ch808:0 ch808:2]*4"
+    sn1  = sound "[~ sn606:4]*2"
+    in d1 $ every 8 (const $ stack [
+        bd1,
+        (0.25 ~>) $ bd1,
+        density 2 $ sn1
+      ]) $
+      fastecho $ stack [
+        every 8 (density 2) $ bd1,
+        every 16 ((degradeBy 0.25) . (density 4)) $ sn1,
+        every 16 ((degradeBy 0.25) . (density 4)) $ cym1
+      ] # room "0.15" # size "0.2"
+
+
+
+hush
+
+let cyms = slowcat [
+        sound "[ch808 ~]*3 ch808*2",
+        sound "ch808 [~*3] [ch808 ~]*2"
+      ]
+    bdrums = slowcat [
+        sound "bd808:1 ~ ~ [~ bd808:0]",
+        sound "bd808:2 ~ sn606:1? [bd808:0 ~]"
+      ]
+    weird = slowcat [
+        sound "~ ~ ~ [~ asher:11*2]",
+        slow 4 $ striate 32 $ sound "~ ~ ~ [~ asher:10]" # resonance (slow 4 $ scale 0.1 0.4 $ sine1) # cutoff (slow 16 $ scale 200 2400 $ saw1)
+          # speed "1.5" # gain "1.2"
+      ]
+    in d1 $ stack [
+        bdrums,
+        slow 4 $ sound "~ ~ sn606:2 ~",
+        sound "bch([3 6],8)",
+        sound "bd808:2 ~ ~ ~",
+        weird,
+        cyms,
+        slow 4 $ sound "~ [~ bch*2] ~ ~ ~ [~ bch:1] [~ ~] ~" # speed "0.8" # cut "1" # gain "1.15"
+      ] # orbit "1"
+
+d2 $ every 2 (fastecho) $ slowcat [
+  every 8 ((slow 2) . (# sustain "1.53")) $
+  slowcat [
+    n "[gs2,cs5]*2 ~ [b4,b6]",
+    n "~ [a5,e3] [a4,e5] ~",
+    n "~ [b4,fs3] ~ [cs4,e5]"
+  ] # s "superhammond" # sustain "0.1" # accelerate "0.4" # vibrato "0.3" # decay (slow 4 $ scale 0.2 1.8 $ sine1)
+] # delay "0.4" # delaytime "0.25" # delayfeedback "0.5" # gain "0.75"
+
+
+d2 $ every 2 (fastecho) $ slowcat [
+  every 8 ((slow 2) . (# sustain "1.53")) $
+  slowcat [
+    n "~ [a5,e3*2] [a4,e5*2] ~",
+    n "~ [b4,fs3*2] ~ [cs4,e5*2]"
+  ] # s "superhammond" # sustain (slow 8 $ scale 0.1 0.5 $ sine1) # accelerate "0.1" # vibrato "0.1" # decay (slow 16 $ scale 0.1 1.8 $ sine1)
+] # delay "0.6" # delaytime "0.25" # delayfeedback "0.5" # gain "0.75"
+
+
+solo $ d2 $ every 2 (fastecho) $ slowcat [
+  every 8 ((slow 2) . (# sustain "1.53") . (# cut "3")) $
+  every 6 (# up "12") $ slowcat [
+    n "~ [a5,e3*2] [a4,e5*2] ~"
+  ] # s "superhammond" # sustain "0.1" # accelerate "0.1" # vibrato "0.1" # decay (slow 16 $ scale 0.1 1.8 $ sine1)
+] # delay "0.6" # delaytime "0.25" # delayfeedback "0.5" # gain "0.75"
+
+
+
+d3 $ every 3 (rev) $ every 5 (degradeFill 2 0.25) $ fastecho $
+    every 8 (const $ n "a2 ~ a4 [~ a5]" ) $
+    slowcat [
+      n "a2 [~ cs4] a3 [~ cs3]",
+      n "a2 [~ cs4] a3 [~ cs3]",
+      n "cs2 [~ e4] cs3 [~ gs3]",
+      n "cs2 [~ gs4] cs3 [~ gs3]"
+    ]
+    # s "moogbasstone" # gain "1" # sustain "0.125" # velocity (every 2 (slow 4) $ e 6 8 $ "0.7 0.3") # cut "-1" # cutfreq (slow 16 $ scale 800 2200 $ sine1)
+    # size "0.4" # room "0.4" # orbit "1" # up "[0 12]/16"
+
+
+
+d4 $ (every 2 (# cut "2")) $ slow 4 $ striate 32 $ sound "asher:20" # speed (slow 4 $ "[1.5 0.5 0.8]") # gain "1.2" # room "0.6" # cut "-1"
+
+d4 $ (every 4 (# cut "2")) $ slow 12 $ striate 48 $ slow 2 $ slowcat [
+    sound "asher:23 asher:12",
+    sound "asher:21 asher:13"
+  ] # speed (slow 4 $ "[1.2 0.8 0.9]") # gain "1.2" # room "0.8" # size "0.8" # cut "-1" # hresonance "0.6" # hcutoff (slow 16 $ scale 200 2200 $ sine1)
+  # delay "0.7" # delaytime "0.5" # delayfeedback "0.8" # dry "0.8"
+
+
+d4 $ silence

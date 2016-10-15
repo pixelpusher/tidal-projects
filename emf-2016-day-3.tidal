@@ -15,10 +15,12 @@ d4 $ slow 2 $ striate 3 $ sound "lewislane:4/2" # speed "0.4" # end "0.125" # ga
 
 d4 $ slow 3 $ striate 5 $ sound "lewislane:4/2" # speed "0.8" # cut "1" # gain "0.7" # room "0.4"
 
-d5 $ stack [
-  sometimes ((density 2). degradeBy 0.2) $ sound "amencutup:21(6,12,2)",
-  sometimes (spin 2) $ sound "amencutup:21(6,12,2)"
-] # room "[0.4 0.6 0.2]/2"
+bps (60/120)
+
+d5 $ degradeBy 0.25 $ slow 1 $ stack [
+  sometimes ((density 2) . degradeBy 0.2) $ sound "[amencutup:20 amencutup:2]([3 5],12,2)",
+  sometimes (spin 2) $ sound "amencutup:18([5 2]/3,12)" # size "0.2"
+] # room "[0.4 0.6 0.2]/2" # gain (slow 2 $ scale 0.4 0.9 $ saw1) # speed "0.8" # crush "[3 8 4 6]/8"
 
 
 
