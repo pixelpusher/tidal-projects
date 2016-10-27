@@ -1,11 +1,11 @@
 let degradeFill a = (density 2) . (degradeBy a)
 
 d3 $ stack [
-  every 2 ((degradeFill 0.75) . (ghost' (1/16))) $ ghost' (1/8) $ sound "[[cy808:6*2] cy808:7]*2" # gain (slow 8 $ scale 0.45 0.75 $ sine1),
-  every 4 (degradeFill 0.25) $ whenmod 4 3 (ghost' (1/8)) $ sound "bd808:2 [zap-blo*2]? bd808 [sn:1 [sn:1? ~]]" # up "[0 2 0 4]/8"
+  every 2 ((degradeFill 2 0.75) . (ghost' (1/16))) $ ghost' (1/8) $ sound "[[cy808:6*2] cy808:7]*2" # gain (slow 8 $ scale 0.45 0.75 $ sine1),
+  every 4 (degradeFill 2 0.25) $ whenmod 4 3 (ghost' (1/8)) $ sound "bd808:2 [zap-blo*2]? bd808 [sn:1 [sn:1? ~]]" # up "[0 2 0 4]/8"
 ]
 
-d4 $ every 4 (degradeFill 0.25) $ whenmod 4 3 (ghost' (1/8)) $ sound "arp arpy:3? arpy [arpy:1 [arpy:1?]]" # up "[2 4 -6 0]/32"
+d4 $ every 4 (degradeFill 2 0.25 ) $ whenmod 4 3 (ghost' (1/8)) $ sound "arp arpy:3? arpy [arpy:1 [arpy:1?]]" # up "[2 4 -6 0]/32"
 
 d3 $ silence
 
@@ -40,17 +40,17 @@ d2 $ stack [
 ]
 
 d2 $ stack [
-  every 4 (degradeFill 0.25) $ e 5 8 $ sound "[bd808:4 bd808:2]*4",
-  every 3 (degradeFill 0.5) $ sound "~ sn:2 ~ sn:1" # crush "4",
+  every 4 (degradeFill 2 0.25) $ e 5 8 $ sound "[bd808:4 bd808:2]*4",
+  every 3 (degradeFill 2 0.5) $ sound "~ sn:2 ~ sn:1" # crush "4",
   whenmod 8 4 (slow 2) $ ghost $ s "hh*8",
   s "cy808/2" # n "4" # up "[0 -7]/4",
   s "bd808/2" # n "6" # up "5" # gain "0.8"
 ]
 
-solo $ d2 $ every 4 (degradeFill 0.25) $ e 5 8 $ sound "[bd808:4 bd808:2]*4" # up "[0 5 3]/3"
+solo $ d2 $ every 4 (degradeFill 2 0.25) $ e 5 8 $ sound "[bd808:4 bd808:2]*4" # up "[0 5 3]/3"
 
 solo $ d2 $ stack [
-  every 3 (degradeFill 0.5) $ sound "~ sn:2 ~ sn:1" # crush "4",
+  every 3 (degradeFill 2 0.5) $ sound "~ sn:2 ~ sn:1" # crush "4",
   whenmod 8 4 (slow 2) $ ghost $ s "cy808*8" # n "5" # cut "1"
 ]
 
@@ -93,19 +93,19 @@ d1 $ ghost' 0.5 $ density 2 $ stack [
     # room (slow 8 (scale 0.1 2 $ sine1))
     # orbit "2"
 
-solo $ d1 $ ghost' 0.125 $ n ((+) <$> "[g4 g4 g4 f4] [bf4*2 c6*2]" <*> ("[0 3 1 0]/4")) # s "sinetone" # gain "1.7" # up "-16"
+solo $ d1 $ ghost' 0.125 $ n ((+) <$> "[g8 g4 g6 f4] [bf4*2 c6*2]" <*> ("[0 3 1 0]/4")) # s "sinetone" # gain "1.7" # up "0"
 
 
 bps (120/120)
 
-d1 $ whenmod 4 2 (# n "d4 f3 [d5 ~] f8") $ n "c4 c8 [c5 ~] c6" # s "sinetone" # gain "1.2" # up "-28"
+d1 $ whenmod 4 2 (# n "d4 f3 [d5 ~] f8") $ n "c4 c8 [c5 ~] c6" # s "sinetone" # gain "1.2" # up "0"
   # hresonance "0.4"
   # hcutoff (slow 24 (scale 200 2200 $ sine1))
   # size (slow 6 (scale 0.01 0.6 $ sine1))
   # room (slow 4 (scale 0.1 2 $ sine1))
 
 d1 $ slowcat [
-  density 1 $ n "[c4*2] c8 [c5*2] c6" # s "sinetone" # gain "1.2" # up "-16",
+  density 1 $ n "[c4*2] c8 [c5*2] c6" # s "sinetone" # gain "1.2" # up "-0",
   n "d4 f3 d5 f8" # s "sinetone" # gain "1.2" # up "-32",
   density 1 $ ghost' 0.25 $ n "[c4*2] c3 [c5*2] c8" # s "sinetone" # gain "1.2" # up "-16",
   n "g4 c3 g5 g6" # s "sinetone" # gain "1.2" # up "-32"

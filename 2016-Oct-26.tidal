@@ -1,0 +1,156 @@
+-- BASSSSSSSS
+
+bps (120/120)
+
+solo $ d1 $ every 3 (sometimes (density 2)) $ ghost' 0.125 $ n ((+) <$> "[g8 g4 g6 f4] [bf4*2 c6*2]" <*> ("[0 3 1 0]/4"))
+  # s "sinetone" # gain "1.3" # up "0"
+  # size (slow 12 (scale 0.01 0.6 $ sine1))
+  # room (slow 8 (scale 0.1 2 $ sine1))
+  # hresonance "[0.2 0.4 [0.8 0.2] 0.4]/6"
+  # hcutoff (slow 24 (scale 80 2200 $ saw1))
+  # orbit "2"
+
+let r1 = slowcat [
+        sound "[[~ bch] bch:2]*2",
+        sound "bsn? ~ [~ bsn:4] ~"
+      ]
+    r2 = slowcat [
+        r1,
+        sound "~ bd808 ~ ~",
+        sound "bride"
+      ]
+    in d2 $ slowcat [
+      r1,
+      r1,
+      r2,
+      slow 2 $ sometimes (rev) $ n (iter 6 $ run 24) # s "amencutup"
+    ] # orbit "2"
+
+d3 $ sometimes (slow 2) $ every 4 (spike) $ stack [
+  slowcat [
+    sound "amencutup([3 12 3 1]/2,16,1)" # speed "1.8",
+    sound "amencutup([6 12 3 6]/4,24)" # speed "0.8"
+  ],
+  slowcat [
+    sound "amencutup:1([3]/4,16)" # speed "0.8",
+    sound "amencutup:1([9 18 9 6]/4,24)" # speed "[0.8 2]/2"
+  ],
+  sound "bch:4([9 6 9 18]/4,[16 24]/4,[1 0]/3)",
+  sound "bd808"
+]
+
+
+
+let r4 = every 8 (slow 2 . degradeFill 2 0.2) $ slowcat [
+        n "0 0 [~ 2] 2" # s "bsn",
+        n "4 0 [~ 2] [~ 2]" # s "bsn",
+        n "0 [1 2] ~ [2 ~]" # s "bsn",
+        n "4 0 [3 2] [~ 2]" # s "bsn"
+      ] # gain (density 8 $ scale 0.85 1 $ tri1)
+    in d4 $ density 2 $ stack [
+        r4,
+        slowcat [
+          every 2 (slow 2) $ n "0*8" # s "boh" # gain (density 2 $ scale 0.75 1 $ tri1),
+          n "~ 2 ~ 2" # s "bch" # up "3 4 2",
+          sometimes (# up "[7 12 0]") $ s "bd808([2 5]/2,8)" # n "[0 2]"
+        ]
+      ]
+
+
+d2 $ stack [
+  sound "hh*8",
+  sound "~ [~ cp] ~ cp"
+  ] # gain (density (2/3) $ scale 0.7 0.9 $ saw1) # orbit "[1 2]/2"
+
+d3 $ sound "bd808:2(6,8)" # gain (density 6 $ scale 1 1.2 $ tri1)
+
+-- pixelpusher / oscjockey 2016 Oct 26
+
+-- bass
+
+d1 $ every 2 (# cut "[0 1]*2") $ every 3 (sometimes (density 2)) $ ghost' 0.125 $ n ((+) <$> "[c5 [~ ds4] c6 ~] [bf4 c2 ~ g6]" <*> ("[0 3 1 0]/4"))
+  # s "sinetone" # gain "1.2(6,8)" # up "[0 3 0 3]/8"
+  # size (slow 12 (scale 0.01 0.6 $ sine1))
+  # room (slow 8 (scale 0.1 2 $ sine1))
+  # hresonance (density 2 $ "[0.2 0.4 [0.8 0.2] 0.4]/6")
+  # hcutoff (slow 24 (scale 80 1200 $ saw1))
+  # orbit "2"
+  # delay "0.4"
+  # delaytime "[0.125 0.5]/6"
+  # delayfeedback "[0.6 0]/3"
+
+
+
+solo $ d1 $ every 2 (# cut "[0 1]*2") $ every 3 (sometimes (density 2)) $ ghost' 0.125 $ n "c0 c0 c0 c0 [bf2 c0 ~ g0]"
+  # s "sinetone" # gain "1.2" # up "[0 1 0 2]/8"
+  # size (slow 12 (scale 0.01 0.6 $ sine1))
+  # room (slow 8 (scale 0.1 2 $ sine1))
+  # resonance (density 2 $ "[0.2 0.4 [0.8 0.2] 0.4]/6")
+  # cutoff (slow 24 (scale 80 440 $ saw1))
+  # orbit "2"
+  # delay "0.4"
+  # delaytime "[0.125 0.5]/6"
+  # delayfeedback "[0.6 0]/3"
+
+solo $ d4 $ slow 2 $ stack [
+  sound "hh*8",
+  sound "~ [~ cp] ~ cp",
+  sound "bd808:2(6,8)"
+] # gain (density (2/3) $ scale 0.2 1 $ saw1) # orbit "[0 2]"
+  # delay "0.4"
+  # delaytime "[0.125 0.5]/6"
+  # delayfeedback "[0.6 0]/3"
+  # size (slow 12 (scale 0.01 0.6 $ sine1))
+  # room (slow 8 (scale 0.1 2 $ sine1))
+
+
+d5 $ every 4 (const $
+  every 4 (slow 4 . striate' 72 0.0675) $ sound "breaks125" # speed "0.96" # cut "2") $
+  density 2 $ sound "[breaks125:0 breaks125:1?]" # speed "[0.96 0.48]/3" # end "0.5"
+  # delay "0.6"
+
+d3 $ sometimes (degradeFill 2 0.2) $ n "0 1*2 2 2" # s "amencutup"
+
+d5 $ every 4 (slow 4 . striate' 72 0.0675) $ sound "breaks125" # speed "0.96" # cut "5" # delay "0.4"
+  # delaytime "[0.125 0.5]/6"
+  # delayfeedback "[0.6 0.2]/3"
+  # size (slow 12 (scale 0.01 0.6 $ sine1))
+  # room (slow 8 (scale 0.1 1.2 $ sine1))
+
+d2 $ n "[0 2]([6 8]/2,8)" # s "bd808" # gain "1.3"
+
+
+
+hush
+
+d2 $ n "[0 2]([6 8]/2,8)" # s "bd808"
+
+d3 $ sometimes (degradeFill 4 0.2) $
+  slowcat [
+    n "0 1*1 2 [2 4?]" # s "amencutup",
+    density 2 $ n "[5,6] [~ 5] 2 [~ 4]" # s "amencutup"
+  ] # delay "0.7"
+  # delaytime "[0.125 0.5]/6"
+  # delayfeedback "[0.8 0.4]/3"
+  # size (slow 12 (scale 0.01 0.6 $ sine1))
+  # room (slow 8 (scale 0.1 1.2 $ sine1))
+  # gain "[0.8 0.9](16,8)"
+  # orbit "2"
+
+d5 $ density 1 $ slow 2 $ gap 2 $ chop 18 $ sound "[breaks125:0 breaks125:1?]" # speed "[0.96 0.48]/2" # end "0.5" # cut "4" # gain (density 8 $ scale 0.7 1.2 $ saw1)
+
+d4 $ every 4 (# cut "2") $ whenmod 4 2 (# gain "0.5") $ slow 8 $ gap 2 $ chop 8 $ sound "[asher:8 asher:7 asher:4]([2 3 6]/3,12)" # gain "1" # orbit "3" # speed "0.8" # orbit "2"
+
+d4 $ silence
+
+d5 $ silence
+
+d3 $ silence
+
+hush
+
+d1 $ every 2 (# cut "[0 8]*2") $ every 3 (sometimes (density 2)) $ ghost' 0.125 $ n "c6 c3 c6 ~ [~ g2 ~ g0]"
+  # s "sinetone" # gain "1.2" # up "[0 1 0 2]/8"
+  # hresonance (slow 12 $ scale 0.1 0.8 $ tri1)
+  # hcutoff (slow 16 $ scale 80 1200 $ sine1)
+  # orbit "2"

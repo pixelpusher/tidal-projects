@@ -1,6 +1,6 @@
 -- arpeggiating
 
-d1 $ every 16 (density 2) $ sound "[hh xx:20*2, [~ xx:32]*4, [~ bd]*2]" # up "[[16,0] [8,24]]/16"
+d1 $ every 16 (density 2) $ sound "[hh arpy:20*2, [~ arpy:32]*4, [~ bd]*2]" # up "[[16,0] [8,24]]/16"
 
 d1 $ every 4 (density 2) $ sound "[[hh]*2 [hh]]*4" # gain "0.9" # delay "0.45"
 
