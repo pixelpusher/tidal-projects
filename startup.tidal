@@ -51,7 +51,8 @@ let (lforate, _) = pF "lforate" (Just 0)
     (gate, _) = pF "gate" (Just 0)
     (modamp, _) = pF "modamp" (Just 0)
     (vibrato, _) = pF "vibrato" (Just 0)
-
+    (perc, _) = pF "perc" (Just 0)
+    (percf, _) = pF "percf" (Just 0)
 
 
 
