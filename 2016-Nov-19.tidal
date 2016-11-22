@@ -1,36 +1,55 @@
 -- 2016 Nov 19
 
-let fastecho2 n p = superimpose ((n ~>) . (# gain "0.75")) p
+let fastecho2 n p = superimpose ((n ~>) . (# gain "0.95")) p
 
 cps 0.6
 
-d2 $ iter 8 $ sound "bch(2,4) bch(3,4) [boh bch]" # gain "1.1"
+d2 $ stack [
+    iter 8 $ sound "bch(2,4) bch(3,4) [boh bch]" # gain "1.1",
+    sound "cp-echo/4"
+  ]
 
-d2 $ silence
+d2 $ stack [
+    fastecho2 (2/8) $ iter 8 $ n "72 [96,120,158?]*2 [55 86?] 60" # s "sinetone" # gain "1.0",
+    sound "cp-echo/4"
+  ]
 
 d2 $ every 2 (rev) $ iter 4 $
   stack [
     sound "bch*2 boh:2 bd808:2 bch" # gain "1" # room "0.4" # size (slow 4 $ scale 0.01 0.6 $ sine1)
       # resonance (slow 4 $ scale 0.1 0.6 $ saw1) # cutoff "[200 400 800 1600]/8",
-    fastecho2 (5/8) $ iter 4 $ n "48 [96,120] [55 60?] [92,96]" # s "sinetone" # gain "1.2",
+    fastecho2 (5/8) $ iter 4 $ n "48 [96,120,158?]*2 [55 86?] [92,96]" # s "sinetone" # gain "1.05",
     iter 4 $ sometimes (density 2) $ slowcat [
-      n "0 0 1*2 4",
+      n "0 0*2 1*2 4",
       n "0 1 0 2"
     ] # s "bch",
     iter 4 $ n "1(3,4)" # s "bd808" # gain "1.2"
   ]
 
 d1 $ stack [
-  slow 2 $ every 4 (density 2) $ sound "bd808:2(4,4)" # orbit "2" # gain "1.3",
-  slow 2 $ iter 4 $ sound "[bch:0 bch:2](6,8,1)",
-  sometimes (# gain "0") $ iter 8 $ sound "[cp-echo:0 bch:1](3,16)" # cut "0",
-  slowcat [
+  slow 2 $ every 4 (density 2) $ sound "bd808:2(4,4)" # orbit "2" # gain "1.4",
+  slow 1 $ iter 4 $ sound "[bch:0 bch:2](6,8,1)",
+  sometimes (# gain "0") $ slow 4 $ iter 8 $ sound "[cp-echo:0 bch:1](4,16)" # cut "0",
+  fastecho2 (1/8) $ slowcat [
     n "1 ~ 1*2 ~",
     n "~ ~ 1*2 [~ 2]",
     n "1 ~ 1*2 ~",
     n "~ [~ 1] 2*2 [1? 3]"
-  ] # s "bsn"
+  ] # s "bsn" # gain "1.1"
 ]
+
+hush
+
+d1 $ every 2 (fastecho2 (1/8)) $ stack [
+  slowcat [
+    every 4 (slow 2) $ n "[[~ 1] [~ 0]](16,6)" # s "[bride bcrash]*8"
+  ],
+  every 8 (slow 2) $ slowcat [
+    degradeBy (1/16) $ n "[1 [0 0?] 3 4]*4" # s (iter 8 $ "[bsn bcrash bbass bsn]*2"),
+    every 2 (density 2) $ n "[1 0 0 [~ 1]]" # s "bsn bbass"
+  ]
+] # gain "1.2"
+
 
 hush
 
@@ -63,9 +82,137 @@ d3 $ silence
 -- ambient noises
 
 d4 $ every 4 ((rev) . (slow 2)) $ slow 32 $ striate' 200 (1/16) $ sound "cows:1"
-  # cut "[0 1]*2" # speed "0.75" # gain "0.85" # hresonance "0.3" # hcutoff (slow 16 $ scale 600 3200 $ tri1)
+  # cut "[0 1]*2" # speed "0.75" # gain "0.85" # hresonance "0.2" # hcutoff (slow 16 $ scale 800 4400 $ tri1)
   # orbit "3"
 
-d5 $ whenmod 8 2 (# gain "0") $ sound "ambiance/4" # gain "1.3" # speed "[[0.6 2](10,16)]/4" # cut "2"
+d5 $ every 4 (# cut "4") $ whenmod 8 6 (# gain "0") $ sound "ambiance/2" # gain "1.3" # speed "[[0.6 2](10,16)]/2"
+
+cps (-1)
+
+cps 0.6
+
+d4 $ slow 96 $ striate' 256 (1/16) $ sound "cp-echo:1"
+  # cut "1" # speed "0.66" # gain "0.8" # hresonance "0.15" # hcutoff (slow 8 $ scale 440 4400 $ tri1)
+  # orbit "3" # size "0.2" # room "0.4"
+
 
 d5 $ silence
+
+d1 $ silence
+
+d2 $ silence
+
+d3 $ silence
+
+
+--------------------------------------------------
+
+import Sound.Tidal.Scales
+
+d1 $ slow 2 $ n (permstep 16 [0 .. 4] (slow 16 sine1)) # sound "arpy"
+  # speed "0.5"
+
+
+d1 $ slow 2 $ n ((+0) <$> (permstep 16 maj9 (slow 32 saw1))) # sound "profit5"
+  # speed "0.8" # sustain "0.6"
+
+
+d1
+ $ slow 4
+ $ n (slowcat $ map (flip toScale $ "[0 1 2 3  4 3 2 1  0 -1 0 -1  0 ~ ~ ~]") [minor, kumai, hirajoshi, iwato])
+ # s "supermandolin" # sustain "[1 1 1 4]" # shape "0.6" # room "0.3" # size "0.9"
+
+ d1
+  $ every 16 (slow 2)
+  $ slow 1 $ n (slowcat $ map (flip toScale $ (+ 4) <$> "[0 1 2 1  2 3 2 4  3 2 1 2  1 ~ 0 ~]") [minor, kumai, hirajoshi, iwato])
+  # s "profit5" # sustain "[0.1*3 0.2]" # shape "0.8" # room "0.3" # size "0.9" # gain "0.8"
+
+hush
+
+
+
+-- `<$>` and `<*>` are standard haskell from the Control.Applicative library
+-- `<$>` is the same as `fmap`
+-- well in particular `f <$> x` is the same as `fmap f x`
+-- and `fmap` is kind of the same as `map`, except `map` only works on lists, and `fmap` works on any container
+-- including tidal patterns
+-- so if you have a pattern of numbers `"1 2 3"` you can add `2` to all of them with `(+2) <$> "1 2 3"`,
+-- which gets you `"3 4 5"`
+-- you can also break it up with something like `every` e.g. `every 2 ((+2) <$>) "1 2 3"`,
+-- which only adds 2 every other cycle
+-- ah, but what if you didn't want to add the number `2`, but a pattern of numbers?
+
+d1 $ n ((+) <$> "1 2 3 4" <*> "5 6 7 8") # s "profit5"
+
+-- or you can think about `(+) <$> "1 2 3"` giving you a pattern of functions,
+-- something like `"(+1) (+2) (+3)"` (except you can't specify patterns of functions in this way in reality)
+-- and then `<*>` applying the values in "5 6 7 8" to the functions inside that
+-- `a <*> b` applies the values in `b` to the functions in `a`
+
+d1 $ n ((+2) <$> "5 6 7 8") # s "profit5"
+
+d1 $ n ((+5) <$> toScale maj9 "0 1 2 3") # s "profit5" # sustain "0.4"
+
+d1 $ n ((+) <$> slowcat ["b3*4", "fs4*4"] <*> toScale maj9 "[0 1 2 3]") # s "profit5" # sustain (slowcat ["0.4", "0.2"])
+
+-- makes more sense
+
+d6 $ n (toScale maj9 ((+) <$> slowcat [degradeBy (2/8) "0*8", "1*4"] <*> "[0 1 2 3]"))
+  # s "profit5"
+  # sustain (slowcat ["0.4", "0.2"])
+
+-- add and shift
+
+d6 $ n ((+) <$> (toScale maj9 ((+) <$> slowcat [degradeBy (2/8) "0*8", "1*4"] <*> "[0 1 2 3]")) <*> "d4")
+  # s "profit5"
+  # sustain (slowcat ["0.4", "0.2"])
+
+d6 $ n ((+) <$> (toScale minor "[0 1 2 3]") <*> "d3")
+    # s "profit5"
+    # sustain (slowcat ["0.4", "0.2"])
+
+d6 $ n ((+) <$> (toScale minor "[0 1 2 3]") <*> (slow 8 $ slowcat ["c5", "e5", "f5", "d5"]))
+    # s "profit5"
+    # sustain (slowcat ["0.4", "0.2"])
+
+d2 $ fastecho $ n (slow 2 $ rev $ ((+) <$> (toScale minor "[0 1 2 3]") <*> (slow 4 $ slowcat ["c2", "e2", "f2", "d3"])))
+    # s "moogbasstone"
+    # sustain (slowcat ["0.4", "0.2"])
+    # gain "1"
+    # velocity "1.1"
+
+cps (-1)
+
+cps 0.6
+
+d7 $ fastecho $ n (slow 2 $ ((+) <$> (toScale minor "[0 1 2 3]") <*> (slow 4 $ slowcat ["c8", "e8", "f9", "d12"])))
+    # s "sinetone"
+    # sustain (slowcat ["0.6", "0.4"])
+    # gain "1.1"
+    # speed "4"
+    # resonance (slow 8 $ scale 0.1 0.6 $ sine1)
+    # cutoff (slow 16 $ scale 80 2200 $ saw1)
+    # delay "0.5"
+    # delaytime "0.0625"
+    # delayfeedback "0.4"
+
+
+d1 $ slowcat [
+  iter 8 $ n "0 ~ 0 [~ 0]" # s "bd808" # gain "1.2",
+  stack [
+    sound "bsn ~ [bd,hh] cp hh",
+    sound "boh(6,8)" # gain "[1 0.9](6,8)"
+  ],
+  sound "[bsn boh?]*4"
+]
+
+d1 $ silence
+
+d5 $ stack [
+  sound "[bch:2]*16" # gain (scale 0.85 1 $ tri1),
+  sound "[bsn:0 ~ bsn:1 ~]*4" # gain (scale 1 0.85 $ tri1),
+  sound "bbass([4 6]/2,8)",
+  sound "[~ bcrash:0]*2" # gain "1.3"
+]
+
+hush
