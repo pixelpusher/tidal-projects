@@ -154,3 +154,78 @@ d1 $ every 2 (# cut "[0 8]*2") $ every 3 (sometimes (density 2)) $ ghost' 0.125 
   # hresonance (slow 12 $ scale 0.1 0.8 $ tri1)
   # hcutoff (slow 16 $ scale 80 1200 $ sine1)
   # orbit "2"
+
+
+d1 $ superimpose ( (# sustain (slow 4 $ scale 0.1 0.4 $ tri1) ) . (# up "12") . (density 2) . (0.875 ~>))
+  $ slowcat [
+    n "[24,36] ~ [48 ~ 64 ~] [36,60]*2",
+    n ((+) <$> "[48 48] ~ ~ [~ 36]" <*> ("[0 3 1 0]/4"))
+  ]
+  # s "sinetone" # up "[0 3 1 0]/8" # sustain "[0.6 0.3](16,8)" # gain "[1.25 1.1](8,8)" # cut "0"
+  # delay "0.2"
+  # delaytime "0.125"
+  # delayfeedback "0.3"
+
+
+d3 $ every 16 (const $ stack [
+      degradeBy 0.4 $ e 12 24 $ n "[[19 18] 20]*2 [21 22]*2" # s "amencutup"
+    ]) $
+    every 8 (const $ stack [
+    n "[1 2](6,24)" # s "amencutup",
+    n "[3(8,24,1), 4(8,24,2)]" # s "amencutup",
+    n "[~ 0] ~ [~ 2] ~" # s "bd808"
+  ]) $ every 4 (degradeFill 2 0.25) $ density 1.5 $ n "[0 [1 2]] [21 22] [2 1] [2 [8 1]]" # s "amencutup"
+  # gain ((0.125 ~>) $ (density 2 $ scale 0.8 1 $ tri1))
+
+
+
+------------ pixelpusher livecode jam
+--------------- Oct 28 2016 ----------
+---------------------------------
+---- wasn't gonna record this but fuck it, why not?
+
+
+d1 $ superimpose ((# sustain (slow 4 $ scale 0.6 1.2 $ tri1) ) . (0.875 ~>) . (# gain "1"))
+  $ slowcat [
+    slow 2 $ e 4 24 $ n ((+) <$> "[24,36] ~ [48 ~ 64 ~] [36,60]*2" <*> "[0 3 1 0]/4")
+  ]
+  # s "sinetone" # sustain "2" # gain "[1.25 1.1](8,24)" # cut "0"
+  # delay "0.2"
+  # delaytime "0.125"
+  # delayfeedback "0.3"
+
+-- BASSSSSSSSSSSS (put on headphones!!)
+-- simplify
+
+d1 $ every 4 (slow 2) $ every 2 (# sustain "0.4") $ e 12 24 $ slowcat [
+  n "44 ~ 36 ~",
+  n "~ ~ 44 [~ 36]"
+] # s "sinetone" # gain "1.2" # sustain "1" # cut "1" # speed "0.25" # resonance (slow 12 $ scale 0.1 0.8 $ tri1) # cutoff (slow 16 $ scale 60 220 $ sine1)
+
+solo $ d1 $ every 4 (slow 2) $ every 4 ((# sustain "0.4")) $ e 12 24 $ n "[60,44] 24 [36,54] ~" # s "sinetone" # gain "1.2" # sustain "1" # cut "1" # speed "0.25" # resonance (slow 12 $ scale 0.1 0.8 $ tri1) # cutoff (slow 16 $ scale 60 220 $ sine1)
+
+-- drumzzzzz
+let dr1 = degradeBy 0.1 $ e 12 24 $ n "[[19 18] 20]*2 [21 [22 24]]*2" # s "amencutup" # speed "[2 1.25 2 1.1]/3"
+    dr2 = (0.125 ~>) $ dr1
+    dr3 = ((0.375 ~>) . (# gain "0.9")) $ dr1
+    in d3 $ whenmod 16 4 (slow 2) $ density 0.5 $ stack [
+        dr1,
+        dr2,
+        dr3
+      ] # hresonance (slow 8 $ scale 0 0.4 $ tri1) # hcutoff "2200"
+
+
+d3 $ whenmod 16 4 (slow 2) $ stack [
+  degradeBy 0.1 $ e 12 24 $ n "[[19 18] 20]*2 [21 22]*2" # s "amencutup" # speed "[1 1.25 1 1.1]/3",
+  (0.125 ~>) $ degradeBy 0.1 $ e 12 24 $ n "[[19 18] 20]*2 [21 22]*2" # s "amencutup" # gain (scale 0.8 1 $ tri1),
+  (0.25 ~>) $ degradeBy 0.1 $ e 12 24 $ n "[23 24]*2 [21 22]*2" # s "amencutup" # gain (scale 1 0.9 $ tri1) # speed "1"
+] # hresonance (slow 8 $ scale 0 0.4 $ tri1) # hcutoff "2200"
+
+d4 $ whenmod 16 8 (slow 2) $ superimpose ( (0.125 ~>) . (# gain "0.9")) $ stack [
+  degradeBy 0.1 $ e 12 24 $ n "[[0 1] 2]*2 1 [4 2]*2" # s (rev $ "[bch bsn]*2")
+] # speed "2" # room "0.2"
+
+
+solo $ d4 $ whenmod 12 10 (degradeFill 2 0.25) $ whenmod 16 8 (slow 2) $ superimpose ( (0.125 ~>) . (# gain "0.9")) $ stack [
+  degradeBy 0.1 $ e 12 24 $ n "[[0 1] 2]*2 1 [4 2]*2" # s (rev $ "[bch bsn]*2")
+] # speed "2" # room "0.2"
