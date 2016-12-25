@@ -1,0 +1,94 @@
+-- nov 22nd in Silver Spring
+-- oscjockey back again
+-- some nice samples from http://blumarten.com/wp-content/uploads/Jungle%20Jungle%20-%201989%20to%201999%20Samplepack.zip
+-- got a new laptop, sounds gooood....
+
+bps (68/120) -- not too fast
+
+hush
+
+-- try out some beats
+
+d1 $ sound "breaks:0*4" # speed "2.5"
+
+d1 $ sound "breaks:0*4" # speed "2.5"
+
+d1 $ sound "breaks:2*2" # speed "2"
+
+d1 $ sound "breaks:2" # speed "0.5" # begin "0.5" # end "1"
+
+d1 $ sound "breaks:3*2" # speed "0.85"
+
+d1 $ sound "breaks:4" # speed "0.825" -- this one!
+
+
+solo $
+d2 $ sometimes (const $ stack [
+    sound "bd808:2(6,8)" # gain "1.4"
+  ] ) $ slowcat [
+  sound "breaks:4" # speed "0.825", -- this one!
+  every 8 ((# speed "2") . (rev)) $ sound "breaks:3" # speed "0.85",
+  sound "amencutup:2(12,16)"
+]
+
+
+d1 $ sound "breaks:4/2" # speed "0.4125" # hresonance (slow 8 $ scale 0.1 0.5 $ saw1) # hcutoff "1200"
+
+d2 $ every 16 (gtfo) $ every 8 ((# speed "2") . (rev)) $ sound "breaks:1" # cut "1"
+
+d2 $ every 32 (gtfo) $ every 8 ((# speed "2") . (rev)) $ randcat [sound "breaks:1", sound "breaks:2*2" # speed "2"] # cut "1"
+
+d2 $ silence
+
+d1 $ silence
+
+d3 $ silence
+
+-- weird shift
+
+d3 $ every 16 (gtfo) $ slow 2 $ every 16 (gap 4) $ slow 4 $ rev $ striate' 64 0.125 $ sound "breaks:1" # speed "[0.5 2 2 3]/4" # delay "0.6" # delaytime "[0.125 0.25 0.375]/6" # delayfeedback "[0.3 0.8]/4" # gain (slow 16 $ scale 0.7 0.9 $ saw1) # room "0.5" # size "0.5"
+
+-- vocals
+
+d5 $ slowcat [
+  sound "junglevocals:0",
+  sound "~",
+  sound "junglevocals:1" # speed "2",
+  sound "~",
+  sound "~",
+  sound "~",
+  sound "junglevocals:0" # speed "0.75" # end "0.75",
+  sound "~"
+] # gain "0.9"
+
+d4 $ sound "junglevocals:2/4"
+
+d5 $ sound "junglevocals:3/4"
+
+d1 $ silence
+
+d4 $ slow 2 $ every 16 (gap 4) $ slow 4 $ rev $ striate' 64 0.125 $ sound "junglevocals:2" # speed "[0.5 2 2 3]/4"
+  # delay "0.6" # delaytime "[0.125 0.25 0.375]/6" # delayfeedback "[0.3 0.8]/4"
+  # resonance (slow 32 $ scale 0.1 0.6 $ sine1) # cutoff (slow 16 $ scale 200 3200 $ tri1) # orbit "2"
+
+solo $ d5 $ sound "asher:0" # gain "2"
+
+d5 $ sound "asher:1 ~ asher:0 ~" # gain "2"
+
+d6 $ sound "[asher:10 ~]/2" # gain "2" # speed "0.8"
+
+solo $ d4 $ slow 2 $ every 16 (gap 4) $ slow 4 $ rev $ striate' 64 0.125 $ sound "asher:16" # speed "[0.5 2 2 3]/4"
+  # delay "0.6" # delaytime "[0.125 0.25 0.375]/6" # delayfeedback "[0.2 0.5]/4"
+  # resonance (slow 32 $ scale 0.1 0.3 $ sine1) # cutoff (slow 16 $ scale 200 3200 $ tri1) # orbit "2" # gain "2"
+
+d6 $ stack [
+  sound "[bch bch:1]*16" # gain "1.5",
+  sound "amencutup:2([4 8],8)",
+  sound "amencutup:3([5 8],12,1)",
+  sound "amencutup:22([12 8],8,1)",
+  sound "bsn*8" # gain (slow 2 $ scale 0.8 1.5 $ tri1)
+]
+
+
+
+hush
