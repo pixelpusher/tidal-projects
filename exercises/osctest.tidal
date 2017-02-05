@@ -1,0 +1,49 @@
+import Sound.Tidal.OscStream
+
+import Sound.Tidal.Context as C
+
+let unity = Shape {
+      params = [ S "text" Nothing,
+                 F "size" (Just 0.5),
+                 I "vertical" (Just 0),
+                 I "horizontal" (Just 0),
+                 S "thing" Nothing
+               ],
+      cpsStamp = False,
+      C.latency = 0
+      }
+    unitySlang = OscSlang {
+      path = "/tc",
+      timestamp = NoStamp,
+      namedParams = False,
+      preamble = []
+      }
+    unityStream = do
+      s <- makeConnection "127.0.0.1" 12000 unitySlang
+      stream (Backend s $ (\_ _ _ -> return ())) unity
+    text       = makeS unity "text"
+    size       = makeF unity "size"
+    vertical   = makeF unity "vertical"
+    horizontal = makeF unity "horizontal"
+    thing     = makeS unity "thing"
+
+u1 <- unityStream
+
+u1 $
+  every 4 ((#figure "shroom") . (# size "2") . slow 8) $
+  sometimes (superimpose (# horizontal (sometimesBy 0.25 (fmap(*(-(1)))) "[2 5 10]/3"))) $
+  sometimes (superimpose (# vertical (sometimesBy 0.25 (fmap(*(-(1)))) "[2 5 10]/3"))) $
+  slow 2 $ text "silly intro lovecoded with tidalcycles and unity3d"
+  # size (every 2 (fmap(*1.5)) $ every 4 (fmap(+2)) $ sometimes(within(0,0.25)(fmap(*2))) "[0.25 0.1 0.3 0.35]/4")
+  # horizontal "0" --[-1 -2 1 2]/4"
+  # vertical "[-5 10 -10 5]/4"
+  # figure "[cube shroom shroom cube]/4"
+
+u1 $
+  every 4 ((#figure "shroom") . (# size "2") . slow 8) $
+  slow 2 $ text "silly intro lovecoded with tidalcycles and unity3d"
+  # size (every 2 (fmap(*1.5)) $ every 4 (fmap(+2)) $ sometimes(within(0,0.25)(fmap(*2))) "[0.25 0.1 0.3 0.35]/4")
+  # figure "[cube shroom shroom cube]/4"
+
+
+u1 $ silence

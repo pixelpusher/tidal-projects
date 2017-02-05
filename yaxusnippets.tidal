@@ -1,5 +1,14 @@
 -- Tidal snippets
 
+d1 $ do a <- slow 2 tri1
+        b <- slow 4 tri1
+        within (toRational a, toRational b) (density 8) $ sound "bd arpy:1 arpy:2 arpy:5"
+
+
+[8:22]
+putting things into a `do` block allows you to break down the construction of a pattern into steps, where `<-` turns patterns of values into a value, which you can then pass to functions like `within` (edited)
+
+
 -- 4 beat
 d1 $ spin (2) $ sound "odx*4"
             |+| speed "2.5"

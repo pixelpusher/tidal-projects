@@ -1,0 +1,106 @@
+-- Dec 28, 2017
+
+-- started out trying to re-engineer J. Dilla as played by The Roots
+-- and came up with this...
+
+import Sound.Tidal.Scales
+
+cps (-1)
+
+cps 0.806
+
+
+-- better drums
+
+d1 $ gain "[0.9 0.7]*4" # n "[1 4]*2 [4 1]*2" # s "bch"
+
+-- fill
+
+d1 $ n "[1 1 ~ 4] [1 1 4 ~]" # s "bch"
+
+d1 $ n "[1 [1 1] 4 [~ 1]]" # s "bch"
+
+d1 $ every 4 (const $ sometimes (density 2) $ n "[1 [1 1] 4 [~ 1]]" # s "bch")
+   $ n "[1 1 ~ 4] [1 1 4 ~]" # s "bch" # size "0.3" # room "0.2"
+-- grooving
+
+d1 $ n "[1 1 4 ~]*2" # s "bch"
+
+d3 $ slow 2 $ every 4 ((0.125 ~>) . (rev) . (density 2)) $ sound "~ ~ bsn:1 ~ ~ ~ bsn:2 ~" # orbit "1" # speed "0.8"
+
+-- getting there - basslines
+
+d4 $ slowcat [
+    n ((+) <$> "[-24] ~ [~ -24] [~ -24]" <*> (toScale minor7 "[0 2 0 0 1 3 1 -1]/8"))
+  ] # s "moogbasstone" # gain "1.6" # sustain "0.65" # cutfreq "600"
+
+solo $ d4 $ n ((+) <$> (slowcat [
+    "[-24] ~ [~ -24] [~ -24]",
+    "[~ -24] ~ [~ -24] [~ ~]",
+    "[-24] ~ [~ -24] [~ -24]",
+    "~ -24 [~ -24] ~"
+  ]) <*> (toScale minor7 "[0 2 0 0 1 3 1 -1]/8")) # s "moogbasstone" # gain "1.6" # sustain "0.5" # cutfreq "660"
+
+-- melody
+
+d5 $ (0.25 ~>) $ slowcat [
+    n ((+) <$> "[-12] ~ [~ -12] [~ -12]" <*> (toScale minor7 "[0 2 0 0 1 3 1 -1]/8"))
+  ] # s "supersaw" # gain "[0.85 1]*4" # sustain "0.18" # cutfreq "1600"
+
+-- improvised a bit
+
+d5 $ every 8 (trunc 0.5) $ every 2 (trunc 0.75) $ every 6 ((0.125 ~>) . (slow 2)) $ (0.5 ~>) $ slowcat [
+    n ((+) <$> "[-12] ~ [~ -12] [~ -12]" <*> (toScale minor7 "[0 2 0 0 1 3 1 -1]/8"))
+  ] # s "supersaw" # gain "1" # sustain "0.3" # cutfreq "1600"
+
+
+solo $ d6 $ every 8 (trunc 0.5) $ every 2 (trunc 0.75) $ every 6 ((0.125 ~>) . (slow 2)) $ (0.25 ~>) $ slowcat [
+    n ((+) <$> "[-12] [~ 0] [0 -12] [~ -12]" <*> (toScale minor7 "[[0,2,5] [-1,1,2] [3,5,7] [-1,1,2] 1 [-3,-1,1] 1 -1]/4"))
+  ] # s "superpiano" # gain "[0.7 0.6]*4" # sustain "0.20" # size "0.3" # room "0.2"
+
+solo $ d6 $ every 8 (trunc 0.5) $ every 2 (trunc 0.75) $ every 6 ((0.125 ~>) . (slow 2)) $ (0.25 ~>) $ slowcat [
+    n ((+) <$> "[-12] [~ 0] [0 -12] [~ -12]" <*> (toScale minor7 "[[0,2,5] [-1,1,2]]/2"))
+  ] # s "superpiano" # gain "[0.7 0.6]*4" # sustain "0.20" # size "0.3" # room "0.2"
+
+d7 $ sometimes (slow 2) $ every 4 (trunc 0.5) $ rev $ slowcat [
+    n ((+) <$> "[~] [5 ~] [7 5] [~ 12]" <*> (toScale minor7 "[[0,2,5] [0,3,7]]/2"))
+  ] # s "superpiano" # gain "[0.7 0.6]*4" # sustain "0.20" # size "0.3" # room "0.2"
+
+
+
+
+----- DOESN'T WORK WITH THIS --------------------------------------
+
+solo $ d1 $ gain "[0.7 [~ 0.8]]*4" # n "3" # s "jazz"
+
+d2 $ (0.125 ~>) $ gain "[0.8 [~ 0.9]]*4" # n "0" # s "jazz"
+
+d3 $ (0 ~>) $ rev $ gain "[[~ 0.8] ~ 0.7 ~]" # n "7" # s "jazz" # crush "2"
+
+
+
+d1 $ gain "[0.9 0.7]*4" # n "[1 4]*2 [4 1]*2" # s "bch"
+
+d1 $ n "[1 1 ~ 4]*2" # s "bch"
+
+d1 $ n "[~ 1 1 4]*2" # s "bch"
+
+d1 $ every 16 (density 2) $ n "[~ 2 3 3]" # s "bride" # gain "1.3" # speed "1.5"
+
+d2 $ every 16 (density 2) $ s "[4 0 1 1]" # s "bch" # gain "1.3" # speed "1.5"
+
+d3 $ slow 2 $ every 16 ((0.125 ~>) . (density 4)) $ sound "~ ~ sn:7 ~ ~ ~ sn:7 ~"
+
+d4 $ slowcat [
+    n "[-17,-29] ~ [~ -22] [~ -22]",
+    n "[~ -22] ~ [~ -22] [~ -22]",
+    n "[-17,-29] ~ [~ -22] [~ -22]",
+    n "~ -22 [~ -22] ~"
+  ] # s "moogbasstone" # gain "1.6" # sustain "0.5"
+
+solo $ d4 $ slowcat [
+    n "[-22] ~ [~ -22] [~ -22]",
+    n "[~ -22] ~ [~ -22] [~ ~]",
+    n "[-22] ~ [~ -22] [~ -22]",
+    n "~ -22 [~ -22] ~"
+  ] # s "moogbasstone" # gain "1.6" # sustain "0.5" # cutfreq "600"
