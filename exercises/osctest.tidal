@@ -2,35 +2,33 @@ import Sound.Tidal.OscStream
 
 import Sound.Tidal.Context as C
 
-let unity = Shape {
-      params = [ S "text" Nothing,
-                 F "size" (Just 0.5),
-                 I "vertical" (Just 0),
-                 I "horizontal" (Just 0),
-                 S "thing" Nothing
+let p5osc = Shape {
+      params = [ S "imgMode" Nothing, -- mirror, left, right, clear
+                 S "colorMode" Nothing, -- invert, firey, cool
+                 F "brightness" (Just 1.0),
+                 S "storm" Nothing -- big, small, tiny, etc...
                ],
       cpsStamp = False,
       C.latency = 0
       }
-    unitySlang = OscSlang {
+    p5oscSlang = OscSlang {
       path = "/tc",
       timestamp = NoStamp,
       namedParams = False,
       preamble = []
       }
-    unityStream = do
-      s <- makeConnection "127.0.0.1" 12000 unitySlang
-      stream (Backend s $ (\_ _ _ -> return ())) unity
-    text       = makeS unity "text"
-    size       = makeF unity "size"
-    vertical   = makeF unity "vertical"
-    horizontal = makeF unity "horizontal"
-    thing     = makeS unity "thing"
+    p5oscStream = do
+      s <- makeConnection "127.0.0.1" 12000 p5oscSlang
+      stream (Backend s $ (\_ _ _ -> return ())) p5osc
+    imgMode       = makeS p5osc "imgMode"
+    colorMode       = makeS p5osc "colorMode"
+    brightness   = makeF p5osc "brightness"
+    storm = makeS p5osc "storm"
 
-u1 <- unityStream
+p1 <- p5oscStream
 
-u1 $
-  every 4 ((#figure "shroom") . (# size "2") . slow 8) $
+p1 $
+  every 4 ((#storm "big") . (# size "2") . slow 8) $
   sometimes (superimpose (# horizontal (sometimesBy 0.25 (fmap(*(-(1)))) "[2 5 10]/3"))) $
   sometimes (superimpose (# vertical (sometimesBy 0.25 (fmap(*(-(1)))) "[2 5 10]/3"))) $
   slow 2 $ text "silly intro lovecoded with tidalcycles and unity3d"
