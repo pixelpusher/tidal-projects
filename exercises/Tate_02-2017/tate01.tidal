@@ -2,13 +2,24 @@ cps 0.4
 
 cps (-1)
 
-p1 $ every 4 (#storm "big") $ imgmode "normal" # gsmode "[normal loose]/2" # colormode "invert" # brightness (slow 4 $ sine1)
+
+p1 $ gsmode "[normal loose]/2" # colormode (density 2 $ "[firey cool]!3 [invert]") # brightness (slow 4 $ sine1)
+
+p1 $ brightness (slow 4 $ sine1) # colormode (density 2 $ "[firey cool]!3 [invert]") # gsmode "[normal loose]/2"
+
+p1 $ every 4 (density 2) $ imgmode "mirror!6 left right"
 
 p1 $ silence
 
-p2 $ every 4 (#update "[1!8 0!8]*16") $ update "1!80"
+p2 $ every 4 ((#update "[1!8 0!4]*16") . (# colormode "invert firey!3") . (# cyclelife "10"))
+  $ update "1!80"
+  # cyclelife "[100 20 100 20]/16"
+  # colormode (density 1 $ "[firey cool]")
+  # gsmode "[normal loose]/2"
 
 p2 $ silence
+
+p3 $ gsmode "[normal loose]/16"
 
 d1 $ every 4 (density 2) $ sound "hh!8 sn!4"
 
