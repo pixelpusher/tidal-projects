@@ -1,0 +1,44 @@
+import Sound.Tidal.OscStream
+
+import Sound.Tidal.Context as C
+
+let p5osc = Shape {
+      params = [ S "imgmode" (Just "mirror"), -- mirror, left, right, clear
+                 S "colormode" (Just "cool"), -- invert, firey, cool
+                 F "brightness" (Just 1.0),
+                 S "storm" (Just "none"), -- big, small, tiny, etc...
+                 S "gsmode" (Just "normal"), --gray scott diffusion modes
+                 F "gsf" (Just 0.09), -- gray scott f coeff
+                 F "gsk" (Just 0.01), -- gray scott k coeff
+                 I "update" (Just 1) -- update to next frame
+               ],
+      cpsStamp = False, --cycles per second as osc tag
+      C.latency = 0
+      }
+    p5oscSlang = OscSlang {
+      path = "/tc",
+      timestamp = NoStamp,
+      namedParams = True,
+      preamble = []
+      }
+    p5oscStream = do
+      s <- makeConnection "127.0.0.1" 12000 p5oscSlang
+      stream (Backend s $ (\_ _ _ -> return ())) p5osc
+    imgmode       = makeS p5osc "imgmode"
+    colormode       = makeS p5osc "colormode"
+    brightness   = makeF p5osc "brightness"
+    storm = makeS p5osc "storm"
+    gsmode = makeS p5osc "gsmode"
+    gsf = makeF p5osc "gsf"
+    gsk = makeF p5osc "gsk"
+    update = makeI p5osc "update"
+
+p1 <- p5oscStream
+
+p2 <- p5oscStream
+
+p3 <- p5oscStream
+
+p4 <- p5oscStream
+
+p5 <- p5oscStream

@@ -3,10 +3,10 @@ import Sound.Tidal.OscStream
 import Sound.Tidal.Context as C
 
 let p5osc = Shape {
-      params = [ S "imgMode" Nothing, -- mirror, left, right, clear
-                 S "colorMode" Nothing, -- invert, firey, cool
+      params = [ S "imgMode" (Just "mirror"), -- mirror, left, right, clear
+                 S "colorMode" (Just "cool"), -- invert, firey, cool
                  F "brightness" (Just 1.0),
-                 S "storm" Nothing -- big, small, tiny, etc...
+                 S "storm" (Just "none") -- big, small, tiny, etc...
                ],
       cpsStamp = False,
       C.latency = 0
@@ -14,7 +14,7 @@ let p5osc = Shape {
     p5oscSlang = OscSlang {
       path = "/tc",
       timestamp = NoStamp,
-      namedParams = False,
+      namedParams = True,
       preamble = []
       }
     p5oscStream = do
@@ -28,14 +28,37 @@ let p5osc = Shape {
 p1 <- p5oscStream
 
 p1 $
-  every 4 ((#storm "big") . (# size "2") . slow 8) $
-  sometimes (superimpose (# horizontal (sometimesBy 0.25 (fmap(*(-(1)))) "[2 5 10]/3"))) $
-  sometimes (superimpose (# vertical (sometimesBy 0.25 (fmap(*(-(1)))) "[2 5 10]/3"))) $
-  slow 2 $ text "silly intro lovecoded with tidalcycles and unity3d"
-  # size (every 2 (fmap(*1.5)) $ every 4 (fmap(+2)) $ sometimes(within(0,0.25)(fmap(*2))) "[0.25 0.1 0.3 0.35]/4")
-  # horizontal "0" --[-1 -2 1 2]/4"
-  # vertical "[-5 10 -10 5]/4"
-  # figure "[cube shroom shroom cube]/4"
+  every 4 ((#storm "big") . (# colorMode "invert") . slow 8) $
+  brightness (slow 4 $ scale 0 1 $ sine1)
+  # imgMode "[left right]/4"
+  # storm "none"
+  # colorMode "cool"
+  # gsf "0.1"
+  # gsk "0.2"
+  # gsmode ""
+
+p1 $
+  every 4 ((#storm "big") . (# colorMode "invert") . slow 8) $
+  brightness (slow 4 $ scale 0 1 $ sine1)
+  # imgMode "[left right]/4"
+  # storm "none"
+  # colorMode "cool"
+  # gsmode "orig"
+
+p1 $
+  every 4 ((#storm "big") . (# colorMode "invert") . slow 1) $
+  brightness (slow 4 $ scale 0 1 $ sine1)
+  # imgMode "[left right]/4"
+
+
+p1 $
+  every 4 ((#storm "big") . (# colorMode "invert") . slow 8) $
+  brightness (slow 4 $ scale 0 1 $ sine1)
+  # imgMode "[left right]/4"
+  # storm "none"
+  # colorMode "cool"
+
+p1 $ silence
 
 u1 $
   every 4 ((#figure "shroom") . (# size "2") . slow 8) $

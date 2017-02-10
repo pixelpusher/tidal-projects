@@ -1,0 +1,15 @@
+cps 0.4
+
+cps (-1)
+
+p1 $ every 4 (#storm "big") $ imgmode "normal" # gsmode "[normal loose]/2" # colormode "invert" # brightness (slow 4 $ sine1)
+
+p1 $ silence
+
+p2 $ every 4 (#update "[1!8 0!8]*16") $ update "1!80"
+
+p2 $ silence
+
+d1 $ every 4 (density 2) $ sound "hh!8 sn!4"
+
+d1 $ silence

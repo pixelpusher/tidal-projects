@@ -104,3 +104,9 @@ solo $ d4 $ slowcat [
     n "[-22] ~ [~ -22] [~ -22]",
     n "~ -22 [~ -22] ~"
   ] # s "moogbasstone" # gain "1.6" # sustain "0.5" # cutfreq "600"
+
+
+--- DEC 29
+
+d1 $ slowspread density ([1, 2.5 .. 4.5] ++ [5, 4.5 .. 1.5]) $ s "[bch,[~ bsn]]"
+# pan (density 9 rand)
