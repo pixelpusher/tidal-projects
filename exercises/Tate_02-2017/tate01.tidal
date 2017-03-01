@@ -1,4 +1,4 @@
-cps 0.4
+cps 0.5
 
 cps (-1)
 
@@ -8,9 +8,114 @@ p1 $ gsmode "[normal loose]/2" # colormode (density 2 $ "[firey cool]!3 [invert]
 
 p1 $ brightness (slow 4 $ sine1) # colormode (density 2 $ "[firey cool]!3 [invert]") # gsmode "[normal loose]/2"
 
-p1 $ every 4 (density 2) $ imgmode "mirror!6 left right"
+p1 $ every 4 (density 2) $ imgmode "mirror!6 [left right]!2"
+
+p3 $ silence
 
 p1 $ silence
+
+p2 $ update "1!60"
+  # colormode "invert cool!2 firey"
+  # gsmode "loose normal"
+  # imgmode (slow 4 $ "left mirror right mirror")
+
+
+p2 $ update "1!60"
+  # colormode "invert cool!2"
+  # imgmode "left right mirror mirror"
+
+d1 $ every 4 (density 2) $ stack [
+  sound "[bd808 bch!2]*2",
+  sound "sn!1 boh!1"
+  ]
+
+d1 $ silence
+
+p1 $ silence
+
+p3 $
+
+p2 $ update "1*40" # cyclelife "[20 200]!4" # colormode "[ firey cool]*2" # imgmode "[left right]*2 mirror*2"
+
+
+
+p3 $ silence
+
+p2 $ every 4 ((# colormode "invert firey!3") . (# cyclelife "10"))
+  $ update "1!80"
+  # cyclelife "[100 20]/8"
+  # colormode (density 2 $ "[firey cool]")
+
+d1 $ every 16 (const $ stack [
+    n "~ 2 ~ [1 0]" # s "bd808",
+    n "[0 1] [1 3 [~ 0]]" # s "bch"
+    ]) $ every 4 (within (0, 0.5) (rev . (density 2)))
+   $ slow 2 $ stack [
+  n "0 2 3 0" # s "bd808",
+  n "[0 ~] [1 ~ [~ 0]]" # s "bch"
+] # size "0.5" # room "0.3" # cutoff (slow 8 $ scale 400 2400 $ saw1)
+  # crush "4 6 4 6"
+  # resonance (slow 12 $ scale 0 0.4 $ saw1)
+
+solo $ d1 $ stack [
+  n "23(6,12)" # s "amencutup",
+  n "22(8,12)" # s "amencutup",
+  every 4 (density 2) $ n "2(8,12,1)" # s "amencutup",
+  n "2(5,12)" # s "bd808"
+] # size (slow 4 $ scale 0.1 0.6 $ sine1) # room "0.3" # crush "4 8 4 10"
+
+d2 $  whenmod 4 2 (const $ stack [
+  n "[3 4]*2" # s "boh",
+  n "0(6,12,1)" # s "bsn",
+  n "0*2 2 0 [~ 4]" # s "bd808" # gain "1.4"
+]) $
+stack [
+  n "[3 4]*4" # s "boh",
+  n "0([2 4],12)" # s "cp",
+  n "0 2 0 [~ 4]" # s "bd808" # gain "1.4"
+]
+
+
+d1 $ slow 2 $ stack [
+  n "0 2 5 0" # s "bd808",
+  n "[0 ~] [1 ~ [~ 0]]" # s "bch"
+] # size "0.5" # room "0.3" # cutoff (slow 8 $ scale 400 2400 $ saw1)
+  # crush "4 6 4 6"
+  # resonance (slow 12 $ scale 0 0.4 $ saw1)
+
+d1 $ slow 1 $ stack [
+  n "2 2 ~ 0" # s "bd808",
+  n "[0 ~]*2 [1 ~ [~ 0]*2]" # s "bch"
+] # size "0.5" # room "0.3" # cutoff (slow 8 $ scale 400 2400 $ saw1)
+  # crush "8 6 8 6"
+  # resonance (slow 12 $ scale 0 0.4 $ saw1)
+
+
+d5 $ n ((+) <$> slowcat [
+"[1!3, [-1 -2]!3]",
+"[1!3,-12!3]",
+"[1!3, -12!3]",
+"[2!3]"
+] <*> (listToPat majPent)) # s "moogbasstone" # gain (slow 2 $ scale 0.8 1.2 $ sine1) # sustain "0.8"  # resonance (slow 12 $ scale 0 0.4 $ saw1)
+
+d5 $ silence
+
+
+d1 $ silence
+
+d5 $ n "[0 1]*4" # s "bch" # size "0.5" # room "0.7" # gain (slow 8 $ scale 0.7 0.9 $ tri1)
+
+p2 $ slow 4 $ update "1!80" # colormode "[cool firey]*4" # cyclelife "[20 200]*4"
+
+p2 $ every 16 ((# update "1!60") . (#colormode "cool invert cool cool")) $ update "1!80" # colormode "[cool firey]*4" # gsmode "normal" # cyclelife "[20 200]*4"
+
+
+p1 $ silence
+
+
+hush
+
+p2 $ silence
 
 p2 $ every 4 ((#update "[1!8 0!4]*16") . (# colormode "invert firey!3") . (# cyclelife "10"))
   $ update "1!80"
@@ -18,42 +123,138 @@ p2 $ every 4 ((#update "[1!8 0!4]*16") . (# colormode "invert firey!3") . (# cyc
   # colormode (density 1 $ "[firey cool]")
   # gsmode "[normal loose]/2"
 
+p1 $ update "1!80" # cyclelife "200 100 10 250"
+
+p1 $ silence
+
 p2 $ silence
 
-p3 $ gsmode "[normal!3 loose]"
+p3 $ every 4 (within (0, 0.25) (density 2)) $ gsmode "[normal!6 loose]" # colormode "invert cool cool firey" # imgmode (slow 2 $ "[left mirror right mirror]!3")
 
-p1 $ colormode "[cool!3 firey]!3 invert" # cyclelife (slow 2 $ "10 180")
+p1 $ every 4 (density 2) $ colormode "invert cool!2" # cyclelife (slow 2 $ "10 180")
 
-p2 $ every 8 (# update "1!20") $ update "1!60" # imgmode "left normal"
+p2 $ slow 4 $ every 2 ((#update "1!80") . (# imgmode "invert") . (# cyclelife "280")) $ update "1!60"
+  # cyclelife "[200 100]"
+  # imgmode "[left mirror right mirror]!3"
+  # gsmode "[normal!3 loose]"
+  # colormode "cool firey firey cool"
 
+p2 $ update "1!80" # imgmode "left right"
+
+p1 $ silence
+
+p2 $ silence
+
+p3 $ silence
 -- audio
 
-d1 $ every 4 (density 2) $ sound "hh!8 sn!4"
+solo $ d1 $ stack [
+  every 4 (density 2) $ sound "bd808:2 hh!2" # gain "1.2",
+  sound "~ cp ~ ~" # gain "1.2"
+]
+
+d1 $ every 16 (const $ sound "bd808:2*2") $ slow 2 $ stack [
+  sometimes ((density 4) . (degradeBy 0.2)) $ sound "[bd hh]*4",
+  sometimes ((density 4) . (degradeBy 0.2)) $ sound "bch*8" # gain (scale 0.8 0.9 $ saw1),
+  n "2 ~ ~ [~ 4]" # s "bd808" # gain "1.4",
+  n "0 ~ [~ 0] ~" # s "bsn" # gain "1.4"
+] # room "0.4" # size "0.3" # delay "0.2" # delaytime "0.25" # delayfeedback "0.5"
+
+d2 $ whenmod 4 1 (const $ (sometimes (density 2)) $ sound "cp*2") $
+  every 4 (rev) $ stack [
+  sometimes (density 2) $ every 2 (0.25 ~>) $ n "0 ~ [~ 0] ~" # s "bsn" # gain "1.4"
+]
+
+d1 $ stack [
+  every 4 (within (0, 0.5) (density 2)) $ sound "[bd bch]*4",
+  sound "sn*8" # gain (slow 2 $ scale 0.6 0.9 $ saw1)
+]
+
+solo $ d1 $ stack [
+  sound "woman01:5*2" # gain (slow 4 $ scale 0.6 0.8 $ sine1 ),
+  sound "bd808 ~ bd808 ~"
+  ]
+
+
+d1 $ stack [
+  every 4 (within (0, 0.5) (density 2)) $ sound "[bch*2 bch]*4"
+] # room "0.4" # size "0.5"
 
 d1 $ silence
 
-d5 $ n ((+) <$> "[0 0, -12 -15 14 9]" <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 0.9 1.4 $ sine1) # sustain "1.2"
+d5 $ n ((+) <$> slowcat [
+"[0 0, -12 -24 -36 -12]",
+"[-5 -5, 0 2 4 7]",
+"[-12 -12, -12 -24 -36 -12]",
+"[-9 -9, -12 -24 -36 -12]"
+] <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 1 1.4 $ sine1) # sustain "1.2"
 
-d4 $ n ((+) <$> "[0 ~ 0 ~, -12 ~ -10 ~]" <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 0.9 1.4 $ sine1) # sustain "1.2"
+d4 $ every 4 (density 2) $ n ((+) <$> "[10 ~ 10 ~, -12 -12*2 -12 ~]" <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 0.8 1 $ sine1) # sustain "1"
 
-d4 $ n ((+) <$> "[0 ~ 2 [~ 2], -12 [-3 -5] -10 ~]" <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 0.9 1.4 $ sine1) # sustain "1.6"
-
-d5 $ every 4 (within (0, 0.5) (density 2)) $ slow 2 $ n ((+) <$> "[3 ~ 5 [~ 2], -12 [-3 -5] -10 ~]" <*> (listToPat minPent)) # s "superpiano" # gain (slow 4 $ scale 0.8 1 $ sine1) # sustain "1.6"
-
-d4 $ sometimes (density 2) $ density 2 $ n ((+) <$> "[0 ~ 0 ~, -12 ~ -10 ~]" <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 0.9 1.4 $ sine1) # sustain (slow 16 $ scale 0.6 1 $ sine1)
+d4 $ every 4 (density 2) $ n ((+) <$> "[-0 -1 -2 -5, 2 3 4 5]" <*> (listToPat major7)) # s "moogbasstone" # gain (slow 4 $ scale 0.9 1.2 $ sine1) # sustain "0.5"
 
 d4 $ silence
 
-d2 $ slow 2 $ slowcat [
-    n (toScale minPent "[0 2 4 6]/16"),
-    n ((+) <$> "[3 -12 6]/12" <*> (toScale minPent "0 2 4"))
-  ] # s "moogbasstone" # gain "1.4" # sustain "4" # cutfreq (slow 16 $ scale 600 2000 $ sine1)
+solo $ d3 $ stack [
+  sound "woman01:2 bd808 hh bd808" # speed "0.75"
+] # gain "1"
+
+d4 $ every 4 (density 4) $ slow 4 $ n ((+) <$> "[1 ~ 5 [~ 5], -12 [-3 -5] -8 ~]" <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 0.85 1.3 $ sine1) # sustain "1.6"
+
+d5 $ slow 2 $ every 4 (within (0, 0.5) (density 2)) $ superimpose ((jux 2) . (rev)) $ slow 2 $ n ((+) <$> "[-36 ~ -5 [~ -24]]" <*> (listToPat minPent)) # s "superhex" # gain (slow 4 $ scale 0.3 0.7 $ sine1) # sustain "1.6"
+
+d4 $ sometimes (density 2) $ density 2 $ n ((+) <$> "[0 ~ 0 ~, -12 ~ -10 ~]" <*> (listToPat minPent)) # s "moogbasstone" # gain (slow 4 $ scale 0.8 1 $ sine1) # sustain (slow 16 $ scale 0.6 1 $ sine1)
+
+solo $ d6 $ n "[-24 0]([3 6],12,1)" # s "laserbeam" # gain "1.4"
+
+d5 $ silence
+
+solo $ d6 $ slow 1 $ (0.25 ~>) $ every 8 (# delay "0.8" ) $ density 2 $ every 3 (rev) $ sometimes (density 2) $ superimpose ((density 2) . (0.125 ~>) . (rev) . (# gain "0.6")) $ slow 1 $ slowcat [
+    n (toScale major7 "[1 3 5 7]/4") # up "-12" # sustain "4",
+    n (toScale majPent "[2 4 6 8, 5 7 9 11]/4") # up "-12" # sustain "2 1",
+    n ((+) <$> "[5 11, 21 11 4]/3" <*> (toScale minPent "0 2 4")) # up "-12" # sustain "2 1 2 0.5"
+  ] # s "superpiano" # gain "0.6" # hcutoff (slow 3 $ scale 100 1000 $ sine1) # hresonance (slow 2 $ scale 0.1 0.3 $ tri1) # delay "0.4" # delaytime "1.5" # delayfeedback "0.75"
+
+d5 $ whenmod 8 2 (superimpose ((slow 2) . (spin 2) . (# gain "0.65")))
+$ every 3 (rev) $ sometimes (density 2) $ superimpose ((# up "-12") . (rev) . (# gain "0.7")) $ slowcat [
+  n (toScale majPent "[8 -2 -8 -6]/8"),
+  n (toScale major7 "0*4"),
+  n (toScale majPent "[0 -8 -4 -7]/4"),
+  n (toScale major7 "[-2,1]*4")
+  ] # sustain (slow 4 $ scale 1 3 $ tri1) # s "profit5" # gain "0.65" # hcutoff (slow 8 $ scale 100 3000 $ sine1) # hresonance "0.2" # delay "0.2"
+
+d4 $ density 4 $ whenmod 1 2 (const $ stack [
+    sound "hh*6",
+    sound "cp"
+    ]) $ every 4 (density 2) $ sound "bd808:2 ~ ~ ~" # gain "1" # room "0.5" # size "0.3" # cutoff (slow 8 $ scale 80 1000 $ sine1) # resonance "0.2"
+
+d4 $ density 2 $ slowcat [
+    n (toScale minPent "[-2 -2 -2 -8]/4"),
+    n ((+) <$> "[3 2 1]/3" <*> (toScale minPent "0 2 4")),
+    n (toScale minPent "[-4 -2 -2 -4]/2"),
+    n ((+) <$> "[3 3 3]/3" <*> (toScale minPent "0 2 4"))
+  ] # s "laserbeam" # gain "1.2" # sustain "2 1 2 0.5" # size "0.3"
+
+
+solo $ d4 $ superimpose ((rev) . (# gain (slow 4 $ scale 0.7 1 $ sine1)) . (density 2) . (spin 2)) $ slowcat [
+    sometimes (density 2) $ n (toScale majPent "[0 3 5 9]"),
+    n ((+) <$> "[-20 -24 -36 -5]" <*> (toScale majPent "0 5 7 12")),
+    n (toScale majPent "0!3"),
+    sometimes (density 2) $ n (toScale majPent "[1 4 6 10]")
+  ] # s "moogbasstone" # gain "0.9" # sustain (slow 8 $ scale 0.8 2 $ sine1 ) # cutfreq (slow 16 $ scale 600 2000 $ sine1) # room "0.3" # size "0.4"
 
 
 d6 $ sound "bch:1*3 bride:2*2 bch*4" # gain (slow 2 $ scale 0.8 1.1 $ saw1) # room "0.4" # size "0.4"
 
-d5 $ sound "[bch bsn]!3 [bch bsn]*2"
+d1 $ sound "[bch bsn]!3 [bch bsn]*2"
 
-d6 $ sound "[boh bch]*8" # gain "[0.85 0.95]*8"
+d1 $ every 4 (const $ sound "[bd808 cp]!1" # gain "1.2") $ every 2 (within (0, 0.25) (slow 2)) $ stack [
+  sound "hh(16,8)" # gain "[1.2 1]*16",
+  sound "bd808(4,12)",
+  sound "cp*2 ~ cp" # gain "1.1"
+] # room "0.6" # size "0.4" # delay "0.2" # delaytime "0.12"
 
-d6 $ every 4 (within (0, 0.5) (density 2)) $ n "0 ~ 1 [~ 2?]" # s "bd808" # gain "1.4"
+solo $ d6 $ slow 2 $ every 4 (within (0, 0.5) (density 2)) $ stack [
+  n "0 ~ 1 [~ 2?]" # s "bd808" # gain "1",
+  sound "bch ~ bch ~"
+]

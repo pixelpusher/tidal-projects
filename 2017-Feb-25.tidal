@@ -1,0 +1,12 @@
+cps 0.4
+
+d1 $ do x <- slow 4 $ "8 4 16 12"
+        n (slow x $ iter 8 $ run 40) # s "woman01 man02"
+
+
+d1 $ do x <- slow 4 $ "8 4 16 12"
+        n (slow x $ iter 8 $ run 40) # s "woman01"
+
+bps (80/60)
+
+d1 $ within (0.25, 0.75) (density 2) $ n (slow 2 $ iter 4 $ iter 4 $ run 16) # s "champbreakcutup"

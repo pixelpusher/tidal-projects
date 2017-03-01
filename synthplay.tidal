@@ -1,7 +1,12 @@
 
 -- playing with synths 2016-Feb-7
 
-d1 $ density 2 $ spin 2 $ sound (pick <$> "[arpy ~]*2 arpy*2" <*> (iter 4) (run 8))
+d1 $ do x <- "[4 3 2]/3"
+        density x $ sound "arpy:2 arpy" 
+
+
+
+d1 $ density 2 $ spin 2 $ sound (pick <$> "[arpy ~]*2 arpy*2" <*> (iter 6) (run 8))
   # gain "0.8"
 
 d2 $ every 16 (density 2) $ every 8 (density 2) $ sound "bd(2,6)"
@@ -67,14 +72,12 @@ d1 $ spin (2) $ every 5 (density 2) $ (density 2) $ sound (pick <$> "arpy*3" <*>
 
 
 -- NOPE
-d1 $ superimpose (# density (* 2 ) <$> sinewave1) $ sound (pick <$> "arpy arpy arpy" <*> "[2 3 4]/2")
 
--- NOPE
-d1 $ superimpose (density 2 ) $ sound (pick <$> "arpy arpy arpy" <*> "[2 3 4]/2")
-  # shape ((/ 2) <$> sinewave1)
+d1 $ do x <- "1 2 4"
+        within (0,0.5) ((density x ) . (# gain "0.8")) $ sound (pick <$> "arpy arpy arpy" <*> "[2 3 4]/2") # shape ((/ 2) <$> sine1)
 
-d1 $ superimpose (density 2 ) $ sound "bd*2 [bd [sn sn*2 sn] sn]"
-   # shape ((/ 1) <$> sinewave1)
+d1 $ slow 4 $ superimpose (density 2 ) $ sound "bd*2 [bd [sn sn*2 sn] sn]"
+   # shape ((/ 2) <$> sine1)
 
 -- does nothing??
 d1 $ sound (pick <$> "arpy arpy" <*> (iter 2 $ "[2 1 3]")

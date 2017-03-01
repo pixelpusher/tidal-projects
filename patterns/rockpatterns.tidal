@@ -22,8 +22,8 @@ d1 $ stack [
   ],
   sometimes (delayline) $ sound "~ ~ sn606:2 ~",
   slowcat [
-    sound "[ch808 ~]*3 ch808*2",
-    sound "ch808 [~*3] [ch808 ~]*2"
+    sound "[ch808 ~]!3 ch808*2",
+    sound "ch808 [~*3] [ch808 ~]!2"
   ],
   sound "~ ~ ~ ~ ~ [~ cy808:5?] ~ ~ ~" # speed "0.8" # cut "1" # gain "0.75"
 ]
@@ -141,6 +141,21 @@ d1 $ every 8 (delayline' 0.125 "0.4") $ stack [
   every 4 (slow 2) $ every 4 (degradeBy 0.8) $ sound "[~ bride:7]*2"
 ]
 
+
+d1 $ every 16 (const $ sound "") $ stack [
+  slowcat [
+    s "bbass ~ bbass ~" # n "5",
+    s "bbass*2 ~ ~ [bbass bbass?]" # n "5"
+  ],
+  sound "~ ~ bsn:6 ~"  # size "0.5" # orbit "1",
+  slowcat [
+    delayline' 0.25 "0.55" $ sound "hh-blo:2*4" # orbit "1"
+  ],
+    slowcat [
+      delayline' 0.25 "0.45" $ sound "[bch:6 bch:7]*4" # gain "0.8" # resonance "0.8" # room (slow 4 $ scale 0.1 0.7 $ sine1) # size "0.8" #orbit "1" # crush "[4 6 16 7]/4",
+      delayline' 0.25 "0.45" $ sound "[boh:6 boh:7]*4" # gain "0.8" # resonance "0.8" # room (slow 4 $ scale 0.1 0.7 $ sine1) # size "0.8" #orbit "1" # crush "[4 6 16 7]/4"
+    ]
+]
 
 d1 $ stack [
   slowcat [

@@ -63,9 +63,9 @@ d3 $ silence
 
 -- da drumzzzzz
 
-d3 $ density 2 $ every 16 (# gain "0") $ stack [
-  sometimes (degradeBy 0.25) $ sound "bch:3!3",
-  every 8 (density 2) $ sound "bsn? ~ [bsn:1 bsn?] ~",
+d3 $ every 6 (density 2) $ every 16 (const $ sound "bd808:2*4") $ every 8 (within (0.5, 1) (rev)) $ density 2 $ every 16 (# gain "0") $ stack [
+  sometimes (degradeBy 0.25) $ sound "bch:3!7",
+  every 8 (density 2) $ sometimes (within (0,0.5) (density 2)) $ sound "bsn? ~ [bsn:1 bsn?] ~",
   sound "[boh:5*2 bch:6*3]" # cutoff (slow 16 $ scale 400 4000 $ saw1) # resonance "0.2"
 ] # orbit "1"
 
@@ -74,16 +74,44 @@ d3 $ density 2 $ every 16 (# gain "0") $ stack [
 
 d4 $ silence
 
-solo $ d4 $
-  superimpose ((0.125 ~>) . (# gain "0.85") . (# up "[3 12]/2"))  $ slowcat [
+d6 $ stack [
+  every 6 (within (0,0.5) (density 2)) $ sound "[boh bch]*4" # gain "0.9",
+  every 4 (const $ sound "") $ sound "bd808*4"
+]
+
+d5 $
+  every 4 (rev) $ superimpose ((0.25 ~>) . (density 0.5) . (# gain "0.8") . (# up "[-5 -12 -7 -1 0]/6"))  $ slowcat [
+    n "[[g2,c3], [a0,es5]]*2",
+    n "[c2 [b0,es5]]*2",
+    n "[[c2,c5], [a0,es5]]*2",
+    n "[g2 [a0,es5]]*2"
+] # s "moogbasstone" # gain "0.85" # sustain "0.8" # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0" # crush "4"
+
+d5 $ silence
+
+d4 $
+  every 4 (rev) $ superimpose ((0.25 ~>) . (# gain "2") . (# up "[-5 -9]/2"))  $ slowcat [
+    n "[gs5 [a4,fs3]]*2"
+] # s "laserbeam" # gain "1.8" # sustain "1"
+
+
+d4 $
+  every 4 (rev) $ superimpose ((0.125 ~>) . (density 2) . (# gain "0.85") . (# up "[-5 -12]/2"))  $ slowcat [
+    n "[~ [a2,fs5 a3,e7]]!3"
+] # s "moogbasstone" # gain "1" # sustain "0.08" # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0"
+
+d5 $
+  rev $ superimpose ((0.125 ~>) . (# gain "0.85") . (# up "[-12 -24]/2"))  $ slowcat [
     n "[~ [e2,e5 e3,e7]]!3"
 ] # s "moogbasstone" # gain "1" # sustain "0.08" # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0"
 
+
 -- up slightly
+d5 $ silence
 
 d4 $
   superimpose ((0.125 ~>) . (# gain "0.85") . (# up "[3 12]/2"))  $ slowcat [
-    n "[~ [fs2 ~]]!3"
+    n "[~ [fs2 fs5]]!3"
 ] # s "moogbasstone" # gain "1" # sustain "0.15" # velocity "0.6" # cutfreq "[400 1200 2000]/3" # cut "0"
 
 
