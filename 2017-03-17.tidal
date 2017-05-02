@@ -1,0 +1,13 @@
+import Sound.Tidal.Scales
+
+cps (-1)
+
+bps (110/120)
+
+d1 $ every 4 (superimpose ((rev) . (density 2))) $ 
+    stack [
+        delayline $ n "0*4 0 0" # s "bch",
+        every 4 (const $ sound "cp*2 ~!2") $ sound "[~ bd]!1"
+    ]
+
+d2 $ n ((+) <$> (toScale major "0 ~ [~ 0] ~") <*> "[c5 g4]/4") # s "moogbasstone"

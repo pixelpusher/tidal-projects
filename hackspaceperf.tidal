@@ -1,0 +1,12 @@
+bps (120/120)
+
+p1 $ update "1" # addcycle "1"
+
+p2 $ update "1!60"
+  # colormode "invert cool firey cool"
+  # gsmode "loose normal"
+  # imgmode (slow 4 $ "left mirror right mirror")
+
+p1 $ silence
+
+p2 $ silence

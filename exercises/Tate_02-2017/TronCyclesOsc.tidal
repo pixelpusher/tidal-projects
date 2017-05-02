@@ -11,7 +11,8 @@ let p5osc = Shape {
                  F "gsf" (Just 0.09), -- gray scott f coeff
                  F "gsk" (Just 0.01), -- gray scott k coeff
                  I "cyclelife" (Just 100), -- update to next frame
-                 I "update" (Just 1) -- update to next frame
+                 I "update" (Just 1), -- update to next frame
+                 I "addcycle" (Just 1) -- update to next frame
                ],
       cpsStamp = False, --cycles per second as osc tag
       C.latency = 0
@@ -34,6 +35,7 @@ let p5osc = Shape {
     gsk = makeF p5osc "gsk"
     cyclelife = makeI p5osc "cyclelife"
     update = makeI p5osc "update"
+    addcycle = makeI p5osc "addcycle"
 
 p1 <- p5oscStream
 

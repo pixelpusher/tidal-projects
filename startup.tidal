@@ -31,12 +31,13 @@ let every' n o f = when ((== (o-1)) . (`mod` n)) f
 
 import Sound.Tidal.Scales
 
-let toScale::[Int] -> Pattern Int -> Pattern Int
-    toScale s p = (+) <$> fmap (s!!) notep <*> fmap (12*) octp
-      where notep = fmap (`mod` (length s)) p
-            octp  = fmap (`div` (length s)) p
+--let toScale::[Int] -> Pattern Int -> Pattern Int
+--    toScale s p = (+) <$> fmap (s!!) notep <*> fmap (12*) octp
+--      where notep = fmap (`mod` (length s)) p
+--            octp  = fmap (`div` (length s)) p
 
 let (lforate, _) = pF "lforate" (Just 0)
+    (vrate, _) = pF "vrate" (Just 0)
     (lfowidth, _) = pF "lfowidth" (Just 0)
     (cutoff, _) = pF "cutoff" (Just 0)
     (cutfreq, _) = pF "cutfreq" (Just 0)
@@ -46,5 +47,18 @@ let (lforate, _) = pF "lforate" (Just 0)
     (vibrato, _) = pF "vibrato" (Just 0)
     (perc, _) = pF "perc" (Just 0)
     (percf, _) = pF "percf" (Just 0)
+    (note2, _) = pF "note2" (Nothing)
+    (note3, _) = pF "note2" (Nothing)
+    (degree, degree_p) = pF "degree" (Nothing)
+    (ctranspose, ctranspose_p) = pF "ctranspose" (Nothing)
+    (mtranspose, mtranspose_p) = pF "mtranspose" (Nothing)
+    (gtranspose, gtranspose_p) = pF "gtranspose" (Nothing)
+    (harmonic, harmonic_p) = pF "harmonic" (Nothing)
+    (detune, detune_p) = pF "detune" (Nothing)
+    (scale, scale_p) = pS "scaleName" (Nothing)
+    (tuning, tuning_p) = pS "tuningName" (Nothing)
+    (stepsPerOctave, stepsPerOctave_p) = pI "stepsPerOctave" (Nothing)
+    (octaveRatio, octaveRatio_p) = pF "octaveRatio" (Nothing)
+
 
 hush
