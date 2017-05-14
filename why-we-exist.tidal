@@ -1,11 +1,15 @@
+import Sound.Tidal.Scales
+
 bps (120/120)
 
 let addp a b = ((+) <$> a <*> b)
     melody1 = toScale majPent (permstep 16 [0 .. 8] (slow 16 sine1))
 
-d1 $ slow 1 $ every 4 (within (0,0.5) (density 2)) $ superimpose ((0.125 ~>) . (rev) . (# up "[-14 7]/8")) $ n (toScale majPent "0 2 0 4") # s "profit5" # sustain "0.1" # delay "0.6" # delaytime "0.125" # delayfeedback "0.6"
 
-d2 $ whenmod 8 6 (const $ s "") $ every 4 (const $ s "") $ whenmod 4 2 ((density 2) . (# sustain "1")) $ slow 2 $ n (addp melody1 "2*8") # s "bdsynth" # gain "1.2" # sustain "[ 1 2]/4"
+
+d1 $ slow 1 $ every 2 (within (0,0.125) (density 2)) $ superimpose ((0.125 ~>) . (rev) . (# up "[-3 7]/8")) $ n (toScale majPent "0 2 0 4") # s "profit5" # sustain "0.1" # delay "0.6" # delaytime "0.125" # delayfeedback "0.6"
+
+d2 $ whenmod 8 6 (const $ s "") $ every 4 (const $ s "") $ whenmod 4 2 ((density 2) . (# sustain "1")) $ slow 2 $ n (addp melody1 "2*8") # s "bdsynth" # gain "1" # sustain "[ 1 2]/4"
 
 d3 $ whenmod 8 4 (const $ s "") $ every 4 (const $ s "") $ every 2 (degradeBy 0.2) $ every 4 (slow 4) $ superimpose (0.125 ~>) $ stack [
     (0.25 ~>) $ every 4 (density 2) $ n (permstep 16 [0 .. 4] (slow 16 sine1)) # s "bch",
@@ -30,20 +34,30 @@ d4 $ stack [
 
 d5 $ every 4 (within (0,0.5) (density 2)) $ sound "bch*8" # gain "1.2" # room "0.3" # size "0.4" # orbit "1"
 
-d6 $ delayline $ every 8 (const $ density 2 $ sound "boh:4") $ every 4 (density 2) $ sound "bsn:1 ~ bsn ~" # gain "1.4"
+d6 $ delayline $ every 8 (const $ density 2 $ sound "boh:4") 
+   $ every 4 (density 2) $ sound "bsn:1 ~ bsn ~" # gain "1.4"
 
-d7 $ degradeBy 0.2 $ (0.125 ~>) $ n (addp melody2 "[-24 -36]/2") # s "moogbasstone" # gain "1.2" # sustain "0.25" # velocity "0.8" # cut "1"
+-- not this one
+d7 $ degradeBy 0.2 $ (0.125 ~>) $ n (addp melody2 "[-24 -36]/2") # s "moogbasstone" # gain "1" # sustain "0.25" # velocity "0.8" # cut "1"
 
 
 
 
 
 -- Cm7
-d7 $ whenmod 16 12 (slow 2) $ superimpose ((# gain "1.2") . (0.25 ~>) . (# up "12")) $ slowcat [
-    n "[~ cf2] [g2*2] ~ [bf4 bf2]",
-    n "[~ cf2] [g2*2] ~ [bf4 bf2]",
-    n "[~ cf2] [g2*2] ~ [bf4 bf2]",
-    n "[~ df2] [af2*2] ~ [cf4 cf3]"
-  ] # s "moogbasstone" # gain "1.2" # sustain "0.25" # velocity "0.8" # cut "1"
+d7 $ whenmod 16 12 (slow 1) $ superimpose ((# gain "1") . (0.25 ~>) . (# up "12")) $ slowcat [
+    n "[~ cf2] [g2*2] ~ [bf3 bf2]",
+    n "[~ cf2] [g2*2] ~ [bf3 bf2]",
+    n "[~ cf2] [g2*2] ~ [bf3 bf2]",
+    n "[~ df2] [af2*2] ~ [cf3 cf3]"
+  ] # s "moogbasstone" # gain "1.2" # sustain "0.2" # velocity "0.8" # cut "-1"
 
+
+d8 $ degree (slowcat [
+     iter 2 $ (run 7),
+     "0 2",
+     permstep 12 [0,2..16] (rev $ slow 4 saw1)
+]) |+| degree "<-1 4>" # scale_p "<hexMajor7 minor>" # octave "5"
+       # s "moogbasstone"
+      
 
