@@ -1,0 +1,88 @@
+
+let repeat2 x y p1 p2 = cat ((replicate x $ p1) ++ (replicate y $ p2))
+
+bps (150/120)
+
+d2 $ s "rough!4" # distort (slow 4 $ scale 0 1 sine1) # gain "0.8"
+ 
+d1 $ ((1/8) ~>) $ slow 2 $ n (run 8) # s "bd606"
+
+solo $ d1  
+   $ overlay (every 4 (# s "bd606:2") $ s "[~ bd606:4]!4") 
+   -- $ overlay (s "~ [~ sndr606:2*2] ~ [sndr606:3 sndr606:1*2?]")
+   -- $ overlay (slow 4 $ s "~ cp-echo ~ ~ ")
+   $ overlay (density 2 $ rev $ delayline' (2/16) "0.8" $ s "[~ hh-blo:0]!4" # gain "0.9")
+   $ const silence 
+   $ off (1/8) (|*| gain "0.9") 
+   $ ((1/2) ~>) 
+   $ s "moogbasstone!2 ~" # degree "<0 0 0 -2>" # scale_p "dorian" # sustain "0.2" # octave "4" # octersub (slow 8 $ scale 0 4 sine1) # octersubsub (slow 6 $ scale 0 4 sine1) # gain "0.85" 
+
+d3 $ every 4 (off (1/8) (# octave "4")) $ degree "~ ~ [~ [-2*2]] ~" # scale_p "dorian" # octave "6" # s "donk"
+
+d4 $ off (1/8) ((slow 2) . (# s "sndr606:8") . (|*| gain "0.9")) $ overlay (s "sndr606:6(3,8)")
+   $ overlay (s "bd606:2*4") $ density 2 $ s "[bch*2 bch boh:7 ~]" # speed "0.8" # size "0.3" # room "0.3"
+
+
+
+let x = 4
+    in d3 
+       $ off (5/16) (|*| gain "0.8") 
+       $ off (7/16) (|*| gain "0.8") 
+       $ degree "-1 1 0 0 ~!4" # s "kalimba" # scale_p (slow x $ "<dorian minor>") # ctranspose (slow x $ "<0 4>") # gain "1.5"
+
+let x = 4
+    y = 2
+    in d2
+       $ ((1/8) ~>)
+       $ off (5/16) (|*| gain "0.8") 
+       $ off (7/16) (|*| gain "0.8") 
+       $ degree "-1 1 0 0 ~!4" 
+       # scale_p (cat ((replicate x $ "dorian") ++ (replicate y $ "minor"))) # ctranspose (cat ((replicate x $ "0") ++ (replicate y $ "8"))) # gain "1.5" # s "kalimba"
+       # ring (slow 8 $ scale 0 0.5 sine1) 
+       # ringf (slow 6 $ scale 200 1800 tri1)
+
+let x = 3
+    y = 1
+    in d2
+       $ off (1/8) ((# gain (slow 16 $ scale 0.6 1.5 sine)) . (# octave "6"))
+       $ off (5/16) (|*| gain "0.8") 
+       $ off (7/16) (|*| gain "0.8") 
+       $ degree "-1 1 0 0 ~!4" 
+       # ring (slow 8 $ scale 0 0.5 sine1) 
+       # ringf (slow 6 $ scale 200 1800 tri1)
+       # scale_p (wedge (y/x) ("minor") ("dorian")) 
+       # ctranspose (wedge (y/x) ("4") ("0")) # gain "1.5" # s "kalimba"
+       # octave "<5 6 5 7>"
+
+d3 $ every 8 (const $ stack [ s "sndr606:1(6,8)", s "bch(6,8,1)", s "bd606*2 ~ ~ ~"]) 
+   $ stack [
+      spread slow [0.5,1,2,1] $ every 6 (delayline' (1/8) "0.99") $ s "bd606:1!4",
+      -- every 4 ((rev) . (fastGap 2)) $ s "[sndr606:11*2 ~] ~ ~ sndr606:14",
+      every 4 (fastGap 2) $ delayline' (1/16) "0.95" $ ((1/8) ~>) $ s "[hh-blo:1 bch]*4"
+    ]
+
+-- fucked up
+
+d4 $ slow 2 $ off (2/8) ((# speed "2") . (|*| gain "0.9")) $ every 3 (within ((2/8),1) (density 3)) $ spread density [0.5, 1, 2, 4, 2, 1] $ every 8 ((rev) . (fastGap 2) . (density 2)) $ stack [
+  s "[sndr606:11*2 ~] ~ ~ sndr606:17" # speed "0.75",
+  s "hh-blo:2!4"
+]
+
+d5 $ spread density [2,1,1,1.5,1] 
+   $ rev $ delayline' (2/16) "0.8" 
+   $ overlay (s "[~ hh-blo:0]!4" # gain "0.9")
+   $ degradeBy 0.2 $ degree "[<1 -1> <-4 -3 -6>]*4" # scale_p "minor" # octave "[4,6]" # s "kalimba" # gain "1.5"
+
+ d6 $ every 6 (fastGap 2) $ every 4 ((fastGap 2) . (# speed "1.5")) $ n ((run 8) + (slow 3 $ (run 4) * 2)) # s "[sndr606 bd606 bch]/2"
+
+d7 $ degree "0" # ctranspose (cat ((replicate 2 $ "0") ++ (replicate 1 $ "8"))) # s "kalimba" # gain "1.5" # octave "6"
+
+let pp1 = slow 4 $ degree (wedge (1/4) ("0*4") ("5*16")) # s "kalimba" # gain "1.5"
+    pp2 = degree (repeat2 4 1 "0" (run 4)) # scale_p "dorian" # s "kalimba" # gain "1.5"
+    in d8 
+      $ every 4 ((#scale_p "minor")) $ whenmod 8 2 (const $ pp1) $ pp2
+
+
+ 
+d2 $ slow 4 $ degree (wedge (1/4) ("0*4") ("5*16")) # s "kalimba" # gain "1.5"
+

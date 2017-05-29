@@ -2,12 +2,6 @@ import Sound.Tidal.Scales
 
 bps (108/120)
 
-d1 $ n (palindrome $ iter 2 $ toScale dorian ((+) <$> "[0 2 4 6](6,8)" <*> "[-8 -12 -15 -12]/8")) 
-  # s "moogbasstone"
-  # sustain (slow 4 $ scale 0.2 2 $ sine)
-  # cut "1"
-  # velocity "0.8"
-
 d2 $ stack [
   sound "serbia:1(3,8)" # cut "2" # speed "1.6" # gain (slow 8 $ scale 0 0.9 $ sine),
   slow 2 $ sound "serbia:2(5,8,1)" # cut "3" # speed "1 -1 0.5 1",
@@ -31,14 +25,12 @@ d4 $ stack [
 
 
 d1
- $ slow 1
+ $ slow 1.5
  $ n ((+) <$> (toScale major ((+) <$> "cs6 af4" <*> "[0,2,4] [2,4,6]")) <*> "[0 -12]/8")
- # s "[superpiano supermandolin]/4" # sustain "[1 4]" # shape "0.2" # room "0.5" # size "0.9" # delay "0.7" # delayfeedback "0.8" # delaytime (slow 8 $ scale 0.125 0.5 $ saw) # gain "0.75"
+ # s "[superpiano supermandolin]/4" # sustain "[1 4]" # shape "0.2" # room "0.5" # size "0.9" # delay "0.7" # delayfeedback "0.8" # delaytime (slow 8 $ scale 0.125 0.5 $ saw) # gain "0.7"
 
 
-d1 $ n (slowcat [ (toScale major ((+) <$> "[0,2,4] [1,3,5]" <*> "cs6")), (toScale minor "af6") ]) # s "superpiano" 
- 
-d2 $ every 8 (const $ "") $ n (within (0,0.5) (density 2) $ iter 4 $ (run 8)) # s "jazz"
+d9 $ delayline' 0.375 "0.9" $ superimpose ((0.125 ~>) . (# speed "1.5")) $ density "<1 3 1 3 3>" $ every 8 (const $ s "") $ n (within (0,0.5) (density 2) $ iter 4 $ slow 2 $ (run 8)) # s "amencutup" # speed "0.85" # gain "1.2"
 
 d3 
   $ n (slowcat [ 
@@ -53,13 +45,13 @@ let (vrate, _) = pF "vrate" (Just 0)
     (note3, _) = pF "note3" (Just 0)
 
 
-d1 $ degree "[0,1,3] [-4,-2,3]" # ctranspose "[0!3 -2]/4" # scale_p "[major!3 minor]/4" # s "superhammond" # decay "2.4" # vibrato "0.5" # vrate "1" # voice "6" 
+d1 $ density 0.375 $ degree "[0,1,3] [-4,-2,3]" # ctranspose "[0!3 -2]/4" # scale_p "[major!3 minor]/4" # s "superhammond" # decay "2.4" # vibrato "0.5" # vrate "1" # voice "6" 
 
 d2 $ slow 2 $ n (toScale major ((+) <$> "[0 1 2 3]" <*> "cs2")) # s "ChicagoPad2" # cut "0" # sustain "2" # note2 "[48 54]/4" # note3 "44 60" # gain "0.85"
 
-d2 $ slow 1 $ degree "[0]!2" |+| degree "<0 -2>" # scale_p "<major minor>" # octave "[7 5 8 6]/8" # s "ChicagoPad2" # sustain "4" # note2 "<48 46>" |+| note2 "[12 4]/8" # note3 "[70 58]/8" # gain "0.9"
+d2 $ slow 2 $ degree "[0]!2" |+| degree "<0 -2>" # scale_p "<major minor>" # octave "[7 5 8 6]/8" # s "ChicagoPad2" # sustain "4" # note2 "<48 46>" |+| note2 "[12 4]/8" # note3 "[70 58]/8" # gain "0.9"
 
-d4 $ every 4 (|+| octave "<-1 1>") 
+d4 $ density 1 $ every 4 (|+| octave "<-1 1>") 
    $ palindrome 
    $ density 2 
    $ iter 2 
@@ -72,13 +64,14 @@ d4 $ every 4 (# up "12 -12")
    $ e 5 8 $ n "cs6 ~ af5 fs8" # s "donk"
 
 
-d3 $ slow 2 $ n (toScale minor ((+) <$> "[2,-5] [-2,-1]" <*> (slow 8 $ "[cs4 ab4]"))) #s "dubby rough2" # up "[0 2]/4" # sustain "2.5" # gain "0.7"
+d3 $ slow 1.5 $ n (toScale minor ((+) <$> "[2,-5] [-2,-1]" <*> (slow 8 $ "[cs4 ab4]"))) #s "dubby rough2" # up "[0 2]/4" # sustain "2.5" # gain "0.7"
 
 
 d5 $ density 2 $ fastecho $ stack [
-  every 8 (density 2)  $ sound "bd808:1 ~ cp [~ bd808:5]",
+  --every 8 (density 2)  $ sound "bd808:1 ~ cp [~ bd808:5]",
   every 8 (rev) $ every 4 (delayline' 0.125 "0.9") $ sound "~ ~ sd808:6 ~",
-  delayline' 0.25 "0.55" $ every 2 (density 2) $ sound "bch:4*2"
+  delayline' 0.25 "0.75" $ every 2 (density 2) $ sound "bch:4*2",
+  n "0(2,4)" # s "bd808" # gain "1.2" # speed "1.5"
 ] # size "0.4" # room "0.5"
 
 
@@ -86,10 +79,10 @@ d6 $ every 4 ((density 2) . (degradeBy 0.2)) $ density 2 $ sound "hh*8" # size "
 
 d6 $ sound "serbia:2!2"
 
-d6 $ palindrome $ every 4 (ghost) $ n (iter 4 $ run 8) # s "serbia" # cut "2" 
+d8 $ palindrome $ every 4 (ghost) $ n (iter 4 $ run 8) # s "serbia" # cut "2" 
   # cutoff (slow 8 $ scale 200 800 $ sine) # resonance "0.5"
 
-d6 $ every 4 ((density 2) . (degradeBy 0.2)) $ density 2 $ sound "sn(5,8)" # size "0.4" # room "0.4" # resonance (slow 8 $ scale 0 0.6 sine) # cutoff (slow 6 $ scale 200 2200 sine) 
+d6 $ every 4 ((density 3) . (degradeBy 0.2)) $ density 3 $ sound "sn(5,8)" # size "0.4" # room "0.4" # resonance (slow 8 $ scale 0 0.6 sine) # cutoff (slow 6 $ scale 200 2200 sine) 
 
 
 d1 $ slow 4 $ n (toScale major "[0,2,4] [0,7,9]") |+| n (toScale major "<e3 g3>") # s "profit5" # note2 "78" # note3 "60" # sustain "2.25" # cutfreq (slow 8 $ scale 300 1000 sine) # hcutoff "200" # resonance (slow 12 $ scale 0 0.4 saw) # gain (slow 16 $ scale 0.75 0.9 sine)
@@ -106,11 +99,11 @@ d1 $ slow 4 $ n (toScale major "[0] [2]") |+| n (toScale major "<c4 g4>") # s "C
 
 -- melody1
 
-d2 $ slow 1 $ superimpose ((density 0.5) . off 0.125 (|+| degree "<-8 -12>")) $ s "moogbasstone*4" # degree (slow 4 $ iter 2 $ "0 2 4 7") # scale_p "<dorian hexDorian>" # octave "<6>" # gain "0.9" # room "0.4" # size "0.4"
+d2 $ slow 0.5 $ superimpose ((density 0.5) . off 0.125 (|+| degree "<-8 -12>")) $ s "moogbasstone*4" # degree (slow 4 $ iter 2 $ "0 2 4 7") # scale_p "<dorian hexDorian>" # octave "<6>" # gain "0.9" # room "0.4" # size "0.4"
 
 -- melody 2
 
-d2 $ slow 2 $ superimpose ((density 0.5) . off 0.125 (|+| degree "<-7 -12 -12 4>")) $ s "moogbasstone*8" # degree (slow 4 $ iter 2 $ "0 2 4 7") # scale_p "<dorian hexDorian>" # octave "<5 6 5 6>" # sustain "0.3" # gain "0.9"
+d2 $ slow 1 $ superimpose ((density 0.5) . off 0.125 (|+| degree "<-7 -12 -12 4>")) $ s "moogbasstone*8" # degree (slow 4 $ iter 2 $ "0 2 4 7") # scale_p "<dorian hexDorian>" # octave "<5 6 5 6>" # sustain "0.3" # gain "0.9"
 
 -- other bd 
 
@@ -121,9 +114,9 @@ d3 $ degradeBy 0.25 $ slow 1 $ iter 2 $ degree ((+ 1) <$> (iter 4 $ (run 8))) # 
 
 d4 $ stack [
   density 2 $ n "[0 1](6,8)" # s "bch" # room "0.4" # size "0.7",
-  --n "5(<3 5 3 1>,8,1)" # s "serbia" # speed "<1 0.5>",
- -- n "0([4 2],8)" # s "cp",
- every 8 (const $ n "22*8" # gain "1.4") $ n (iter 4 $ run 8) |+| n "2 4 8" # s "amencutup" # speed "2"
+  n "5(<3 5 3 1>,8,1)" # s "serbia" # speed "<1 0.5>",
+  n "0([4 2],8)" # s "cp"
+ --every 8 (const $ n "22*8" # gain "1.4") $ n (iter 4 $ run 8) |+| n "2 4 8" # s "amencutup" # speed "2"
 ] # orbit "1"
 
 -- low and highs
@@ -134,7 +127,8 @@ d5 $ stack [
   n "[2 4](6,8)" # s "boh" # cut "2"  # speed "[1,2]" # gain (slow 4 $ scale 0.7 1 sine)
 ]
 
-d4 $ palindrome $ every 4 (ghost) $ n (iter 4 $ run 8) # s "amencutup" # gain "1" # speed "1.5"
+
+solo $ d9 $ superimpose (0.125 ~>) $ palindrome $ every 4 (ghost) $ n (iter 4 $ run 8) # s "amencutup" # gain "1" # speed "1.5"
 
 d1 $ every 4 ((density 2). (iter 2)) 
    $ e 10 16 
@@ -156,7 +150,7 @@ d1 $ whenmod 8 2 (delayline' (1/16) "0.9") $ n "0(2,16,2)" # s "serbsn" # speed 
 d1 $ slow 2 $ n "0" 
   # s "kmart" # gain "0.8" # begin "0.3" # end "0.60" # speed "0.4" # delay "0.7" # delayfeedback "0.6" # delaytime "1/8" # resonance (slow 12 $ scale 0.1 0.3 sine) # cutoff (slow 16 $ scale 200 1000 saw)
 
-d1 $ slow 16 $ palindrome $ iter 16 $ chop 32 $ n "0" # s "kmart" # gain "1" # speed "0.8" # delay "0.7" # delayfeedback "0.7" # delaytime "1/8" # resonance (slow 12 $ scale 0.1 0.3 sine) # cutoff (slow 16 $ scale 200 1000 saw)
+d1 $ density 2 $ iter 2 $ slow 8 $ palindrome $ iter 16 $ chop 32 $ n "0" # s "kmart" # gain "1" # speed "0.8" # delay "0.8" # delayfeedback "0.5" # delaytime "2/8" # resonance (slow 12 $ scale 0.1 0.3 sine) # cutoff (slow 16 $ scale 200 1000 saw)
 
 d2 $ every 2 (rev) $ every 16 (delayline' (1/16) "0.9") 
    $ stack [
@@ -164,7 +158,7 @@ d2 $ every 2 (rev) $ every 16 (delayline' (1/16) "0.9")
       n "3(2,16)" # s "ho-blo" # speed "1.9" # gain "0.9"
      ]
 
-d1 $ palindrome $ delayline' 0.125 "0.9" $ every 4 (within (0,0.25) (density 3)) 
+d2 $ palindrome $ delayline' 0.125 "0.9" $ every 4 (within (0,0.25) (density 3)) 
    $ density 2 
    $ sound "bch:7*4" # size "0.4" # room "0.4" # speed "[3.85 1.68]*8" # gain "1" 
 
@@ -172,9 +166,10 @@ d9 $ n "[1 2]!2([2 3]/8,8)" # s "bd808" # gain "1.1"
 
 d3 $ degree "7(6,16,1)" # octave "[2,3]" |+| degree "[0!3 -2]/8" # s "profit5" # cutfreq "200 900" # scale_p "minPent" # sustain "0.25!3 0.3" # size "0.3" # room "0.3" # cut "3" # rq (slow 16 $ scale 0.1 0.8 sine1) # lforate "2" # lfowidth "0.8"
 
-d3 $ degree "3(9,16,1)" # octave "[2,3]" |+| degree "0" # s "profit5" # cutfreq "200 900" # scale_p "minPent" # sustain "0.25!3 0.3" # size "0.3" # room "0.3" # cut "3" # rq (slow 16 $ scale 0.1 0.8 sine1) # lforate "2" # lfowidth "0.8"
 
-d4 $ degree "3([6 10],16,<3 4>)" # octave "4" # s "moogbasstone" # cutfreq "200 900" # scale_p "minPent" # sustain "0.25!3 0.1" # size "0.3" # room "0.3" # cut "1"
+d3 $ degree "3(9,16,1)" # octave "[2,3]" |+| degree "0" # s "profit5" # cutfreq "200 900" # scale_p "minPent" # sustain "0.25!3 0.3" # size "0.3" # room "0.3" # cut "3" # rq (slow 16 $ scale 0.1 0.8 sine1) # lforate "2" # lfowidth 
+
+solo $ d4 $ degree "3([6 10],16,<3 4>)" # octave "<4 3>" # s "moogbasstone" # cutfreq "200 900" # scale_p "minPent" # sustain "0.25!3 0.1" # size "0.6" # room "0.3" # cut "1" # gain "0.9"
 
 d5 $ degree "[3,5](5,16,1)" # octave "[6]" # s "bdsynth" # cutfreq "500" # scale_p "minPent" # sustain "0.2!3 0.3" # gain (slow 4 $ scale 0.5 1 tri)
 
@@ -192,7 +187,7 @@ d8 $ slow 4 $ degree "[<2 4>]" # s "ChicagoPad2" # octave "7" # scale_p "minorPe
 bps (85/120)
 
 
-d5 $ slow 2 $ (0.5 <~) $ degree (density 2 $ slowcat 
+d6 $ slow 2 $ (0.5 <~) $ degree (density 2 $ slowcat 
       [
         "[~ 0] [~ 7] [0 4] 2",
         "[7 3] [~ 2] 0 0"

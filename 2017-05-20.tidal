@@ -1,0 +1,66 @@
+import Sound.Tidal.Scales
+
+bps (140/120)
+
+let fastshuffle p = sometimes (0.125 ~>) $ rarely (within (0,0.25) (density 2)) p
+
+d1 
+  $ every 8 ((slow 2) . (rev)) $ off 0.375 ((|+| octave "<2 1 -2 1>") . (# gain "0.9") . (# sustain "0.2") . (# cutfreq "1600")) 
+  $ off 0.125 ((slow 2) . (|+| degree "-6")) 
+  $ delayline' 0.125 "0.9" 
+  $ fastshuffle 
+  $ degree ((run 4) + (discretise 5 $ randcat [ "0", "2", "4" ])) # scale_p "hexMajor7" # octave "6" # s "moogbasstone" # cutoff "880" # sustain "0.3" # resonance (slow 8 $ scale 0 0.1 sine1)
+
+
+
+
+d2 $ delayline' 0.125 "0.9" 
+   $ every 6 (const $ density 2 $ sound "hh2:2*3 [~ bd808:1] hh2:6!6 sn2:1" # speed "1.5")
+   $ every 2 (const $ density 2 $ stack [
+    sound "hh2:6*4",
+    sound "sn2:1(3,8,1)",
+    sound "sn2:2(3,8,2)"
+  ])
+   $ every 3 (const $ fastshuffle $ density 2 $ stack [
+      sound "sn2:3(8,16)" # gain "0.8",
+      sound "hh2:4(4,16)"
+  ])
+  $ stack [
+  every 4 ((density 2) . (degradeBy 0.2)) $ n "1(2,8,1)" # s "sn2",
+  fastshuffle $ n "2(4,8)" # s "hh2",
+  n "4(4,8,1)" # s "hh2"
+] # gain (slow 4 $ scale 0.6 0.9 sine1)
+
+d3 $ stack [
+  n "1(4,8)" # s "bd808",
+  n "0(1,8,4)" # s "cp"
+]
+
+d4 $ off 0.125 (# s "hh2:1") $ delayline' 0.125 "0.9" $ sound "hh2:2(4,8)"
+
+
+
+d5 $ every' 12 1 (density 2) $ every' 4 1 (slow "2 1") $ every 8 (|+| degree "[2 -5]!2 -1")
+   $ off 0.125 ((# s "profit5") . (# octave "[6]") . (|+| degree "[0,2,<5 1 1 5>]")) 
+   $ off 0.75 (# octave "<3 2>") 
+   $ delayline' 0.125 "0.9" 
+   $ degree "1*2 ~ 1 0" # scale_p "hexMajor7" # octave "3" # sustain "0.18 0.1" # s "moogbasstone"
+
+
+-- this bit
+
+d5 $ every' 2 1 (slow 4) $ fastshuffle $ off 0.25 (# octave "3") 
+   $ delayline' 0.125 "0.9" 
+   $ degree "1*2 ~ 1 0" # scale_p "hexMajor7" # octave "4" # sustain "0.1 0.15" # s "moogbasstone" 
+
+d6 $ every 8 (off 0.5 ((density 2) . (degradeBy 0.2)))
+   $ slow 1 $ (0.25 ~>) $ n "0(<1 2 1 3>,4)" |+| n "1" # s "yamaha"
+
+d7 $ every' 8 1 (density "2 1") $ slow 1 $ n "0(2,4)" |+| n "[1 1]" # s "sn2"
+
+d8 $ slow "<2 2 [1 4] 2>" $ off 0.125 (|+| n "1") $ n "2(<16 15 16 12>,16)" # s "hh2" # room "0.3" # size "0.3"
+
+d9 $ slow "<2 4 1 2>" $ n "0 ~ [~ 0] ~" |+| n "4" # s "yamaha"
+
+d10 $ degradeBy 0.1 $ degree "0(8,8,1)" # cutfreq (slow 4 $ scale 600 2000 sine1) |+| degree "[<0 0 0 -4>,3,7]" # octave "4" # scale_p "hexMajor7" # s "profit5"  
+
