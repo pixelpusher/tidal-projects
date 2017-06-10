@@ -30,7 +30,7 @@ d1
  # s "[superpiano supermandolin]/4" # sustain "[1 4]" # shape "0.2" # room "0.5" # size "0.9" # delay "0.7" # delayfeedback "0.8" # delaytime (slow 8 $ scale 0.125 0.5 $ saw) # gain "0.7" # orbit "1"
 
 -- fast breaks
-d9 $ slow "1" 
+d9 $ slow "<1 2>" 
    $ delayline' (3/8) "0.9" 
    $ superimpose (((1/8) ~>) . (# speed "1.5")) 
    $ density "<1 3 1 3 3>" 
@@ -110,13 +110,13 @@ do let moogscale = scale_p "<dorian hexDorian>"
        moogmel2  = "[0 ~] [2 4] ~ 7"
        moogmel3  = "0 2 4 [~ 7]"
        moogdeg1  = degree (slow 1 $ iter 2 $ cat [moogmel2, moogmel3])
-   t2 (anticipateIn 2) $ slow 0.5 $ off 0.125 ((slow 2) . (|+| degree "<-8 -12>")) $ s "moogbasstone*4" # moogdeg1 # moogscale # octave "6" # gain "0.8" # moogres # crush "3"
+   d2 $ slow 0.5 $ off 0.125 ((slow 2) . (|+| degree "<-8 -12>")) $ s "moogbasstone*4" # moogdeg1 # moogscale # octave "6" # gain "0.8" # moogres # crush "3"
    d3 $ slow "[1 2]/3" $ moogdeg1 # moogscale |+| degree "[2 4 6]/5" # s "moogbasstone" 
 
 let moogscale = scale_p "<dorian hexDorian>"
 
 
-t2 (clutchIn 2) $ slow 0.5 $ superimpose ((density 0.5) . off 0.125 (|+| degree "<-8 -12>")) $ s "moogbasstone*4" # degree (slow 4 $ iter 2 $ "0 2 4 7") # scale_p "<dorian hexDorian>" # octave "<6>" # gain "0.8" # room "0.4" # size "0.4"
+d2 $ slow 0.5 $ superimpose ((density 0.5) . off 0.125 (|+| degree "<-8 -12>")) $ s "moogbasstone*4" # degree (slow 4 $ iter 2 $ "0 2 4 7") # scale_p "<dorian hexDorian>" # octave "<6>" # gain "0.8" # room "0.4" # size "0.4"
 
 -- melody 2
 

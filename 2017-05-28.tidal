@@ -7,15 +7,15 @@ d2 $ s "rough!4" # distort (slow 4 $ scale 0 1 sine1) # gain "0.8"
  
 d1 $ ((1/8) ~>) $ slow 2 $ n (run 8) # s "bd606"
 
-solo $ d1  
-   $ overlay (every 4 (# s "bd606:2") $ s "[~ bd606:4]!4") 
-   -- $ overlay (s "~ [~ sndr606:2*2] ~ [sndr606:3 sndr606:1*2?]")
-   -- $ overlay (slow 4 $ s "~ cp-echo ~ ~ ")
-   $ overlay (density 2 $ rev $ delayline' (2/16) "0.8" $ s "[~ hh-blo:0]!4" # gain "0.9")
-   $ const silence 
-   $ off (1/8) (|*| gain "0.9") 
-   $ ((1/2) ~>) 
-   $ s "moogbasstone!2 ~" # degree "<0 0 0 -2>" # scale_p "dorian" # sustain "0.2" # octave "4" # octersub (slow 8 $ scale 0 4 sine1) # octersubsub (slow 6 $ scale 0 4 sine1) # gain "0.85" 
+d1 $ slowspread fast [1,2,1] 
+   $ overlay (every 4 (# s "bd606:2") $ s "bd606:3!2") 
+   $ overlay (slow 2 $ s "~ [~ sndr606:2] ~ [sndr606:3 sndr606:1]")
+   $ overlay (slow 4 $ s "~ cp-echo ~ ~ ")
+   $ overlay (fast 1 $ rev $ delayline' (2/16) "0.8" $ s "[~ hh-blo:0]!4" # gain "0.9")
+   -- $ const silence 
+   $ off (4/16) (|*| gain "0.9") 
+   $ superimpose ((|+| octave "[1,2]") . (|*| gain "0.9")) 
+   $ s "~ moogbasstone ~ [~ moogbasstone]" # degree "<0 0 0 -2>" # scale_p "dorian" # sustain "0.3 0.2 !" # octave "4" # octersub (slow 8 $ scale 0 4 sine1) # octersubsub (slow 6 $ scale 0 4 sine1) # gain "0.85" # speed "2" # gate "0"
 
 d3 $ every 4 (off (1/8) (# octave "4")) $ degree "~ ~ [~ [-2*2]] ~" # scale_p "dorian" # octave "6" # s "donk"
 
@@ -54,11 +54,11 @@ let x = 3
        # ctranspose (wedge (y/x) ("4") ("0")) # gain "1.5" # s "kalimba"
        # octave "<5 6 5 7>"
 
-d3 $ every 8 (const $ stack [ s "sndr606:1(6,8)", s "bch(6,8,1)", s "bd606*2 ~ ~ ~"]) 
+d3 
    $ stack [
-      spread slow [0.5,1,2,1] $ every 6 (delayline' (1/8) "0.99") $ s "bd606:1!4",
-      -- every 4 ((rev) . (fastGap 2)) $ s "[sndr606:11*2 ~] ~ ~ sndr606:14",
-      every 4 (fastGap 2) $ delayline' (1/16) "0.95" $ ((1/8) ~>) $ s "[hh-blo:1 bch]*4"
+      spread slow [1,2] $ every 5 (delayline' (3/8) "0.99") $ s "bd606:1!2",
+      every 5 (const $ silence) $ every 4 (fast 2) $ s "sndr606:12 ~ [~ sndr606:12] ~",
+      every 3 (const $ silence) $ delayline' (3/16) "0.95" $ s "[hh-blo:1 bch]*4"
     ]
 
 -- fucked up
