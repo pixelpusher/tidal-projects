@@ -2,9 +2,9 @@
 cps 0.34
 
 
-d1 $ every 32 (gtfo) $ every 4 ((slow 2) . (striate 4)) $ sound "rumble:0*2 rumble:1*2"
+d1 $ every 32 (const $ silence) $ every 4 ((slow 2) . (striate 4)) $ sound "rumble:0*2 rumble:1*2"
 
-d1 $ whenmod 8 6 (gtfo) $ every 3 (density 2) $ every 4 (slow 2) $ sound (iter 4 $ "[rumble:0 ~ rumble:1 ~]!3") # gain "1" # orbit "1" # cut "1"
+d1 $ whenmod 8 6 (const $ silence) $ every 3 (density 2) $ every 4 (slow 2) $ sound (iter 4 $ "[rumble:0 ~ rumble:1 ~]!3") # gain "1" # orbit "1" # cut "1"
 
 hush
 
@@ -21,8 +21,8 @@ d1 $ slow 1 $ sound "rumble:3!3" # speed "1" # end "1" # gain "0.75" # cut "1"
 
 
 d1 $ stack [
-  every 3 (gtfo) $ slow 4 $ rev $ striate' 16 0.125 $ sound "rumble:3*2" # speed "0.5",
-  every 4 (gtfo) $ sound "rumble:3*2"
+  every 3 (const $ silence) $ slow 4 $ rev $ striate' 16 0.125 $ sound "rumble:3*2" # speed "0.5",
+  every 4 (const $ silence) $ sound "rumble:3*2"
 ] # gain "0.75" # orbit "4" # cutoff "660" # resonance (slow 4 $ scale 0 0.5 $ saw1)
 
 d1 $ slow 2 $ sound "rumble:4" # speed "0.5" # gain "0.7" # cutoff "660" # resonance "0.3" # orbit "1"
@@ -35,7 +35,7 @@ d4 $ slow 2 $ every 8 (const $ density 2 $ stack [
   # delaytime "0.125" # delayfeedback "0.3"
   # size "0.4" # room "0.8" # orbit "2" # gain "1.1",
   sound "bsn:1*2 ~ bsn ~" # gain "[1.25 1]*4",
-  every 4 (gtfo) $ sound "bbass:2(12,4,2)",
+  every 4 (const $ silence) $ sound "bbass:2(12,4,2)",
   every 2 (# gain "1.5") $ sound "bd808:2*2 ~ ~ ~" # gain "0"
 ]
 
@@ -56,7 +56,7 @@ d4 $ stack [
   every 2 (slow 2) $ density 2 $ sound "[bch:3*3 [bch:2 bch:1 bch:4]] [bch:5 boh:6?]" # delay "0.6"
 # delaytime "0.12" # delayfeedback "0.3",
   slow 1 $ density 3 $ sound "bsn:1*2 bch:4 bsn*4 [bsn bch:3]*4 bsn bsn" # gain "[1 0.9]*12" # gain "0",
-  every 4 (gtfo) $ sound "bbass:2(12,4,2)",
+  every 4 (const $ silence) $ sound "bbass:2(12,4,2)",
   every 2 (# gain "1.5") $ sound "bd808:2*2 ~ ~ ~" # gain "0"
   ]
 
@@ -93,7 +93,7 @@ d1 $ slow 1 $ n "5*2" # s "rumble" # gain "0.7" # speed "-1,2"
 
 d1 $ sometimes (slow 2) $ n "3*4" # s "rumble" # gain "0.7" # speed "[-0.5 2]!1" # cut "2"
 
-solo $ d3 $ every 2 (gtfo) $ slow 1 $ n "7*2" # s "rumble" # gain "0.7" # end "1" # speed "[2 -2]"
+solo $ d3 $ every 2 (const $ silence) $ slow 1 $ n "7*2" # s "rumble" # gain "0.7" # end "1" # speed "[2 -2]"
 
 -- disjointed melody
 
@@ -181,7 +181,7 @@ d2 $ stack [
 
 -- nice breakbeat!!
 
-solo $ d1 $ sometimes (# crush "2") $ chop 32 $ every 3 (# cut "4") $ superimpose ((0.25 ~>) . (density 2) . (# speed "[-1 -3]*4")) $ sometimes (density 2) $ s "rumblecutup(8,[6 8]/2)" # n (density 2 $ ((floor <$>) $ scale 0 8 rand))
+solo $ d1 $ sometimes (# crush "4") $ chop 32 $ every 3 (# cut "4") $ superimpose ((0.25 ~>) . (density 2) . (# speed "[-1 -3]*4")) $ sometimes (density 2) $ s "rumblecutup(8,[6 8]/2)" # n (density 2 $ ((floor <$>) $ scale 0 8 rand))
 
 solo $ d1 $ iter 4 $ density 1 $ sometimes (superimpose ((# crush "2") . (0.25 ~>) . (# speed "-0.5"))) $ s "rumblecutup(16,[6 8]/2)" # n (density 8 $ ((floor <$>) $ slow 4 $ scale 0 9 rand)) # end "[0.175 0.26]*4"
 
@@ -195,7 +195,7 @@ d4 $ silence
 
 d4 $ slow 2 $ stack [
   density 16 $ sound "bsn:1*2 ~ bsn ~" # gain "[1.25 1]*4",
-  every 4 (gtfo) $ sound "bbass:2(12,4,2)",
+  every 4 (const $ silence) $ sound "bbass:2(12,4,2)",
   every 2 (# gain "1.5") $ sound "bd808:2*2 ~ ~ ~" # gain "0"
 ]
 
@@ -221,7 +221,7 @@ d4 $ slow 2 $ stack [
 ]
 
 
-d2 $ slow 2 $ every 8 (gtfo) $ n (iter 12 $ iter 8 $ run 24) # s "amencutup" # speed "[0.5 0.75]" # orbit "2" # gain "1.1"
+d2 $ slow 2 $ every 8 (const $ silence) $ n (iter 12 $ iter 8 $ run 24) # s "amencutup" # speed "[0.5 0.75]" # orbit "2" # gain "1.1"
 
 d2 $ silence
 

@@ -1,0 +1,93 @@
+:set prompt ""
+
+:module Sound.Tidal.Context
+
+import qualified Sound.Tidal.Scales as Scales
+import qualified Sound.Tidal.Chords as Chords
+
+(cps, nudger, getNow) <- cpsUtils'
+
+(d1,t1) <- superDirtSetters getNow
+(d2,t2) <- superDirtSetters getNow
+(d3,t3) <- superDirtSetters getNow
+(d4,t4) <- superDirtSetters getNow
+(d5,t5) <- superDirtSetters getNow
+(d6,t6) <- superDirtSetters getNow
+(d7,t7) <- superDirtSetters getNow
+(d8,t8) <- superDirtSetters getNow
+(d9,t9) <- superDirtSetters getNow
+(d10,t10) <- superDirtSetters getNow
+
+(c1,ct1) <- dirtSetters getNow
+(c2,ct2) <- dirtSetters getNow
+(c3,ct3) <- dirtSetters getNow
+(c4,ct4) <- dirtSetters getNow
+(c5,ct5) <- dirtSetters getNow
+(c6,ct6) <- dirtSetters getNow
+(c7,ct7) <- dirtSetters getNow
+(c8,ct8) <- dirtSetters getNow
+(c9,ct9) <- dirtSetters getNow
+(c10,ct10) <- dirtSetters getNow
+
+let bps x = cps (x/2)
+let hush = mapM_ ($ silence) [c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10]
+let solo = (>>) hush
+
+let ghost'' a f p = superimpose (((a/2 + a*2) ~>) . f) $ superimpose (((a + a/2) ~>) . f) $ p
+    ghost' a p = ghost'' a ((|*| gain "0.7") . (|=| end "0.2") . (|*| speed "1.25")) p
+    ghost p = ghost' 0.125 p
+    delayline' a g p = superimpose ((a ~>) . (# gain g)) $ p
+    delayline p = delayline' 0.125 "0.6" p
+    choose xs = (xs !!) <$> (irand $ fromIntegral $ length xs)
+    degradeFill a b = (density a) . (degradeBy b)
+    shiftdown p = superimpose ((sometimes (rev)) . (# speed "0.67") . (# gain "0.75") . (0.25 ~>)) p
+    fastecho p = superimpose ( (rev) . (0.125 ~>) . (# gain "0.85")) p
+
+let (lforate, _) = pF "lforate" (Just 0)
+    (vrate, _) = pF "vrate" (Just 0)
+    (lfowidth, _) = pF "lfowidth" (Just 0)
+    (cutoff, _) = pF "cutoff" (Just 0)
+    (cutfreq, _) = pF "cutfreq" (Just 0)
+    (rq, _) = pF "rq" (Just 0)
+    (gate, _) = pF "gate" (Just 0)
+    (modamp, _) = pF "modamp" (Just 0)
+    (vibrato, _) = pF "vibrato" (Just 0)
+    (perc, _) = pF "perc" (Just 0)
+    (percf, _) = pF "percf" (Just 0)
+    (note2, _) = pF "note2" (Nothing)
+    (note3, _) = pF "note2" (Nothing)
+    (degree, degree_p) = pF "degree" (Nothing)
+    (ctranspose, ctranspose_p) = pF "ctranspose" (Nothing)
+    (mtranspose, mtranspose_p) = pF "mtranspose" (Nothing)
+    (gtranspose, gtranspose_p) = pF "gtranspose" (Nothing)
+    (harmonic, harmonic_p) = pF "harmonic" (Nothing)
+    (detune, detune_p) = pF "detune" (Nothing)
+    (modfreq, _) = pF "modfreq" (Nothing)
+    (scale_p, _) = pS "scaleName" (Nothing)
+    --(scale, scale_p) = pS "scaleName" (Nothing)
+    (tuning, tuning_p) = pS "tuningName" (Nothing)
+    (stepsPerOctave, stepsPerOctave_p) = pI "stepsPerOctave" (Nothing)
+    (octaveRatio, octaveRatio_p) = pF "octaveRatio" (Nothing)
+
+let mf x = fst $ pF x (Just 0)
+    myparam = mf "myparam"
+
+let octer = mf "octer"
+    octersub = mf "octersub"
+    octersubsub = mf "octersubsub"
+    krush = mf "krush"
+    kcutoff = mf "kcutoff"
+    ring = mf "ring"
+    ringf = mf "ringf"
+    wall = mf "wall"
+    walllev = mf "walllev"
+    fcut = mf "fcut"
+    fres = mf "fres"
+    fattack = mf "fattack"
+    fhold = mf "fhold"
+    frelease = mf "frelease"
+    distort = mf "distort"
+    compa = mf "compa"
+    compr = mf "compr"
+
+:set prompt "tidal> "

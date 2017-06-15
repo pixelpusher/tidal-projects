@@ -1,0 +1,42 @@
+let breaklong p    = delayline' (3/8) "0.9" $ p
+    slowsine x a b = slow x $ scale a b sine 
+    scales = scale_p "<major minor>" # ctranspose "<0 -2>"
+
+let instrument1 = s "superhammond" # decay "2.4" # vibrato "0.5" # vrate "1" # voice "6"
+    instrument2 = s "ChicagoPad2" # sustain "2" # note "[48 54]/4" # note3 "44 60"
+
+let mel1 = "[0 ~] [~ 1] [~ 4] 1"
+    mel2 = "[0 ~] [1 ~] ~ [~ 5]"
+
+d4 $ superimpose ((|+| degree "21") . (|*| gain "0.9"))
+   $ every 4 (|+| octave "1 0 0 1") 
+   $ degree (fast 2 $ cat [mel1, mel2] ) # scales # octave "4" # instrument1
+
+d4 $ every 8 (const 
+       $ overlay (n "4(4,8)" # s "bd606") 
+       $ n "1(7,8)" # s "sd808")
+   $ every 4 (slow 2)
+   $ overlay (n "[1 2](3,8,1)" # s "bd606")
+   $ overlay (n "~ 0" # s "cp")
+   $ overlay (every 2 (fast "<2 4>") $ n "1 1?" # s "sd808")
+   $ overlay (every 3 (fast "2") $ n "[0 6](3,8)" # s "hh2")
+   $ every 8 (# degree "0*4")
+   $ off (3/8) ((iter 2) . (slow 2) . ( |+| octave "[1,2]") . (|+| degree "0 4") . (|*| gain "0.85"))
+   $ within (0, (1/2)) (fast 2)
+   $ overlay (n "0(2,6)" # s "hh-blo")
+   $ ((2/8) ~>)
+   $ every 2 (iter 4)
+   $ degree (slow 2 $ "0 2 4 7")
+   -- $ degree (slow 2 $ "0 4")
+   # krush (slow 8 $ scale 0.5 1 sine1)
+   # kcutoff (slow 12 $ scale 100 2200 sine1)
+   |+| degree (palindrome $ slow 6 $ "0 0 2 4")
+   # moogscale
+   # s "moogbasstone"
+   # octave "3"
+
+-- melody 2
+
+d1 $ every 6 ((rev) . (fast 2))
+   $ breaklong  
+   $ degree (fast 2 $ rev $ cat [ mel2 ] + "[4 8 4 2]/4" ) # scales # octave "5" # s "vibsawpluck" # delaytime (slowsine 4 0.0625 0.125) # delay "0.4"
