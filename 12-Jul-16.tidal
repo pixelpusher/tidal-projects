@@ -1,83 +1,52 @@
--- some samples from Lewis Lane Pop Vocals:
--- https://www.conversesamplelibrary.com/pack/lewis-lane-pop-vocals
--- others from Great British Drunk Kits from some free CD I got with a magazine ages ago...
-
--- JULY 12, 2016 ------ pixepusher --------
-
-bps (115/120)
-
-d1 $ sound "british:3" # speed "1.218" # gain "1.1" # begin "0" # end "0.5"
-
-solo $ d1 $ sometimes (# end "0.5") $ sound "british:4/2" # speed "1.05" # gain "1.2"
-
-d1 $ silence
-
-d5 $ every 2 (rev) $ delayline' 0.25 "0.55" $ every 4 (degradeFill 0.5) $ sound "bch:1*4" # gain "1.2" # room "0.4"
-
-d5 $ silence
-
-d4 $ stack [
-  sound "bbass:1 ~ bbass:0 ~",
-  sound "~ bsn:3 ~ [bsn bsn:2?]",
-  every 2 ((density 2) . degradeBy 0.25) $ delayline' 0.25 "0.55" $ sound "bride:3*4" # up "4"
-]
-
-d4 $ stack [
-  sound "bbass:1 ~ bbass:0 bbass:0?",
-  slowcat [
-    sound "~ bsn:3 ~ bsn",
-    sound "~ bsn:3*2 ~ bsn*2"
-  ],
-  delayline' 0.25 "0.55" $ sound "bride:3*4" # up "4"
-]
-
-
-d4 $ silence
-
-d3 $ slowcat [
-  sound "lewislane:2/2",
-  sound "lewislane:3",
-  sound "lewislane:2/2",
-  chop 4 $ sound "lewislane:3"
-] # gain "0.9"
-
-d3 $ silence
-
-solo $ d2 $ every 4 (const $ sound "lewislane:1/2") $ sound "lewislane:0/2"
-
-d2 $ sound "lewislane:1/4"
-
-d2 $ silence
-
 
 ----- new!
 
-d3 $ every 4 ((density 2) . (brak)) $ n "1 -3*2 5 3" # s "laserbeam" # gain "1.2"
+d3 $ every 8 ((# s "bdsynth"). (|+| octave "2"). (# gain "1.1"))  
+   $ sometimes (|/| sustain "2") $ slow 2 $ every 4 ((density 2) . (brak)) $ degree "1 -1*2 4 2" # scale_p "minor" # octave "4" # s "kalimba" # gain "1.3" # cutfreq "261" # decay "3" # sustain (slow 2 $ "0.25 0.5") |*| sustain "2"  # vowel "[i u]/3"
+
+d3 $ every 8 ((# s "bdsynth"). (|+| octave "1") . (# gain "1.1")) 
+   $ sometimes (|/| sustain "2") 
+   $ slow 2 $ every 4 ((density 2) . (brak)) 
+   $ degree "1 -1*2 4 2" # scale_p "minor" # octave "6" # s "bdsynth" # gain "1.1" # cutfreq "261" # decay "3" # sustain (slow 2 $ "0.25 0.5") |*| sustain "2"  # vowel "[i u]/3"
+
+d3 $ slow 2  
+   $ within (0,0.25) (density 2) 
+   $ off (1/4) ((density 2) . (# gain "0.9" ) . (|+| degree "-2"))
+   $ off (1/8) ((slow "1 2") . (# gain "0.9") . (|+| degree "11"))
+   $ slow 1 -- $ every 4 ((density 2) . (brak)) 
+  $ degree "1 -1*2 4 2" # scale_p "minor" # octave "[3]" # s "[laserbeam]" # gain "1.2" # cutfreq "261" # sustain (slow 2 $ "0.25 0.5") |*| sustain "2"  # vowel "[i u]/3" 
 
 
+d4 $ slow 2 $ sound "bd808:2*4" # up "0 0 2 0" # gain "1.1"
 
-solo $ d3 $ n "1*2 ~ ~ -12*2 ~ -12 ~ -8" # s "laserbeam" # gain "1.2"
+d7 $ delayline' 0.125 "0.6" $ brak $ sound "cy808:7*4" # up "-4" # gain "0.8" # size "0.3" # room "0.2" # delay "0.2" # delaytime "0.125" # delayfeedback "0.3"
 
-d4 $ sound "bd808:2*4" # up "0 0 2 0"
-
-d5 $ delayline' 0.125 "0.6" $ sound "cy808:7*2" # up "-4"
-
-d6 $ slowcat [
+solo $ d7 $ density "<1 2>" $ whenmod 16 14 (# gain "") $ slowcat [
   n "2 ~ 5*2 ~" # s "woman01",
   n "2 ~ 3 ~" # s "woman01",
   n "2 ~ ~ 3*3" # s "woman01",
   n "2 ~ 2*2 ~" # s "bsn"
-] # gain "0.8"
+] # gain "0.8" # cut "4"
+    # end rand # begin (1 - rand) |*| speed "<1 2 1 -1>" 
 
-d5 $ density 2 $ delayline' 0.125 "0.5" $ n "1*4" # s "bride" # gain "0.6" # size "0.5" # room "0.3"
+d3 $ whenmod 16 12 ((# cutoff (slow 4 $ scale 200 1000 sine1)))
+   $ slow "1" $ every 4 ((density 2) . (brak) . (# sustain "0.25")) $ n "1 -3*2 5 3" |+| n "12" # s "bdsynth" # gain "1" # sustain "1" # orbit "1" # size "0.3" # room "0.2" # resonance "0.2" # cutoff "800"
 
-d6 $ brak $ degradeBy 0.1 $ delayline' 0.125 "0.5" $ n "3*8" # s "bch"
+d9 $ slow 4 $ every 16 (const $ s "bride:2*6 bsn*2 bride:2*2") 
+   $ density 2 $ rev $ delayline' 0.125 "0.6" $ n "1*4" # s "bride" # gain "0.6" # size "0.5" # room "0.3"
 
-d7 $ n "2 3 4 5 2 3 5 2" # s "man01" # gain "0.8"
+d2 $ slow 2 $ stack [
+   degree "3",
+   slow 4 $ degree "3 5",
+   slow 2 $ degree "4 -3"
+]  # s "pad2" # vrate "5" # scale_p "minor" # sustain "4" # gain "0.8" # cutfreq (slow 8 $ scale 261 1046 saw1) # resonance "0.1"
 
-bps (150/60)
+d6 $ slow 4 $ brak $ degradeBy 0.1 $ delayline' 0.125 "0.7" $ n "3*8" # s "bch" # gain "[1 0.7 1 0.5]/4"
 
+solo $ d8 $ every 4 (|*| speed "-1 2")
+   $ sometimes (rev)
+   $ often (# end "0.25")
+   $ n "2 3 4 5 2 3 5 2" # s "man01" # gain "0.8" # cut "1" # speed "1.25" 
 
-solo $ d4 $ n "a3 a4 b4 a3" # s "sinetone" # gain "1.7" # speed (slow 4 $ scale 0 0.8 $ sine1) # room "0.3"
+bps (180/120)
 
-solo $ d4 $ n "a2 c3 b2 a3" # s "sinetone" # gain "1.8" # speed (slow 4 $ scale 0 0.8 $ sine1) # room "0.3"

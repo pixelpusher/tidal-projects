@@ -1,0 +1,24 @@
+import Sound.Tidal.Scales
+
+do
+    let fastStart n = within (0,(1/4)) (fast n)
+        scales = ctranspose "1" # scale_p "major" -- key of D
+        inst1 = s "moogbasstone" # octave "6" #scales
+        del   = delay "0.4" # delaytime "0.25" # delayfeedback "0.5" # orbit "1"
+        mel1 = superimpose (((1/4) ~>) . (slow 2) . (|-| octave "2") . (# sustain "3"))
+               $ every 4 (fast 2)
+               $ degree "[0,2,4]" # inst1 |+| degree "<0 2 4 3>" |+| degree (slow 4 $ "<0 3 0 1>") # del
+                 # gain (slow 4 $ rev $ scale 0.7 1 saw1)
+        mel2 = every 12 (|+| octave "1") $ every 6 (slow 2) $ every 8 (fast 2) $ degree "0*2" # s "donk" # octave "<5 6 5 5>" # scales 
+    -- d1 $ every 6 (within (0,(1/2)) (fast 2) . (# sustain "0.2")) $ mel1
+    d3 $ fastStart "2" $ mel2 
+    -- d4 $ superimpose (|+| octave "1") 
+    --      $ (rev) $ fastStart "2" $ mel2 # s "profit5" |-| octave "2" # gain "1.2"
+    d2 $ stack [
+          every 4 (fastStart "<2 6>") $ n "0 [2*2]/5 ~ ~" # s "sndr606",
+          delayline' (1/8) "0.9" $ ((1/4) ~>) $ every 8 (fastStart 8) $ n "[7 6]*2" # s "hh2",
+          every' 4 1 ((rev) . (fastStart "2")) $ fast "<2 1 2 1>" $ n "0" # s "bd606"
+          ]
+    d5 $ overlay (n "1(2,4,1)" # s "bd808")
+       $ delayline' (1/8) "0.9" $ every 4 (fastStart 3) $ fastStart 2 $ overlay (n (slow "<2 2 2 1>" $ "1(2,8)") # s "sn2")
+       $ silence 

@@ -1,0 +1,54 @@
+
+----- new!
+
+d3 $ every 6 (|+| n "7")
+   $ every 8 (# n "-29*2 -22 [-25*2] 2")
+   $ every 4 ((rev) . (brak)) $ n "1 -3*2 5 3" # s "laserbeam" # gain "1.1" |-| n "26"
+   # size "0.3" # room "0.2"
+
+
+d4 $ every 7 ((rev) . (|+| n "7"))
+   $ every 4 (|+| n "[7 0]*4") $  delayline' (1/8) "0.9" $ n "[~ -10]*2" # s "laserbeam" # sustain "0.5" # size "0.3" # room "0.2"
+
+
+
+d1 $ sound "bd808:2*4" # up "0 0 2 0" # gain "1.1"
+
+d5 $ every 16 (const $ silence) $ delayline' 0.25 "0.7" $ sound "cy808:7*4" # up "-6" # gain "0.8"
+
+d6 $ slowcat [
+  n ("2 ~ 5*2 ~" + "[0 4 6]/6") # s "woman01",
+  n "2 ~ 3 ~" # s "woman01",
+  n "2 ~ ~ 3*3" # s "woman01",
+  n "2 ~ 2*2 ~" # s "bsn"
+] # gain "0.8" # speed (fast 0.125 $ scale (-1.5) 4 tri1)
+
+d3 $ whenmod 16 12 ((# cutoff (slow 4 $ scale 200 1000 sine1)))
+   $ slow "1" $ every 4 ((density 2) . (brak) . (# sustain "0.25")) $ n "1 -4*2 6 2" |+| n "12" # s "bdsynth" # gain "1" # sustain "1" # orbit "1" # size "0.3" # room "0.2" # resonance "0.2" # cutoff "800"
+
+d9 $ every 16 (const $ s "bride:2*6 bsn*2 bride:2*2") 
+   $ density 2 $ rev $ delayline' (1/8) "0.6" $ n "1*4" # s "bride" # gain "0.6" # size "0.5" # room "0.3"
+
+d2 $ stack [
+   degree "1",
+   slow 4 $ degree "2 5",
+   slow 2 $ degree "4 -3"
+]  # s "pad2" # vrate "5" # scale_p "minor" # sustain "2" # gain "0.7" # cutfreq (slow 8 $ scale 261 1046 saw1) # resonance (slow 6 $ scale 0 0.3 sine1)  # cutoff "520"
+
+d6 $ every 3 (rev) $ brak $ degradeBy 0.1 $ delayline' (1/16) "0.7" $ n "3*8" # s "bch"
+
+d7 $ every 4 (|*| speed "-1 2")
+   $ sometimes (rev)
+   $ often (# end "0.25")
+   $ n "2 3 4 5 2 3 5 2" # s "man01" # gain "0.8" # cut "1" # speed "1.25" 
+
+bps (140/120)
+
+do let faststart p = (within (0,0.125) ((fast 2).(rev))) p
+   d6 $ every 4 (faststart)
+      $ every 8 (const $ faststart $ n "2*8" # s "rumblecutup" # speed "6.5")
+      $ every 5 (const $ iter 2 $ faststart $ n ((run 8) + "<3 4>" * "3") # s "rumblecutup" # speed "-08.5")
+      $ every 3 (superimpose ((slow 2) . (|*| speed "0.5"))) 
+      $ every 3 ((within (0,0.25) (fast 2)).(rev)) 
+      $ iter 4 $ delayline' (1/16) "0.9" $ n (iter 4 $ run 8) # s "amencutup"
+
