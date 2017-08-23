@@ -315,9 +315,20 @@ d7 $ every 2 (const $ s "") $ every 3 ((delayline' (1/16) "0.9" )) $ degree "~ ~
 
 d5 $ n "[0 2]!2([2 3]/8,8)" # s "bd808" # gain "1.1"
 
-d9 $ iter 2 $ fast 2 $ delayline' (1/8) "0.8" $ n "2(<4 3 4 4>,8)" # s "hh2" # size "0.4" # room "0.6" # speed "<1 2 1 3>"
+
+d9 $ iter 2 $ fast 2 $ delayline' (1/8) "0.8" $ n "3(<4 2 4 4>,8)" # s "hh2" # size "0.4" # room "0.6" # speed "<1 2 1 3>"
 
 d6 $ n "1(<3 3 6 2>,8,1)" # s "sd808" # size "0.5" # room "0.4" # speed "1.5"
+
+
+let faststart p = (within (0,0.125) ((fast 2))) p
+
+d5 $ slow 4 $ n "2(2,4)!3 0(4,8)" # s "bd606"
+
+d6 $ n "1(<1 2 2 2>,4,2)" # s "sd808"
+
+d8 $ every 4 (faststart) $ n "0(2,4) 0(3,4,1) 2(2,4) 0(2,4)" # s "hh2" 
+
 
 bps (130/120)
 
@@ -376,7 +387,7 @@ d9 $ palindrome $ stack [
    ]
 
 
-d10 $ sound "hh(16,16)"
+d10 $ every 4 (faststart . (degradeBy 0.2)) $ sound "hh2:0(16,16)" # speed (slow 8 $ scale 0.5 4.5 sine1)
 
 -- next again
 

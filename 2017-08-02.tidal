@@ -1,0 +1,27 @@
+import Sound.Tidal.Scales
+
+let ncat pns = cat $ foldl1 (++) $ map (\x -> replicate (snd x) (fst x)) pns
+
+d1 
+-- $ every 2 ((1/4) ~>)
+--   $ delayline' (1/4) "0.9"
+   $ degree (
+       ncat 
+         [
+           (slow 4 $ (run 32) + (slow 3 $ "2 4 6"), 5),
+           --("7", 3),
+           ("[1,2] [2,4]" + "5", 4)
+         ]
+     )
+   # s "superpiano" 
+   # octave "[3,4]"
+   # scale_p (ncat [("majPent",2), ("minor",2)]) 
+   -- # ctranspose (ncat [("0",2), ("-3",2)]) 
+
+
+d2 $ degree ("0 2 4 6" + "<1 2 3 4>") # s "superpiano" # octave "5" # scale_p "majPent"
+
+bps (120/120)
+
+d3 $ slow 4 $ iter 4 $ chop 16 $ s "breaks:2" # speed "0.94"
+

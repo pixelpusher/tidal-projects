@@ -27,7 +27,7 @@ d4 $ every 7 ((rev) . (|+| n "7"))
 
 t7 (jumpIn 4) $ sound "bd606:2*4" # up "4 0 2 0" # gain "1.2"
 
-d5 $ fast 2 $ every 16 (const $ silence) $ delayline' 0.25 "0.7" $ sound "cy808:7*4" # up "-6" # gain "0.7" # cut "1"
+d5 $ fast 3 $ every 16 (const $ silence) $ delayline' 0.25 "0.7" $ sound "cy808:7*4" # up "-6" # gain "0.7" # cut "1"
 
 d6 $ slowcat [
   n ("2 ~ 5*2 ~" + "[0 4 6]/6") # s "woman01",
@@ -47,7 +47,7 @@ solo $ d2 $ stack [
    degree "1",
    slow 4 $ degree "2 5",
    slow 2 $ degree "4 -3"
-]  # s "pad2" # vrate "5" # scale_p "minor" # sustain "2" # gain "0.7" # cutfreq (slow 8 $ scale 261 1046 saw1) # resonance (slow 6 $ scale 0.1 0.3 sine1)  # cutoff (slow 12 $ scale 220 880 sine1)
+]  # s "pad2" # vrate "5" # scale_p "minor" # sustain "2" # gain "0.7" # cutfreq (slow 8 $ scale 261 1046 saw1) # resonance (slow 6 $ scale 0 0.2 sine1)  # cutoff (slow 12 $ scale 220 880 sine1)
 
 d6 $ every 3 (rev) $ brak $ degradeBy 0.1 $ delayline' (1/16) "0.7" $ n "3*8" # s "bch"
 
@@ -61,8 +61,8 @@ bps (140/120)
 
 do let faststart p = (within (0,0.125) ((fast 2).(rev))) p
    d6 $ every 4 (faststart)
-      $ every 8 (const $ faststart $ n "2*8" # s "rumblecutup" # speed "6.5")
-      $ every 5 (const $ iter 2 $ faststart $ n ((run 8) + "<3 4>" * "3") # s "rumblecutup" # speed "-8.5")
+      -- $ every 8 (const $ faststart $ n "2*8" # s "rumblecutup" # speed "6.5")
+      $ every 5 (const $ iter 2 $ faststart $ chop 8 $ n ((run 3) + "<3 4>" * "3") # s "rumble" # speed "-2.5" # gain "0.8" # end "0.5")
       $ every 3 (superimpose ((slow 2) . (|*| speed "0.5"))) 
       $ every 3 ((within (0,0.25) (fast 2)).(rev)) 
       $ iter 4 $ delayline' (1/16) "0.9" $ n (iter 4 $ run 8) # s "amencutup"
