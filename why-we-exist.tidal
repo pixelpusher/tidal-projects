@@ -27,7 +27,7 @@ d1 $ whenmod 16 12 (const $ s "") $ slow 1 $ every 2 (superimpose (0.5 ~>)) $ n 
 
 d2 $ slow 2 $ n melody1 # s "bdsynth"
 
-d4 $ stack [
+solo $ d4 $ stack [
     sound "asher:7",
     sound "asher:12"
 ] # gain "1.5"

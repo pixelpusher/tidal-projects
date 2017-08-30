@@ -37,11 +37,14 @@ let ghost'' a f p = superimpose (((a/2 + a*2) ~>) . f) $ superimpose (((a + a/2)
     ghost' a p = ghost'' a ((|*| gain "0.7") . (|=| end "0.2") . (|*| speed "1.25")) p
     ghost p = ghost' 0.125 p
     delayline' a g p = superimpose ((a ~>) . (# gain g)) $ p
-    delayline p = delayline' 0.125 "0.6" p
+    delayline p = delayline' (1/8) "0.75" p
     choose xs = (xs !!) <$> (irand $ fromIntegral $ length xs)
     degradeFill a b = (density a) . (degradeBy b)
     shiftdown p = superimpose ((sometimes (rev)) . (# speed "0.67") . (# gain "0.75") . (0.25 ~>)) p
     fastecho p = superimpose ( (rev) . (0.125 ~>) . (# gain "0.85")) p
+    breaklong p = delayline' (3/8) "0.8" p
+    slowsine cycles v1 v2 = slow cycles $ scale v1 v2 sine1
+    fastbreak = within (0,(1/8)) (fast 2)
 
 let (lforate, _) = pF "lforate" (Just 0)
     (vrate, _) = pF "vrate" (Just 0)
