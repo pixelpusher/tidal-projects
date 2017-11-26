@@ -1,44 +1,49 @@
-let (muffle, _) = pF "muffle" (Just 0)
+bps (120/120)
 
-bps (80/120)
+----- Not bad from here ----
+--
+--
+-- diff beat
 
-d1 $ every 2 (slow 2) $ stack [
-      n (iter 4 $ (toScale major "[0 1 2 3]")) # s "superpiano" # muffle "0.2" # detune "0.4" # sustain "3",
-      n (iter 6 $ (+) <$> "[4 1 4 5]" <*> (toScale major "[0 1 2 3]")) # s "superpiano" # detune "0.4" # sustain "1"
-    ] # room "1" # size "0.5" # gain "0.8"
-
-d1 $ every 2 (slow 2) $ stack [
-      n (iter 4 $ (toScale major "[-6 1 2 3]")) # s "superpiano" # muffle "0.2" # detune "0.4" # sustain "3",
-      n (iter 6 $ (+) <$> "[12 1 24 10 12 4]" <*> (toScale major "[0 1 2 3]")) # s "superpiano" # detune "0.4" # sustain "1"
-    ] # room "1" # size "0.5" # gain "0.8"
-
-
-d1 $ slow 2 $ every 2 (slow 2) $ stack [
-      n (iter 4 $ (toScale major "[0 12 0 12]")) # s "superpiano" # muffle "0.2" # detune "0.4" # sustain "3",
-      n (iter 16 $ (+) <$> "[12 2 -4 10]" <*> (toScale major "[0 1 2 3]")) # s "superpiano" # detune "0.4" # sustain "1"
-    ] # room "1" # size "0.5" # gain "0.8"
-
-
-d1 $ every 2 (slow 2) $ stack [
-      every 3 (rev) $ n (iter 12 $ (toScale major (run 12))) # s "superpiano" # detune "0.4" # sustain "3" # cutoff (slow 16 $ scale 400 3200 $ sine1) # resonance "0.3",
-      every 2 (0.25 ~>) $ every 6 (0.125 ~>) $ n (iter 8 $ (+) <$> (run 12) <*> (toScale major "[0 5 0 2]")) # s "superpiano" # detune "0.4" # sustain "1"
-    ] # room "1" # size "0.5" # gain "0.7"
-
-
-d2 $ stack [
-  density 6 $ rarely (rev) $ slow 4 $ n "[~ 0] ~ ~ [2*2]" # s "bd808",
-  sometimes ((density 2) . (rev)) $ every 2 (slow 2) $ sound "{sn*3}%1 ~ ~ ~",
-  every 3 (gtfo) $ every 2 (slow 2) $ sound "[boh:1 bch:2]*4" # gain "0.8"
+t2 (xfadeIn 4) $ every 16 (const $ n "3 7" # s "hh2")
+   $ stack [
+   ((2/6) ~>) $ n (slowcat [ fast 6 $ "3 4", fast 3 $ "3 [~ 4]"]) # s "bd606",
+  n "[3 7]([6 3],6,1)" # s "hh2"
 ]
 
-d1 $ stack [
-  slow 2 $ superimpose ((iter 6) . (rev)) $ n "[-12 -6 1 13]" # s "profit5"
-]
+-- start here
 
-d3 $ (0.25 ~>) $ slow 2 $ striate' 32 0.125 $ sound "lariffsbmin:0/2" # speed "0.4"
+d1 $ every 2 (const $ silence) $ every 3 (slow 2) $ n "0!6" # s "cb808" # speed "<0.08 0.1>" # gain "1.2"
 
-d5 $ slow 2 $ striate' 32 0.125 $ sound "junglevocals:2/2" # speed (slow 4 $ "[0.4 1.8]")
+d2 $ slow 2 
+   $ every 8 ((slow 2) . (# speed "2.8")) 
+   $ n "[3 4]*2 !5" # s "bd606"
 
-d6 $ sometimes (slow 2) $ sound "amencutup:25([1 3],24)"
+d3 $ every 8 ((slow 2) . (# speed "0.8")) 
+   $ every 2 (0.25 ~>) 
+   $ n "[5]*2 ~!11" # s "sn2"
+
+d4 $ every 8 ((fast 2) . (rev) . (iter 2))
+   $ delayline' (1/6) "0.8" 
+   $ n "0(4,6,2)" # s "hh2" # speed "2"
+
+d5 $ sometimes ((slow 2) . (iter 3))
+   $ degradeBy 0.1 $ iter 2 $ rev $ slow 12 $ striate' 128 0.25 $ sound "junglevocals:2" # gain (slow 8 $ scale 0.79 0.95 sine1) # speed (slow 4 $ "[0.4 1.8]") # delay "0.4" # delaytime "0.1667" # delayfeedback "0.4" # resonance "0.2" # cutoff (slow 3 $ scale 400 800 sine1) # hpf "1200" # orbit "1"
+
+d6 $ slow 2 $ superimpose (((2/6) ~>) . (|+| n "2"))
+   $ off (4/6) ((fast 2) . (|+| n "7")) 
+   $ sometimes (slow 2) $ sound "amencutup:25([1 3],24)" # speed "0.5" # end "0.2" # hresonance "0.3" # hcutoff (slow 6 $ scale 1200 800 sine1)
+
+d7 $ slow 1
+   $ delayline' (1/6) "0.80"
+   $ degree (
+       slowcat [
+         "~ ~ [2,4] ~ ~ ~",
+         "~ ~ [0,-4] ~ 1 ~",
+         "~!5 [~ -5]",
+         "~"
+         ]
+       ) # s "donk" # octave (slow 2 $ "<5 [6 5]>") # scale_p "minor" 
+         # sustain "0.167"
 
 hush

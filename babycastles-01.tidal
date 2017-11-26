@@ -41,11 +41,11 @@ d5
    $ every 4 (slow 2)
    $ every 6 ((fast 2 ) . (degradeBy 0.3))
    $ off (1/4) ((slow 2) . (# s "moogbasstone") . (# octave "3"))
-   $ delayline $ degree mel2 # s "profit5" # octave "[6,3]" # size "0.3" # room "0.4" # delaytime "0.125" # delay "0.4" # delayfeedback "0.4"
+   $ delayline $ degree mel2 # s "profit5" # octave "[6,3]" # size "0.3" # room "0.4" # delaytime "0.125" # delay "0.4" # delayfeedback "0.3"
 
 
-d2 $ superimpose ((fast 2) . (# octave "4") . (|+| degree "[3,5]"))
-   $ slow 4 $ degree mel2 # s "pad2" # decay "4" # sustain (slow 8 $ scale 1 5 saw1) # octave "6" # scale_p "major"
+d2 $ superimpose ((fast 2) . (# octave "4") . (|+| degree "[2,4]"))
+   $ slow 4 $ degree mel2 # s "pad2" # decay "2" # sustain (slow 8 $ scale 1 5 saw1) # octave "4" # scale_p "major" # gain "0.8"
 
 d5 $ whenmod 16 12 (const $ s "moogbasstone" # degree "1(5,8)")
    $ every 2 (|+| degree "[1,4]")

@@ -1,40 +1,50 @@
-(cps, getNow) <- bpsUtils
+:set prompt ""
 
-(d1, t1) <- superDirtSetters getNow
+:module Sound.Tidal.Context
 
-(d2, t2) <- superDirtSetters getNow
+import qualified Sound.Tidal.Scales as Scales
+import qualified Sound.Tidal.Chords as Chords
 
-(d3, t3) <- superDirtSetters getNow
+(cps, nudger, getNow) <- cpsUtils'
 
-(d4, t4) <- superDirtSetters getNow
+(d1,t1) <- superDirtSetters getNow
+(d2,t2) <- superDirtSetters getNow
+(d3,t3) <- superDirtSetters getNow
+(d4,t4) <- superDirtSetters getNow
+(d5,t5) <- superDirtSetters getNow
+(d6,t6) <- superDirtSetters getNow
+(d7,t7) <- superDirtSetters getNow
+(d8,t8) <- superDirtSetters getNow
+(d9,t9) <- superDirtSetters getNow
+(d10,t10) <- superDirtSetters getNow
 
-(d5, t5) <- superDirtSetters getNow
+(c1,ct1) <- dirtSetters getNow
+(c2,ct2) <- dirtSetters getNow
+(c3,ct3) <- dirtSetters getNow
+(c4,ct4) <- dirtSetters getNow
+(c5,ct5) <- dirtSetters getNow
+(c6,ct6) <- dirtSetters getNow
+(c7,ct7) <- dirtSetters getNow
+(c8,ct8) <- dirtSetters getNow
+(c9,ct9) <- dirtSetters getNow
+(c10,ct10) <- dirtSetters getNow
 
-(d6, t6) <- superDirtSetters getNow
+let bps x = cps (x/2)
+let hush = mapM_ ($ silence) [c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10]
+let solo = (>>) hush
 
-(d7, t7) <- superDirtSetters getNow
-
-(d8, t8) <- superDirtSetters getNow
-
--- useful functions, somewhat 'borrowed' from other tidal'ers like yaxu and kindohm and etc.
-
-let every' n o f = when ((== (o-1)) . (`mod` n)) f
-    ghost'' a f p = superimpose (((a/2 + a*2) ~>) . f) $ superimpose (((a + a/2) ~>) . f) $ p
+let ghost'' a f p = superimpose (((a/2 + a*2) ~>) . f) $ superimpose (((a + a/2) ~>) . f) $ p
     ghost' a p = ghost'' a ((|*| gain "0.7") . (|=| end "0.2") . (|*| speed "1.25")) p
     ghost p = ghost' 0.125 p
-    delayline' a g p = ghost'' a ((|*| gain g) . (|=| end "0.2")) p
-    delayline p = delayline' 0.125 "0.6" p
+    delayline' a g p = superimpose ((a ~>) . (# gain g)) $ p
+    delayline p = delayline' (1/8) "0.75" p
     choose xs = (xs !!) <$> (irand $ fromIntegral $ length xs)
     degradeFill a b = (density a) . (degradeBy b)
     shiftdown p = superimpose ((sometimes (rev)) . (# speed "0.67") . (# gain "0.75") . (0.25 ~>)) p
     fastecho p = superimpose ( (rev) . (0.125 ~>) . (# gain "0.85")) p
-
-import Sound.Tidal.Scales
-
---let toScale::[Int] -> Pattern Int -> Pattern Int
---    toScale s p = (+) <$> fmap (s!!) notep <*> fmap (12*) octp
---      where notep = fmap (`mod` (length s)) p
---            octp  = fmap (`div` (length s)) p
+    breaklong p = delayline' (3/8) "0.8" p
+    slowsine cycles v1 v2 = slow cycles $ scale v1 v2 sine1
+    fastbreak = within (0,(1/8)) (fast 2)
 
 let (lforate, _) = pF "lforate" (Just 0)
     (vrate, _) = pF "vrate" (Just 0)
@@ -55,10 +65,32 @@ let (lforate, _) = pF "lforate" (Just 0)
     (gtranspose, gtranspose_p) = pF "gtranspose" (Nothing)
     (harmonic, harmonic_p) = pF "harmonic" (Nothing)
     (detune, detune_p) = pF "detune" (Nothing)
+    (modfreq, _) = pF "modfreq" (Nothing)
     (scale_p, _) = pS "scaleName" (Nothing)
+    --(scale, scale_p) = pS "scaleName" (Nothing)
     (tuning, tuning_p) = pS "tuningName" (Nothing)
     (stepsPerOctave, stepsPerOctave_p) = pI "stepsPerOctave" (Nothing)
     (octaveRatio, octaveRatio_p) = pF "octaveRatio" (Nothing)
 
+let mf x = fst $ pF x (Just 0)
+    myparam = mf "myparam"
 
-hush
+let octer = mf "octer"
+    octersub = mf "octersub"
+    octersubsub = mf "octersubsub"
+    krush = mf "krush"
+    kcutoff = mf "kcutoff"
+    ring = mf "ring"
+    ringf = mf "ringf"
+    wall = mf "wall"
+    walllev = mf "walllev"
+    fcut = mf "fcut"
+    fres = mf "fres"
+    fattack = mf "fattack"
+    fhold = mf "fhold"
+    frelease = mf "frelease"
+    distort = mf "distort"
+    compa = mf "compa"
+    compr = mf "compr"
+
+:set prompt "tidal> "

@@ -1,0 +1,57 @@
+bps (50/60)
+
+d1 $ slow 8
+   $ superimpose (|*| speed "2") 
+   $ iter 4 $ slow 2 $ chop 12 $ n "0" # s "canyon" # speed "0.75"
+
+d1 $ slow 2
+   $ every 4 (# speed "2")
+   $ fast 2 
+   $ iter 2 
+   $ slow 2 $ chop 8 
+   $ n "0" # s "canyon" # speed "0.75" # end "0.75"
+
+d2 $ every 3 (# speed "0.25") $ n "1/2" # s "canyon" # speed "1.5"
+
+d3 $ fast 2 $ n "2 ~ [~ 2] [2? ~]" # s "canyon" # speed "<2 1>"
+
+d4 $ every 5 (|+| n "2 3 4") $ n "~ [~ 1] ~ ~" # s "man01" 
+
+d5 $ whenmod 16 4 ((# resonance (slow 2 $ scale 0 0.3 sine1)) . (# cutoff "800"))
+   $ n "~ ~ 4 [~ 2]" # s "bd606" # gain "1.2"
+
+d6 $ every 4 (fastbreak)
+   $ whenmod 16 2 ((# resonance (slow 4 $ scale 0 0.3 sine1)) . (# cutoff "400"))
+   $ slow 2 $ n "~ 2 ~ 4 ~ [1 3] ~ [~ 2]" # s "sn606"
+
+d7 
+   $ every 3 ((# speed "2") . (density 2))
+   $ every 2 (fastbreak) $ n "4*8" # s "hh2"
+   # size "0.2" # room "0.3"
+
+
+d9 $ every 2 (off (1/16) ((slow "<1 2>") . (|+| n "<2 3 0 2>") . (|+| octave "2")))
+   $ every 8 ((# speed "1.5"))
+   $ every 4 (fastbreak)
+   $ whenmod 16 12 (const $ silence)
+   $ every 3 ((rev) . (slow 2))
+   $ off (1/2) ((# s "moogbasstone") . (# octave "3") . (# sustain "0.1"))
+   $ superimpose ((slow 2) . (# s "bd606"))
+   $ off (3/8) (# s "hh2")
+   $ off (1/8) ((fast 2) . (|+| n "2"))
+   $ n "~ 1 [~ 1] ~" # s "sn2" 
+   # size (slow 4 $ scale 0 0.2 $ sine1)
+
+
+d9 $ whenmod 12 4 (const $ silence)
+   $ whenmod 16 8 ((# resonance (slow 8 $ scale 0 0.3 $ sine1)) . (# cutoff "600"))
+   $ superimpose ((slow 4) . (# s "bd606"))
+   $ off (2/16) ((slow 4) . (# s "sn2") . (|+| n "2"))
+   $ off (1/16) ((# s "hh2"))
+   $ every 6 (|+| degree "6")
+   $ every 8 (|+| degree "2")
+   $ off (3/8) (# degree "<2 4 5>")
+   $ sometimes (superimpose (|+| octave "1,3"))
+   $ off (1/8) ((fast 2) . (|+| octave "2") . (# sustain (slow 4 $ scale 0.05 0.1 saw1)))
+   $ degree "0 ~ [2 0] ~" # s "moogbasstone" # octave "3"
+   

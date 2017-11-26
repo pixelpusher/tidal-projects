@@ -1,0 +1,55 @@
+let (muffle, _) = pF "muffle" (Just 0)
+
+import Sound.Tidal.Scales
+
+
+bps (120/120)
+
+d1 $ every 2 (slow 2) $ stack [
+      n (iter 4 $ (toScale Scales.major "[0 1 2 3]")) # s "superpiano" # muffle "0.2" # detune "0.4" # sustain "3",
+      n (iter 6 $ (+) <$> "[4 1 4 5]" <*> (toScale Scales.major "[0 1 2 3]")) # s "superpiano" # detune "0.4" # sustain "1"
+    ] # room "1" # size "0.5" # gain "0.8"
+
+d1 $ every 2 (slow 2) $ stack [
+      n (iter 4 $ (toScale major "[-6 1 2 3]")) # s "superpiano" # muffle "0.2" # detune "0.4" # sustain "3",
+      n (iter 6 $ (+) <$> "[12 1 24 10 12 4]" <*> (toScale major "[0 1 2 3]")) # s "superpiano" # detune "0.4" # sustain "1"
+    ] # room "1" # size "0.5" # gain "0.8"
+
+
+d1 $ slow 2 $ every 2 (slow 2) $ stack [
+      n (iter 4 $ (toScale major "[0 12 0 12]")) # s "superpiano" # muffle "0.2" # detune "0.4" # sustain "3",
+      n (iter 16 $ (+) <$> "[12 2 -4 10]" <*> (toScale major "[0 1 2 3]")) # s "superpiano" # detune "0.4" # sustain "1"
+    ] # room "1" # size "0.5" # gain "0.8"
+
+
+d1 $ every 2 (slow 2) $ stack [
+      every 3 (rev) $ n (iter 2 $ iter 4 $ (toScale major (run 12))+ "<0 1 3>") # s "superpiano" # detune "0.4" # sustain "3" # cutoff (slow 16 $ scale 400 3200 $ sine1) # resonance "0.3",
+      every 2 (0.25 ~>) $ every 6 (0.125 ~>) $ n (iter 8 $ (+) <$> (run 12) <*> (toScale major "[0 5 0 2]")) # s "superpiano" # detune "0.4" # sustain "1"
+    ] # room "1" # size "0.5" # gain "0.7"
+
+----- Not bad from here ----
+--
+--
+
+d2 $ stack [
+  n (slowcat [ fast 2 $ "3 4", "3 ~ 2 [~ 4]"]) # s "bd606",
+  --n (slowcat ["3(4,5)", "3(3,5)"]) # s "hh2" # size "0.2" # room "0.3",
+  n "[3 7]([6 3],6,1)" # s "hh2"
+]
+
+
+--- waaaay too fast
+
+d9 $ slow 1
+   $ every 12 ((fastbreak) . (|+| degree "0,8"))  
+   $ degree  "[3 0]!9" |+| degree "<0 2 3>" 
+   |+| degree "[0,27]" 
+   # s "[moogbasstone]" # octave "3" # sustain "0.1" # scale_p "minor"
+
+
+d6 
+   $ off (1/6) ((fast 3) . (|+| n "7")) 
+   $ rarely (fast 3) $ sound "amencutup:25([1 3],21)"
+   # delay "0.4" # delaytime "0.1667" # delayfeedback "0.3" 
+   # size (slow 3 $ scale 0.1 0.4 sine1) # room "0.2"
+   
