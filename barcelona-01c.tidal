@@ -3,9 +3,31 @@
 bps (130/120)
 
 
-d2 $ n "0(4,8)" # s "bch"
+d2 $ every 6 (const $ s "cp-echo:1")
+   $ fastecho
+   $ overlay (n (fast 2 $ iter 2 $ iter 4 $ "0 [~ 0] ~ [~ 0]") # s "sd808" |+| n (slow 2 $ (run 4)))
+   $ every 3 (|+| degree "4")
+   $ every 4 (|+| sustain "1")
+   $ sometimes (fastbreak)
+   $ off (1/2) ((# degree "0") . (# s "bdsynth"))
+   $ every 3 (fastbreak) $ n "0(4,8)" # s "bch boh bride" # size "3" # room "0.5" # gain "1"
 
-d1 $ degree "0 0*2 ~ 0" # s "moogbasstone" # scale_p "major" # cutfreq "600" # octave "3" # delay "0.5" # delaytime "0.125" # delayfeedback "0.3" 
+d1 
+   $ every 2 (degradeBy 0.2)
+   $ whenmod 32 28 ((fast 2) . (iter 2))
+   $ whenmod 16 12 ((rev) . (iter 2)) 
+   $ every 3 (fastecho)
+   $ every 5 (fastbreak)
+   $ every 8 (|-| octave "1")
+   $ every 4 (slow 2)
+   $ off (1/2) ((slow 2) . (|+| octave "1") . (fastecho))
+   $ off (1/4) ((fast 2) . (# s "kalimba") . (|+| degree ("1 3 5" + "<1 2 4>" + "[18 14,7 9]")) . (# sustain "0.1") . (# gain "1.2"))
+   $ degree (iter 2 $ "0 0*2 ~ 0" + "<1 2 4 5>") # s "moogbasstone" # scale_p "mixolydian" # cutfreq "600" # octave "3" # delay "0.5" # delaytime "0.125" # delayfeedback "0.3" # hresonance (slow 8 $ scale 0.1 0.3 sine1) # hcutoff "<100 800 400 1200>"
+
+d3 $ every 6 (const $ silence)
+   $ every 4 (fastbreak)
+   $ whenmod 8 6 (|+| octave "[1,3]")
+   $ degree "0 0 1*2 0" # s "laserbeam" # octave "2" # scale_p "minorPent"
 
 do let ramp = slow 8 $ scale 0 1 saw1
    d2 $ fast 2
@@ -15,7 +37,7 @@ do let ramp = slow 8 $ scale 0 1 saw1
       $ every 2 ((1/8) ~>) 
       $ degree "0 0*2 ~ 0" # s "moogbasstone" # scale_p "egyptian" # cutfreq "600" # octave "3" # ctranspose "0" # sustain (((1/3) ~>) $ ramp + "0.1") # hresonance (ramp * "0.2") # hcutoff "450"
 
-solo $ d3 $ every 6 (|+| n "7")
+solo $ d2 $ every 6 (|+| n "7")
    $ every 8 (# n "-29*2 -22 [-25*2] 2")
    $ every 4 ((rev) . (brak)) $ n "1 -3*2 5 3" # s "laserbeam" # gain "1.1" |-| n "26"
    # size "0.3" # room "0.2"
@@ -26,9 +48,10 @@ d4 $ every 7 ((rev) . (|+| n "7"))
 
 
 
-t7 (jumpIn 4) $ sound "bd606:2*4" # up "4 0 2 0" # gain "1.2"
+-- t7 (jumpIn 4) 
+   d7 $ every 2 (fastbreak) $ every 4 (slow 2) $ sound "bd606:2*4" # up "4 0 2 0" # gain "1.2"
 
-d5 $ fast 3 $ every 16 (const $ silence) $ delayline' 0.25 "0.7" $ sound "cy808:7*4" # up "-6" # gain "0.7" # cut "1"
+d5 $ fast 3 $ every 16 (const $ silence) $ delayline' 0.25 "0.7" $ sound "cy808:9*2" # up "<-6 12 -12 -3>" # gain "0.7" # cut "1"
 
 d6 $ slowcat [
   n ("2 ~ 5*2 ~" + "[0 4 6]/6") # s "woman01",
