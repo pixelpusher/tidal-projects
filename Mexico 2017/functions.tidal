@@ -1,0 +1,35 @@
+
+import Sound.Tidal.Scales
+
+:m + System.Random
+
+-- do 
+let dcycles = 8
+    rescycles = 2
+    dd = delay "0.35" # delayfeedback "0.3" # delaytime (pure dcycles)
+    slowscale cycles lo hi = (slow cycles $ scale lo hi $ sine1)
+    slowresonly = resonance (slowscale rescycles 0.05 0.3)
+    slowcutoff = cutoff (slowscale rescycles 200 1800)
+    moogscale = scale_p "<dorian hexDorian>"
+    moog = s "moogbasstone"
+    sdub = s "superdub5" # legato "2" # lfo "0.1" # gain "0.9"
+    notes = ["[~ 0] ~", "0 [~ 0]","0 2 4 7","[0 ~] [2 4] ~ 7","[0 2] [~ 4] ~ 7"]
+    deg = degree
+    oct = octave
+    key = ctranspose
+
+
+let m1 = "[0 ~] [0 0?] 0 0"
+    m2 = "[0] ~ [~ 0] [~ 0]"
+
+
+d2 -- $ every 3 (const $ silence)
+   $ slow "<2!2 1!2>"
+   $ every 2 ((1/2) ~>)
+   $ every 3 (|+| deg "1")
+   $ off (1/8) (every 2 ((fast 2). (# oct "4,6")))
+   $ deg (
+      every 4 ((1/4) ~>) $ fast 2 $ repeatCycles 4 (notes !! 0)) 
+    # oct "3" # key "<-2 -3>" # s "superdub5" # legato "2" # lfo "0.1" # moogscale
+
+
