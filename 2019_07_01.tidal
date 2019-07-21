@@ -1,0 +1,24 @@
+bps 1 
+
+d1 $ s "cows" # n 1 
+
+d2 $ slow 2 $ s "cows" # n 2 
+
+d3 $ every 3 (fast "4 1 2 ~")
+   $ slow 4 $ chop 4
+   $ iter 3
+   $ every 6 (const $ silence) 
+   $ every 4 ((slow 4) .   (chop 16)) $ n "0 <[~ 1] [0 1]> ~ 1" # s "cat" # speed (fast 1.3 $ "<-1 -0.2 -0.3 1>") # gain "0.8"
+
+d3 $ n "<0 1>!2 ~" # speed "<1 0.5 1>" # s "ambient" 
+
+d4 $ every 4 ((rev) . (iter 2))
+   $ n "0 ~ 1!2 ~ [~ 0]" # s "jungbass"
+
+d5 $ superimpose ((1/4) ~>)
+   $ n (fast "<2 1>" $ iter 4 $ (run 4) + "<3 6>") # s "arpy" # speed 0.5
+
+d6 $ superimpose (0.125 ~>)
+   $ iter 8 $ n ("0 1 <[0 1] [~ 0]> <~ 1*2>" + (run 4) ) # s "glitch" # speed ((run 4) + 1)
+
+d8 $ n "0*8" # s "hh" # gain 1.2

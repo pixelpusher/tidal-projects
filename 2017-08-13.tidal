@@ -1,0 +1,25 @@
+bps (155/120)
+
+d2 $ s "hh2*8" 
+
+d3 $ s "sn2"
+
+d1 $ fast 2 $ iter 2 $ palindrome $ slow 2 $ iter 4 $ chop 16 $ s "breaks:3" # speed "0.97" # end "1"
+
+d1 $ s "breaks:1" # speed "1.152" # end "0.5"
+
+  
+d1 $ s "breaks:4" # speed "0.93" # end "0.5"
+
+d2 $ s "breaks:5" # speed "0.93" # end "1" # begin "0.5"
+
+d1 $ whenmod 16 14 (off (1/4) ((slow 2 ) . (|*| speed "0.5")))
+   $ whenmod 8 6 (const $ silence) 
+   $ every 4 ((slow 2) . (gap 4)) $ fast 2 $ iter 2 $ palindrome $ slow 4 $ iter 4 $ chop 16 $ s "breaks:5" # speed "0.93" 
+
+d1 $ s "breaks:0*2" # speed "0.93"
+
+d1 
+   $ whenmod 16 14 (const $ silence) 
+   $ fast 4 $ iter 2 $ palindrome $ slow 2 $ iter 2 $ chop 8 $ s "breaks:0" # speed "0.93" 
+

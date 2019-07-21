@@ -1,0 +1,52 @@
+bps (50/60)
+
+solo $ d1 $ slow 2
+   $ every 4 (# speed "2")
+   $ fast 2 
+   $ iter 2 
+   $ slow 2 $ chop 8 
+   $ n "0" # s "canyon" # speed "0.75" # end "0.75"
+
+d2 $ every' 3 2 (fastbreak)
+   $ every 5 ((|*| speed "<2 4>")) 
+   $ every 3 (# speed "0.25") $ n "1/2" # s "canyon" # speed "1.5" # end "<0.125 0.25 0.5 0.5>"
+
+d3 $ every 4 (off 0.125 (rev))
+   $ superimpose ((rev) . (0.125 ~>) . (|*| speed "2"))
+   $ every 4 ((fast 2) . (fastbreak) . (rev) . (|*| speed "-1"))
+   $ fast 2 $ n "3/2 ~ [~ 2] [2? ~]" # s "canyon" # speed "<2 1>"
+
+d4 $ every' 3 1 (|+| n "8")
+   $ every 2 (fastbreak)
+   $ every 3 ((slow 8) . (chop 16))
+   $ every 5 (|+| n "2 3 4") $ n "~ [~ 1] ~ ~" # s "man01" 
+
+d5 $ every 4 (slow 2)
+   $ whenmod 16 4 ((# resonance (slow 2 $ scale 0 0.3 sine1)) . (# cutoff "800"))
+   $ n "4 ~ [~ 2] [~ 2]" # s "bd606" # gain "1.2"
+
+d6 $ every 8 (off 0.125 (fast 2))
+   $ every 4 (fastbreak)
+   $ whenmod 16 10 ((# resonance (slow 4 $ scale 0 0.3 sine1)) . (# cutoff "400"))
+   $ slow 2 $ n "~ 2 ~ 4 ~ [1 3] ~ [~ 2]" # s "sn606"
+
+d7 
+   $ (0.125 ~>)
+   $ sometimes (|+| n "2")
+   $ every 3 ((# speed "2") . (density 2))
+   $ every 2 (fastbreak) $ n "2*8" # s "hh2"
+   # size "0.2" # room "0.3"
+
+d8 $ slow "<1 2>"
+   $ every 4 ((rev) . (fast 2) . (|*| speed "2 3 4")) 
+   $ iter 2 $ fast 2 $ slow "4 6" $ iter 6 $ chop 32 $ slow 1.25 $ n "3" # s "canyon" # speed "0.75" # delay "0.4" # delaytime "0.25"
+
+d9 $ off 0.25 (# s "bd606")
+   $ every' 4 1 (const $ silence)
+   $ every 8 ((rev) . (fastbreak))
+   $ off 0.125 ((# s "hh2") . (|+| n "<0 1 4>")) 
+   $ every 6 (off 0.5 ((fast 2) . (|+| n "2")))
+   $ every 3 (off 0.25 (fast 2))
+   $ every 4 (superimpose ((# speed "2") . (fast 2)))
+   $ n "0 ~ [~ 2] ~" # s "sn2"
+   # size "0.2" # room "0.4"

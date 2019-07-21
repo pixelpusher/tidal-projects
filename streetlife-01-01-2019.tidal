@@ -1,0 +1,135 @@
+bps (106.29/60)
+let filt = lpf (slow 16 $ scale 200 3200 sine1)
+
+# streetlife jam 2010-Jan-01
+
+let mel = "0 <[~ 2] 2> ~ <[0 0] ~>"
+
+
+
+d1 $ whenmod 16 12  (# s "man01")
+   $ every 6 (slow  2)
+   $ superimpose ((every 4 (# up (run 4))) . (fast "1 4 2 1") . (# s "bch") . ((1/8) ~>))  
+  $ superimpose ((# s "cp") . (slow 2))
+   $ n mel  # s "bd808" # resonance "0.2"
+
+d2 $ every 4 (iter 2) $ n (run 4) # s "streetlife" #filt
+
+d2 $ superimpose (((2/8) ~>). (#n "7") . (# s "hh2") . (# up "-6"))
+   $ slow "<1 2 1 4>"
+   $ fast "4 2 1 2" 
+   $ n (run 2) # s "streetlife" |+| n (slow "<2 1 4 8>" $ "<0 4>")
+
+d3 $ fast "2 1 1 1"
+   -- $ slow "<1!3 2>"
+   $ every 4 (iter 4)
+   -- $ every 2 (slow 2)
+   $ superimpose ((# s "<man02 man01>") . (slow 2 ) . (# gain "0.8"))
+   $ (superimpose (# s "hh2") . (slow 2))
+   $ n "<0 [~ 0]> <[~ 2] 0> 2 0" # s "bd808" # up "[-4,8]" # filt
+
+d4 $ fast 4
+   $ n (run 4) # s "streetlife" # gain (slow 8 $ scale 0.4 0.9 sine1) # up "12"
+
+
+d1 $ ((4/8) ~>)
+   $ superimpose ((fast 2) . (#n "0") . (#s "hh2"))
+   $slow "<1 2 2 1 1>" $ chop 2
+   $ whenmod 16 12 ((slow 2) . (# speed "-1"))
+   $ n (run 8) # s "[<streetlife!2 streetlife2>]/4" # delay "0.4" # filt
+
+d2 -- $ slow 2
+   -- $ slow "<1 2 1 4 1>"
+   -- $ superimpose (((2/8) ~>) . (# s "hh2") . (# speed "2") . (# gain "0.95"))
+   -- $ superimpose ((slow 2) . ((1/8) ~>) . (|+| n "1"))
+   $ slow "<2!3 1>" 
+   $ n (run 8) # s "streetlife2" # gain "1.2" # up "<-4!3 0>" |*| speed "1"
+
+d4 $ slow "<1 2 1>"
+   $ fast "2 1 1 1"
+   $ n "0*8" # s "bch" # up "<0 4 0 4>" # speed "1.5"
+
+d3 $ superimpose ((fast "<1 2 1 2>") . (# s "hh2"))
+   $ superimpose ((slow 4) . (# s "cp-echo") . (|*| speed "2"))
+   $ n "<4 2> <[~ 0] 4 ~> ~ <0 [0 0] 0 ~>" # s "bd808" # up "-4" # gain "1.1" # filt
+
+d2 $ (0.5 ~>)
+   $ slow 2 $ chop 2
+   $ superimpose ((sometimesBy 0.2 (iter 8)) . ((3/8) ~>).(rev) . (slow 1) . (# speed "1"))
+   $ n (run 8) # s "streetlife2" # filt 
+
+d5 $ const silence
+   $ slow "<8 2 4>"
+   $ every 4 (slow 4)
+   $ every 4 (const silence)
+   $ slow 16 $ striate' 8 (1/8) $iter 4 $chop 16  $ s "kmart" # speed "0.8" # up "<-4 2 -8 0>" 
+
+
+
+d4 $ slow 32 $ striate' 32 (1/16)
+   $ n "1" # s "insects" # speed "0.5" # delaytime "0.25" # delayfeedback "0.7" # delay "0.8" # resonance "0.4"  # cutoff "<400 800 1200>"
+
+d5 $ slow "<1 4 1 2 2 1 4>" 
+  $ n "2*8" # s "bch" # gain "1.1" # delaytime "0.25" # delayfeedback "0.7" # delay "0.8" # hresonance "0.4"  # hcutoff "<1400 2800 3200>"
+
+
+d4 $ slow 32 $ striate' 32 (1/16)
+   $ n "1" 
+   -- # up "<0 2 3 5 0 2 1>" 
+   # s "kmart" # speed "0.5" # delaytime "0.25" # delayfeedback "0.7" # delay "0.8" # resonance "0.4"  # cutoff "<400 800 1200>"
+
+
+d3 $ superimpose ((iter 4) . (fast "<2 4>") . (|+| n "2")) $ n "0 4 <[0 4] 0> 3" # s "streetlife" # filt # delay "0.7" # delayfeedback "0.8" # delaytime "0.125"
+
+d4 $ every 6 (fast 2) $ slow 1 $ n "0 4 [3 3] [4 ~]" # s "streetlife2"
+
+d7 $ whenmod 16 8  (const silence) 
+   $ superimpose ((rev) . (# s "streetlife2"))
+   $ superimpose ((slow "<1/2 1 2 1/2>") . ((1/8) ~>) . (# s "hh2")) $ n "<0 ~ 2 4> ~ <0 [~ 0]> 2" # s "bd808"
+
+d7 $ superimpose ((#s "streetlife2") . (rev)) 
+   $ superimpose ((# s "hh2") . ((1/8) ~>) . (# lpf 2200)) 
+   $ n "2 <[~ 0] 0*2 0> ~ <2 [0 2]>" # s "bd808" # filt
+
+d9 $ superimpose ((# s "[sd808, [woman01 man02]]") . (slow 2))
+   $ n "2*2 ~ [~ 2] <~ 2>" # s "bd808" # orbit "2" 
+
+d7 $superimpose (((1/16) ~>) . (|+| n "<3 4>")) $ iter 4 $ whenmod 16 8 (# up "3") $ n "[4 6]*4" # s "streetlife2" 
+
+d5
+   $ every 4 (superimpose (((1/8) ~>) . (|+| n "<2 2*4>") . (# s "hh2")))
+   $ whenmod 32 28 (const $ n "[2 4]*4" # s "streetlife2")
+   $ every 8 (const $ n "2*8" # s "streetlife2")
+   $ superimpose (((1/8) ~>) . (|+| n "2") . (# s "hh2"))
+   $ superimpose ((# n "2") . (# s "bd808"))
+   $ superimpose ((|+| n 1) . ((1/8) ~>))
+   $ slow 2 $ n "<1 3> 2 <4*2 4> <7*4 [5 6]>" # s "streetlife"
+
+d6 $ whenmod 24 20 ((slow 2) . (# speed "-0.5"))
+   $ whenmod 24 16 (# s "man02")
+   $ every 2 (# up "12")
+   $ n "7*8" # s "streetlife2" # speed "<4 8>"
+
+d6 $ ("0.125 0.25" ~>) $ n (iter 2 $ run 8) # s "streetlife" # lpf (slow 16 $ scale 200 1200 sine1)
+
+d4 $ every 3 (iter 2) $ every 4 ((rev) . (fast 2)) $ slow 2 $ n ((run 8) + (run 4))# s "streetlife" # up "8" 
+
+d5 $ fast 2 $ n (iter 4 $ rev $ (run 4)) # s "streetlife2" # gain (slow 8 $ scale 0 0.8 sine1)
+
+d6 $ slow 2 $ n (run 8) # s "streetlife"  # up "<-3 -5>" # hpf (slow 16 $ scale 200 1200 sine1)
+
+d7 $ every 8 ((fast 2) . (|+| up "8")) $ superimpose ((|+| n "<2 6>") . (fast 2)) $ n "0 <[~ 0] 0> ~ 0" # s "streetlife"
+
+d3 $ fast 2 $ slow 1 $ n ((run 4) + (slow 2 $ "0 4")) # s "streetlife2"  # up 0
+
+d4 $ slow 4 $ n ((run (slow 2 $ "4 8")) + (slow 8 $ "0 4")) # s "streetlife2"  # up (0) # speed "0.5"
+
+d4 $ off (1/8) (# up (-12))
+   $ n (slow 4 $ iter 2 $ "5 3 7 2 5 2 4") # s "streetlife" # up 12
+
+d5 $ every 4 ((slow 2) . (superimpose ((3/8) ~>))) $ every 6 (slow 2) $ every 8 ((iter 4) . (rev)) $ n "<3 4 6>*8" #up (slow 8 $ "0 3 [7 5] 0")# s "streetlife" # hpf (slow 4 $ "800 400 1600") # delay "0.7" # delaytime "0.125" # delayfeedback "0.6"
+
+d6 $ every 8 ((slow 4). (# up (-12))) $ every 4 ((fast 2) . (#up 3)) $ ((1/8) ~>) $ n "[5 [4 2] [4 4] 7]*2" #up (slow 8 $ "0 3 [7 5] 0")# s "streetlife" # hpf (slow 4 $ "800 400 1600") # delay "0.3" # delaytime "0.125" # delayfeedback "0.5"
+
+# GAGA style
+d4 $ off (1/16) (# up "8") $ fast 4 $ slow 2 $ n ((run 4) + (slow 2 $ "0 4")) # s "streetlife2"  # up 0 # speed "2"

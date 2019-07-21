@@ -1,0 +1,20 @@
+d1 $ whenmod 5 4 ((fast 8).(const silence))
+   $ superimpose ((slow 4).(|+| n ("[<-7 -5>], [<3 [1 5]!8>]" - "<12 5>")).(# s "moogbasstone") . (# gain "0.9"))
+   $ n "<<a5 d4>'majPent g5'majPent>/2" 
+  +| n "[0 2 3 5] !!" 
+  |+ n "<0 5>" # gain "1" |-| gain "[0 0.2]!2" # s "superpiano" # legato (slow 4 $ range 1.5 4 sine)
+
+
+-- modulo by Le Corbusier
+
+do let corbusier = ["gs4", "b4", "e5", "gs5", "c6", "e6", "a6", "c7", "f7", "a7"]
+   corbusier !! 1
+   d1 $ fastecho $ superimpose ((slow 3).(iter 4).(# gain "0.9"))
+     $ slow 3 $ n (pure $ corbusier !! 1) 
+     # s "supersaw" # gain "0.9"
+
+
+d1 $ fastecho $ superimpose ((slow 3).(iter 4).(# gain "0.9"))
+   $ slow 3 $ n "gs4 b4 e5 gs5 c6 e6 a6 c7 f7 a7" # s "supersaw" # gain "0.9"
+
+d2 $ fast 4 $ slow 3 $ n "b4*5" # s "moogbasstone" # legato "1.5" # cutfreq (slow 9 $ range 300 2200 tri)
