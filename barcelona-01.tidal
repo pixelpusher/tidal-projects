@@ -3,7 +3,12 @@ bps (140/120)
 ----- close to ver c... need to reconcile?
 ----- new!
 
-d3 $ every 6 (|+| n "7")
+ d3$ whenmod 12 6 (# up "4")
+   $ slow "<2 1 2 >"
+   $ every 4 (slow 2)
+   $ iter 2  
+   -- $ const silence 
+   $ every 6 (|+| n "7")
    $ every 8 (# n "-29*2 -22 [-25*2] 2")
    $ every 4 ((rev) . (brak)) $ n "1 -3*2 5 3" # s "laserbeam" # gain "1.1" |-| n "26"
    # size "0.3" # room "0.2"
@@ -41,12 +46,8 @@ d6 $ off (1/16) ((|+| n (run 4)) . (# s "amencutup"))
    $ every 3 (rev) $ brak $ degradeBy 0.1 $ delayline' (1/16) "0.7" $ n "3*8" # s "bch"
 
 d6 
-   $ every 12 ((fastbreak) . (rev)) 
-  $ every 8 (const $ silence)
+   $ every 8 (const $ silence)
    $ every 6 (const $ n "4*8" # s "amencutup")
-   $ every 3 (off (1/16) ((|+| n ((run 8) + (slow 4 $ run 8)))))
-   $ every 4 (off (3/16) ((|+| n (run 4))))
-   $ off (1/4) (# s "hh2")
    $ delayline' (1/8) "0.9" $ n "<1 2>*4" # s "amencutup"
 
 d8 $ whenmod 16 10 ((fastecho) . (fastbreak) . (iter 2))

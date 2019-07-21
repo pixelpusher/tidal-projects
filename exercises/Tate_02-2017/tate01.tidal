@@ -15,9 +15,23 @@ p3 $ silence
 p1 $ silence
 
 p2 $ update "1!60"
+  # brightness (slow 8 $ scale 0.2 1 sine1)
   # colormode "invert cool!2 firey"
   # gsmode "loose normal"
   # imgmode (slow 4 $ "left mirror right mirror")
+
+
+p2 $ update "1!40"
+   # imgmode (fast 4 $ "<mirror none left mirror right>")
+   # brightness (slow 16 $ scale 0.1 0.2 sine1)
+   # colormode "<normal firey cool>"
+   # gsmode "loose"
+
+p3 $ stormmode "<big tiny>"
+
+p3 $ silence
+
+p4 $ slow 1 $ addcycle "1*2"
 
 
 p2 $ update "1!60"

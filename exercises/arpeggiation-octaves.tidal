@@ -46,4 +46,62 @@ d7 $ slow 1
        ) # s "donk" # octave (slow 2 $ "<5 [6 5]>") # scale_p "minor" 
          # sustain "0.167"
 
-hush
+
+d3 $ s "[hh*2] sn" |+| n "<1 3 6>" # gain (slow 8 $ scale 0.8 1 saw1)
+
+d6 $ every 6 ((fast 3) . (|+| n "2"))
+   $ every 2 (slow 3) $ s "[bd808, bch*2]" # n "2" # gain "1.2"
+
+
+d4 $ slow (6/2)
+   $ degree "~ 4"
+   # s "donk"
+   # octave "<3 6 5>"
+   # scale_p "dorian"
+   # sustain (slow 4 $ scale 0.15 0.45 sine1)
+
+d5 $ slow (4/4)
+   $ whenmod 8 4 (|+| degree "<3 5>")
+   $ degree "[1,3,5] ~"
+   # s "sawpluck"
+   # octave (slow 8 $ "4 5")
+   # scale_p "dorian"
+   # sustain (slow 4 $ scale 0.15 0.85 sine1)
+
+
+d5 $ slow (4/4)
+   $ whenmod 16 14 (|+| degree "<2 3>")
+   $ degree "[0,2,4,<6 7>] ~"
+   # s "sawpluck"
+   # octave (slow 8 $ "4 5")
+   # scale_p "major"
+   # sustain "0.2"
+
+d6 
+   $ fast "<2>" 
+   $ every 8 (superimpose (|+| degree "<3 5>")) 
+   $ degree "<0 6 [~ 4]>!2"
+   # s "moogbasstone"
+   # sustain "0.35"
+   # octave "[3,4]" 
+   # scale_p "major"
+   # cutfreq (slow "<1 2 4>" $ "<400 880 1800>")
+   # gain "0.85"
+
+d1 $ off (2/8) (# s "bch")
+   $ off (1/8) (# s "[bsn boh]")   $ every 4 (fast 4) $ s "bd808" # n "2"
+
+
+
+d6 
+   $ fast "<2>" 
+   $ degree "<0 6 [~ 4] 2 8 [3 4]>!2"
+   |+| (slow 8 $ degree "<0 -2 0>")
+   # s "moogbasstone"
+   # sustain "0.2"
+   # octave "[3,4]" 
+   # scale_p "major"
+   # sustain (slow 8 $ scale 0.15 0.35 sine1)
+   # cutfreq (slow "<1 2 4>" $ "<400 880 1800>")
+   # gain "0.85"
+

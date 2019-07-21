@@ -99,7 +99,7 @@ d9 $ every 4 (fastbreak) $ stack [
 t1 (jumpIn 2) $ every 6 (const $ degradeBy 0.1 $ n "7*32" # s "amencutup" # speed "-6")
    $ degradeBy 0.15 $ every 4 (const $ rev $ n (run 8) # s "amencutup" # speed "-0.75")
    $ off (1/16) ((iter 4) . (fast 4) . (|+| n "6 8") . (# speed "2")) 
-   $ iter 2 $ n (run 8) # s "amencutup"
+   $ iter 2 $ n (run 8) # s "amencutup" # gain "0.8"
 
 d2 $ every 6 (chop 16)
    $ every 4 ((# n "15") . (# speed "2")) 
